@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MARS - Reporte de Inventario</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"/>
+  <style>
+    body { background: #1e293b; margin: 0; }
+    .spin { animation: spin 1s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useMemo, useCallback } = React;
+
+const SUPABASE_URL = 'https://npatcmgjqxpjxhbcqsqv.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wYXRjbWdqcXhwanhoYmNxc3F2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyOTEzNDUsImV4cCI6MjA5Mjg2NzM0NX0.uDyUMvouWcPlbNOiPClNYezkKIE9ICAEpWZxklUdGZg';
+
+const sbFetch = async (method, endpoint, data = null) => {
+  const url = `${SUPABASE_URL}/rest/v1${endpoint}`;
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${SUPABASE_KEY}`,
+    'apikey': SUPABASE_KEY,
+    'Prefer': 'return=representation'
+  };
+  const opts = { method, headers };
+  if (data) opts.body = JSON.stringify(data);
+  try {
+    const res = await fetch(url, opts);
+    const text = await res.text();
+    return text ? JSON.parse(text) : [];
+  } catch(e) { console.error(e); return null; }
+};
+
+const CATALOGO = [
+  { barcode: '040000001447', codigo: 'W4-144825', nombre: "M&MS PEANUT BUTTER SNG 24CT 12CS PH", marca: 'MARS', precio: 23.52 },
+  { barcode: '040000580881', codigo: 'W4-580898', nombre: "M&M'S MILK CHOCOLATE CRUNCHY COOKIE 1.35OZ", marca: 'MARS', precio: 21.60 },
+  { barcode: '040000514480', codigo: 'W4-514497', nombre: "M&M's MILK CHOCOLATE 1.69oz/36un", marca: 'MARS', precio: 34.92 },
+  { barcode: '040000514510', codigo: 'W4-514527', nombre: "M&M's PEANUTS 1.74oz/48un", marca: 'MARS', precio: 46.56 },
+  { barcode: '040000004325', codigo: 'W4-044321', nombre: "M&M'S PEANUTS KING SIZE 3.27oz/24un", marca: 'MARS', precio: 39.12 },
+  { barcode: '040000002376', codigo: 'W4-032373', nombre: "M&M's MINIS MINITUBO 1.08oz/24un", marca: 'MARS', precio: 23.52 },
+  { barcode: '040000476528', codigo: 'W4-576525', nombre: "M&M'S MINIS MEGATUBO 1.77oz/24un", marca: 'MARS', precio: 39.36 },
+  { barcode: '040000017318', codigo: 'W4-017315', nombre: "M&M'S MILK CHOCOLATE PEG PACK 5.3oz/12un", marca: 'MARS', precio: 25.92 },
+  { barcode: '040000017325', codigo: 'W4-017322', nombre: "M&M'S PEANUTS PEG PACK 5.3oz/12un", marca: 'MARS', precio: 25.92 },
+  { barcode: '040000579816', codigo: 'W4-240850', nombre: "M&MS PEANUT BUTTER SUP 9OZ 8CS", marca: 'MARS', precio: 37.68 },
+  { barcode: '040000579793', codigo: 'W4-579793', nombre: "M&MS MILK CHOCO SUP 10OZ 12CS", marca: 'MARS', precio: 57.00 },
+  { barcode: '040000579779', codigo: 'W4-579779', nombre: "M&MS PEANUT SUP 10.05OZ 12CS", marca: 'MARS', precio: 57.00 },
+  { barcode: '040000505921', codigo: 'W4-505921', nombre: "M&M'S PEANUTS FUN SIZE BOLSA 10.57oz", marca: 'MARS', precio: 77.60 },
+  { barcode: '040000505969', codigo: 'W4-505969', nombre: "M&M'S MILK CHOCOLATE FUN SIZE BOLSA 10.53oz", marca: 'MARS', precio: 77.60 },
+  { barcode: '7502271917924', codigo: 'W4-403266', nombre: "SNICKERS CHEESECAKE CS 1/21/12/41G", marca: 'MARS', precio: 10.20 },
+  { barcode: '7502271917061', codigo: 'W4-917054', nombre: "SNICKERS ESPRESSO 1/12/24/41.5GR", marca: 'MARS', precio: 24.48 },
+  { barcode: '7506174502645', codigo: 'W4-248357', nombre: "SNICKERS SNACK BAR 21.5gr/24un", marca: 'MARS', precio: 9.84 },
+  { barcode: '040000514251', codigo: 'W4-514268', nombre: "SNICKERS 1.86oz/48un", marca: 'MARS', precio: 47.04 },
+  { barcode: '040000001058', codigo: 'W4-011057', nombre: "SNICKERS ALMOND 12/24-1.76OZ", marca: 'MARS', precio: 23.52 },
+  { barcode: '040000560470', codigo: 'W4-560449', nombre: "SNICKERS WHITE SINGLE 1.41OZ 24CT 12CS", marca: 'MARS', precio: 23.52 },
+  { barcode: '040000002635', codigo: 'W4-322528', nombre: "SNICKERS KING SIZE 3.29oz/24un", marca: 'MARS', precio: 39.12 },
+  { barcode: '040000015024', codigo: 'W4-015021', nombre: "SNICKERS MINIATURES PEG PACK 4.4oz/12un", marca: 'MARS', precio: 25.92 },
+  { barcode: '040000525578', codigo: 'W4-525582', nombre: "SNICKERS MINIATURES BOLSA 9.7oz/8un", marca: 'MARS', precio: 37.52 },
+  { barcode: '040000505334', codigo: 'W4-505334', nombre: "SNICKERS FUN SIZE BOLSA 10.59oz", marca: 'MARS', precio: 87.30 },
+  { barcode: '040000602040', codigo: 'W4-522065', nombre: "MILKY WAY 1.84oz/36un", marca: 'MARS', precio: 36.72 },
+  { barcode: '040000004356', codigo: 'W4-514213', nombre: "TWIX 1.79oz/36un", marca: 'MARS', precio: 34.92 },
+  { barcode: '040000597551', codigo: 'W4-597551', nombre: "MIXED MINIATURES VARIETY BOLSA 8.31OZ", marca: 'MARS', precio: 37.52 },
+  { barcode: '810008800898', codigo: 'W4-800904', nombre: "TURIN ZERO CS 1/4/18/18GR", marca: 'MARS', precio: 15.66 },
+  { barcode: '022000293213', codigo: 'W512903029', nombre: "Doublemint 20 Pkgs. Per Box", marca: 'WRIGLEY', precio: 6.40 },
+  { barcode: '022000005144', codigo: 'W5-21267', nombre: "Five Rain 15 Stk Sf 12/10ct", marca: 'WRIGLEY', precio: 13.30 },
+  { barcode: '022000008404', codigo: 'W5-22024', nombre: "Extra Winterfresh 15 Stk 12/10ct", marca: 'WRIGLEY', precio: 11.20 },
+  { barcode: '022000008916', codigo: 'W5-289106', nombre: "Wrigleys Extra Peppermint 15 Stk 12/10 Ct", marca: 'WRIGLEY', precio: 11.20 },
+  { barcode: '022000008992', codigo: 'W5-289902', nombre: "Wrigleys Extra Spearmint 15 Stk 12/10 Ct", marca: 'WRIGLEY', precio: 11.20 },
+  { barcode: '022000007698', codigo: 'W5-17311', nombre: "Altoids Peppermint 34gr", marca: 'WRIGLEY', precio: 11.28 },
+  { barcode: '022110079806', codigo: 'W5-21134', nombre: "Hubba Bubba Bubble Tape Original 24/6ct", marca: 'WRIGLEY', precio: 7.14 },
+  { barcode: '040000000518', codigo: 'W5-011511', nombre: "STARBURST ORIGINAL SINGLES 36CT 10/CA", marca: 'WRIGLEY', precio: 35.28 },
+  { barcode: '040000141143', codigo: 'W5-411400', nombre: "STARBURST ORIGINAL PEG PACK 7.2 OZ/12CS", marca: 'WRIGLEY', precio: 31.80 },
+  { barcode: '022000018465', codigo: 'W4-136251', nombre: "Skittles Original 2.17oz/36un", marca: 'WRIGLEY', precio: 35.28 },
+  { barcode: '022000018489', codigo: 'W4-136268', nombre: "Skittles Wildberry 2.17oz/36un", marca: 'WRIGLEY', precio: 35.28 },
+  { barcode: '040000001638', codigo: 'W4-011637', nombre: "Skittles Tropical 2.17oz/36un", marca: 'WRIGLEY', precio: 35.28 },
+  { barcode: '040000002666', codigo: 'W5-002666', nombre: "SKITTLE SOUR SINGLE 1.8 OZ/24CT 12/CA", marca: 'WRIGLEY', precio: 23.52 },
+  { barcode: '040000140924', codigo: 'W4-140921', nombre: "Skittles Original Peg Pack 7.2oz/12un", marca: 'WRIGLEY', precio: 27.36 },
+  { barcode: '7502226812335', codigo: 'W5-812328', nombre: "LUCAS MUECAS SANDIA 24/10/25G", marca: 'WRIGLEY', precio: 4.60 },
+  { barcode: '725181363019', codigo: 'W5-722106', nombre: "LUCAS MUECAS CEREZA 24/10/25G", marca: 'WRIGLEY', precio: 4.60 },
+  { barcode: '725181203018', codigo: 'W5-424109', nombre: "LUCAS MUECAS MANGO 1/24/10/25G", marca: 'WRIGLEY', precio: 4.60 },
+  { barcode: '810008800546', codigo: 'W5-800553', nombre: "SKWINKLES CHUNK SINGLE MANGO CS 1/20/6/45G", marca: 'WRIGLEY', precio: 4.62 },
+  { barcode: '810008801192', codigo: 'W5-403127', nombre: "SKWINKLES CHUNK SANDIA CS 1/20/6/45G", marca: 'WRIGLEY', precio: 4.56 },
+  { barcode: '7506174513627', codigo: 'W3-513627', nombre: "PEDIGREE CACHORRO RAZAS PEQUEÑAS Y MINIS 10BL/1.85KG", marca: 'PETCARE', precio: 74.30 },
+  { barcode: '023100051048', codigo: 'W3-051048', nombre: "PEDIGREE ADULTO 10BL/2KG", marca: 'PETCARE', precio: 74.30 },
+  { barcode: '023100041049', codigo: 'W3-041049', nombre: "PEDIGREE CACHORRO 10BL/2KG", marca: 'PETCARE', precio: 74.30 },
+  { barcode: '7506174510732', codigo: 'W3-507008', nombre: "PEDIGREE POUCH CORDERO ADULTO 100GRS", marca: 'PETCARE', precio: 16.08 },
+  { barcode: '706460249231', codigo: 'W3-249231', nombre: "PEDIGREE POUCH POLLO ADULTO 100GRS", marca: 'PETCARE', precio: 16.08 },
+  { barcode: '706460249279', codigo: 'W3-249279', nombre: "PEDIGREE POUCH RES ADULTO 100GRS", marca: 'PETCARE', precio: 16.08 },
+  { barcode: '023100015279', codigo: 'W3-015279', nombre: "PEDIGREE LATA CHOICE CUTS BEEF CJ12/375GRS", marca: 'PETCARE', precio: 25.32 },
+  { barcode: '023100014012', codigo: 'W3-014019', nombre: "CESAR BEEF CJ24/100GR", marca: 'PETCARE', precio: 21.84 },
+  { barcode: '023100024523', codigo: 'W3-024523', nombre: "CESAR GRILLED CHICKEN CJ24/100GR", marca: 'PETCARE', precio: 21.84 },
+  { barcode: '7506174516246', codigo: 'W3-275244', nombre: "WHISKAS CARNE ORIGINAL 12/300GR", marca: 'PETCARE', precio: 18.17 },
+  { barcode: '706460000740', codigo: 'W3-000740', nombre: "WHISKAS POUCH PARRILLADA MIXTA CJ24/85GR", marca: 'PETCARE', precio: 16.08 },
+  { barcode: '706460000665', codigo: 'W3-000665', nombre: "WHISKAS POUCH ATUN CJ24/85GR", marca: 'PETCARE', precio: 16.08 },
+  { barcode: '706460000658', codigo: 'W3-000658', nombre: "WHISKAS POUCH POLLO CJ24/85GR", marca: 'PETCARE', precio: 16.08 },
+];
+
+const VENDEDORES = [
+  {id:1,nombre:'MARTIN CASTILLO'},{id:2,nombre:'CECILIA VALDES'},{id:3,nombre:'MELLINI SANTAMARIA'},
+  {id:4,nombre:'ALEXIS VAZQUEZ'},{id:5,nombre:'MAGDIEL MORAN'},{id:6,nombre:'GERTRUDIS PEREZ'},
+  {id:7,nombre:'ERICK RUIZ'},{id:8,nombre:'MANUEL VALDEZ'},{id:9,nombre:'LUIS TUNON'},
+  {id:10,nombre:'EDUARDO LÓPEZ'},{id:11,nombre:'EVELYN FERNANDEZ'},{id:12,nombre:'AURELINO RIVAS'},
+  {id:13,nombre:'MADELEN ACOSTA'},{id:14,nombre:'ELEIDI FRANCO'},{id:15,nombre:'STEFANI BRAVO'},
+  {id:16,nombre:'KATHYUSKA GUERRA'},{id:17,nombre:'GALVEN RIVAS'},{id:18,nombre:'YESLIN PALERMO'},
+  {id:19,nombre:'ADESSA COOK'},{id:20,nombre:'PEDRO RODRIGUEZ'},{id:21,nombre:'IRVING TORRES'},
+  {id:23,nombre:'BELTRAN FRANCO GONZALEZ'},{id:24,nombre:'CARMEN FISHER'},{id:25,nombre:'RUTH SANCHEZ'},
+  {id:26,nombre:'JAAZIEL GONZALEZ'},{id:27,nombre:'DEIBITH JOSUE PRADO'},{id:28,nombre:'ALEXIS SALAZAR'},
+  {id:29,nombre:'JUSTO VICTOR MACHUCA'},{id:30,nombre:'ABDIEL JUAREZ'},{id:31,nombre:'SAMUEL BARRIA'},
+  {id:32,nombre:'JAVIER PINZON'},
+];
+
+const TIENDAS = [
+  {id:1,nombre:'SM REY CHORRERA',vendedor:'MARTIN CASTILLO'},
+  {id:2,nombre:'SUPERMERCADOS XTRA S.A.(T038 BARRIO COLON)',vendedor:'MARTIN CASTILLO'},
+  {id:3,nombre:'SUPERMERCADOS XTRA S.A. (T002 CHORRERA)',vendedor:'MARTIN CASTILLO'},
+  {id:4,nombre:'SM REY CC COSTA VERDE',vendedor:'MARTIN CASTILLO'},
+  {id:5,nombre:'SUPERMERCADOS XTRA S.A.(T023 TRANSISTMICA)',vendedor:'CECILIA VALDES'},
+  {id:6,nombre:'COMPANIA GOLY,S.A. CALIDONIA',vendedor:'CECILIA VALDES'},
+  {id:7,nombre:'RIBA SMITH ALBROOK',vendedor:'CECILIA VALDES'},
+  {id:8,nombre:'S M REY PASEO ALBROOK',vendedor:'CECILIA VALDES'},
+  {id:9,nombre:'IMPORTADORA RICAMAR, S.A.(SAN MIGUELITO)',vendedor:'MELLINI SANTAMARIA'},
+  {id:10,nombre:'SUPERMERCADOS XTRA S.A.(T010 V.RICARDO J. ALFARO)',vendedor:'MELLINI SANTAMARIA'},
+  {id:11,nombre:'SM REY CENTENIAL',vendedor:'MELLINI SANTAMARIA'},
+  {id:12,nombre:'SUPERMERCADOS XTRA S.A. (T001 ARRAIJAN)',vendedor:'ALEXIS VAZQUEZ'},
+  {id:13,nombre:'IMPORTADORA RICAMAR S A TOWN CENTER ARRAIJAN',vendedor:'ALEXIS VAZQUEZ'},
+  {id:14,nombre:'SM REY PASEO ARRAIJAN',vendedor:'ALEXIS VAZQUEZ'},
+  {id:320,nombre:'S M RIBA SMITH COSTA VERDE',vendedor:'ALEXIS VAZQUEZ'},
+  {id:15,nombre:'TAMEK,S.A. (S M EL FUERTE WESTLAND)',vendedor:'MAGDIEL MORAN'},
+  {id:16,nombre:'EL FUERTE BURUNGA',vendedor:'MAGDIEL MORAN'},
+  {id:17,nombre:'SUPERMERCADOS XTRA S.A.(T040 XTRA CHANIS)',vendedor:'GERTRUDIS PEREZ'},
+  {id:18,nombre:'S M RIBA SMITH COSTA DEL ESTE',vendedor:'GERTRUDIS PEREZ'},
+  {id:19,nombre:'IMPORTADORA RICAMAR, S.A.(CHANIS)',vendedor:'GERTRUDIS PEREZ'},
+  {id:20,nombre:'SM REY SANTA MARIA',vendedor:'GERTRUDIS PEREZ'},
+  {id:321,nombre:'SM REY COSTA DEL ESTE',vendedor:'GERTRUDIS PEREZ'},
+  {id:322,nombre:'S M REY CHANIS',vendedor:'GERTRUDIS PEREZ'},
+  {id:21,nombre:'SUPERMERCADOS XTRA S.A.(T007 OJO DE AGUA)',vendedor:'ERICK RUIZ'},
+  {id:22,nombre:'SUPERMERCADOS XTRA S.A.(T008 S. MIGUELITO)',vendedor:'ERICK RUIZ'},
+  {id:23,nombre:'TAMEK,S.A.S EL FUERTE VILLA ZAITA',vendedor:'ERICK RUIZ'},
+  {id:24,nombre:'IMPORTADORA RICAMAR,S.A.(VILLA ZAITA No.46)',vendedor:'ERICK RUIZ'},
+  {id:25,nombre:'COMPANIA GOLY S A COSTA SUR',vendedor:'MANUEL VALDEZ'},
+  {id:26,nombre:'SUPERMERCADOS XTRA S.A.(T031 VILLALOBOS)',vendedor:'MANUEL VALDEZ'},
+  {id:27,nombre:'IMPORTADORA RICAMAR, S.A.(TOCUMEN)',vendedor:'MANUEL VALDEZ'},
+  {id:28,nombre:'S/M RIBA SMITH QUINTAS DE VERSALLES II',vendedor:'MANUEL VALDEZ'},
+  {id:29,nombre:'S M REY VERSALLES',vendedor:'MANUEL VALDEZ'},
+  {id:30,nombre:'IMPORTADORA RICAMAR, S.A.(PEDREGAL)',vendedor:'MANUEL VALDEZ'},
+  {id:31,nombre:'SUPERMERCADOS XTRA S.A.(T006 MONTERICO)',vendedor:'LUIS TUNON'},
+  {id:32,nombre:'IMPORTADORA RICAMAR, S.A.(LA DONA)',vendedor:'LUIS TUNON'},
+  {id:33,nombre:'IMPORTADORA RICAMAR S A NUEVO TOCUMEN',vendedor:'LUIS TUNON'},
+  {id:34,nombre:'TAMEK S A EL FUERTE LA ONDA 24 DE DICIEMBRE',vendedor:'LUIS TUNON'},
+  {id:35,nombre:'S M REY CORONADO',vendedor:'EDUARDO LÓPEZ'},
+  {id:36,nombre:'S/M RIBA SMITH SELECTO CORONADO 2',vendedor:'EDUARDO LÓPEZ'},
+  {id:37,nombre:'COMPANIA GOLY, S.A. CORONADO',vendedor:'EDUARDO LÓPEZ'},
+  {id:38,nombre:'IMPORTADORA RICAMAR, S.A.(CORONADO)',vendedor:'EDUARDO LÓPEZ'},
+  {id:39,nombre:'FARMACIA ARROCHA SA CORONADO',vendedor:'EDUARDO LÓPEZ'},
+  {id:40,nombre:'COCHEZ CORONADO',vendedor:'EDUARDO LÓPEZ'},
+  {id:41,nombre:'SUPERMERCADOS XTRA S.A.(T301 CORONADO MAXI FERIA)',vendedor:'EDUARDO LÓPEZ'},
+  {id:42,nombre:'SM REY PASEO DEL VALLE',vendedor:'EDUARDO LÓPEZ'},
+  {id:43,nombre:'SUPERMERCADOS XTRA S.A.(T039 MARKET CAPIRA)',vendedor:'EDUARDO LÓPEZ'},
+  {id:44,nombre:'IMPORTADORA RICAMAR, S.A.(C/C ON-D-GO)',vendedor:'EVELYN FERNANDEZ'},
+  {id:45,nombre:'SUPERMERCADOS XTRA S.A(T211 MF-XTRA LLANO LARGO)',vendedor:'EVELYN FERNANDEZ'},
+  {id:47,nombre:'IMPORTADORA VIRZI,SA(S/C 11) CHORRERA',vendedor:'EVELYN FERNANDEZ'},
+  {id:48,nombre:'SUPERMERCADOS XTRA S.A.(T020 ANCLAS MALL)',vendedor:'EVELYN FERNANDEZ'},
+  {id:323,nombre:'JUMBO MARKET, S.A.ARRAIJAN',vendedor:'EVELYN FERNANDEZ'},
+  {id:49,nombre:'SUPERMERCADOS XTRA S.A.(T030 LA MARQUESA)',vendedor:'AURELINO RIVAS'},
+  {id:50,nombre:'JUMBO MARKET, S.A.VACAMONTE',vendedor:'AURELINO RIVAS'},
+  {id:51,nombre:'IMPORTADORA RICAMAR, S.A.(BRISAS ARRAIJAN)',vendedor:'AURELINO RIVAS'},
+  {id:52,nombre:'IMPORTADORA RICAMAR, S.A.(EL TECAL)',vendedor:'AURELINO RIVAS'},
+  {id:53,nombre:'JUMBO SUPERMERCADO - TECAL',vendedor:'AURELINO RIVAS'},
+  {id:54,nombre:'IMPORTADORA RICAMAR, S.A.(VISTA HERMOSA)',vendedor:'MADELEN ACOSTA'},
+  {id:55,nombre:'RIBA SMITH MULTIPLAZA PACIFIC',vendedor:'MADELEN ACOSTA'},
+  {id:56,nombre:'CASA DE LA CARNE NO.1, S.A (EL CANGREJO)',vendedor:'MADELEN ACOSTA'},
+  {id:57,nombre:'IMPORTADORA RICAMAR, S.A.(VIA PORRAS)',vendedor:'MADELEN ACOSTA'},
+  {id:58,nombre:'SM REY 12 OCTUBRE',vendedor:'MADELEN ACOSTA'},
+  {id:60,nombre:'IMPORTADORA RICAMAR, S.A.(SAN FCO)',vendedor:'MADELEN ACOSTA'},
+  {id:61,nombre:'SM REY BRISAS DEL GOLF',vendedor:'ELEIDI FRANCO'},
+  {id:62,nombre:'IMPORTADORA RICAMAR, S.A.(BRISAS)',vendedor:'ELEIDI FRANCO'},
+  {id:63,nombre:'S/M RIBA SMITH-BRISAS DEL GOLF',vendedor:'ELEIDI FRANCO'},
+  {id:64,nombre:'COMPANIA GOLY,S.A. BRISAS DEL GOLF',vendedor:'ELEIDI FRANCO'},
+  {id:65,nombre:'SM REY BRISAS DEL NORTE',vendedor:'ELEIDI FRANCO'},
+  {id:66,nombre:'SUPERMERCADOS XTRA S.A.(T041 MARKET BRISAS)',vendedor:'ELEIDI FRANCO'},
+  {id:67,nombre:'IMPORTADORA RICAMAR, S.A.(LA CABIMA)',vendedor:'STEFANI BRAVO'},
+  {id:68,nombre:'99 SAN LORENZO',vendedor:'STEFANI BRAVO'},
+  {id:69,nombre:'SUPERMERCADOS XTRA S.A.(T019 EL LAGO)',vendedor:'STEFANI BRAVO'},
+  {id:70,nombre:'SUPERMERCADOS XTRA S.A.(T203 CHILIBRE MAXI FERIA)',vendedor:'STEFANI BRAVO'},
+  {id:71,nombre:'SUPERMERCADOS XTRA S.A.(T208 MAXI FERIA S.VICENTE)',vendedor:'STEFANI BRAVO'},
+  {id:73,nombre:'JUMBO MARKET, S.A. CHANIS',vendedor:'KATHYUSKA GUERRA'},
+  {id:75,nombre:'IMPORTADORA RICAMAR, S.A.(PORTOBELO)',vendedor:'KATHYUSKA GUERRA'},
+  {id:76,nombre:'IMPORTADORA RICAMAR, S.A.(BALBOA)',vendedor:'KATHYUSKA GUERRA'},
+  {id:77,nombre:'IMPORTADORA RICAMAR S.A.(MEGA DEPOT P CAROLINA)',vendedor:'KATHYUSKA GUERRA'},
+  {id:78,nombre:'SUPERMERCADOS XTRA S.A.(T303 RIO ABAJO MAXI FERIA)',vendedor:'KATHYUSKA GUERRA'},
+  {id:324,nombre:'S M REY CHANIS',vendedor:'KATHYUSKA GUERRA'},
+  {id:325,nombre:'SM REY PARQUE LEFEVRE',vendedor:'KATHYUSKA GUERRA'},
+  {id:79,nombre:'SUPERMERCADOS XTRA S.A.(T022 CHORRILLO)',vendedor:'GALVEN RIVAS'},
+  {id:80,nombre:'SM REY BELLA VISTA',vendedor:'GALVEN RIVAS'},
+  {id:81,nombre:'SUPERMERCADO BELLA VISTA',vendedor:'GALVEN RIVAS'},
+  {id:82,nombre:'IMPORTADORA RICAMAR, S.A.(CENCAL)',vendedor:'GALVEN RIVAS'},
+  {id:83,nombre:'SUPERMERCADOS XTRA S.A.(T300 CALIDONIA MAXI FERIA)',vendedor:'GALVEN RIVAS'},
+  {id:84,nombre:'INM. DON ANTONIO REY CASCO ANTIGUO',vendedor:'GALVEN RIVAS'},
+  {id:85,nombre:'IMPORTADORA VIRZI,SA(S/C 12)',vendedor:'GALVEN RIVAS'},
+  {id:86,nombre:'IMPORTADORA VIRZI,SA(S/C 13) COSTA VERDE',vendedor:'YESLIN PALERMO'},
+  {id:87,nombre:'SM REY VISTA ALEGRE',vendedor:'YESLIN PALERMO'},
+  {id:88,nombre:'IMPORTADORA RICAMAR, S.A.(SAN BERNARDINO)',vendedor:'YESLIN PALERMO'},
+  {id:89,nombre:'JUMBO MARKET, S.A. COSTA VERDE',vendedor:'YESLIN PALERMO'},
+  {id:326,nombre:'SUPER CARNES #15 TRAPICHITO',vendedor:'YESLIN PALERMO'},
+  {id:327,nombre:'IMPORTADORA RICAMAR, S.A.(CHORRERA)',vendedor:'YESLIN PALERMO'},
+  {id:92,nombre:'SUPERMERCADOS XTRA S.A.(T018 PACORA)',vendedor:'ADESSA COOK'},
+  {id:93,nombre:'COMPANIA GOLY,S.A. NUEVO TOCUMEN',vendedor:'ADESSA COOK'},
+  {id:94,nombre:'IMPORTADORA RICAMAR S A MONTE MADERO',vendedor:'ADESSA COOK'},
+  {id:95,nombre:'SUPERMERCADOS XTRA S.A.(T200 CHEPO MAXI FERIA)',vendedor:'ADESSA COOK'},
+  {id:96,nombre:'IMPORTADORA RICAMAR, S.A.(LOS PUEBLOS)',vendedor:'PEDRO RODRIGUEZ'},
+  {id:97,nombre:'SUPERMERCADOS XTRA S.A.(T005 LOS PUEBLOS)',vendedor:'PEDRO RODRIGUEZ'},
+  {id:98,nombre:'INM DON ANTONIO (MR P PEDREGAL)',vendedor:'PEDRO RODRIGUEZ'},
+  {id:99,nombre:'INM DON ANTONIO (MR P PLAZA STONE)',vendedor:'PEDRO RODRIGUEZ'},
+  {id:100,nombre:'SUPERMERCADOS XTRA S.A.(T004 LAS ACACIAS)',vendedor:'PEDRO RODRIGUEZ'},
+  {id:328,nombre:'CIA. GOLY, S. A. METROMALL',vendedor:'PEDRO RODRIGUEZ'},
+  {id:101,nombre:'SUPERMERCADOS XTRA S.A.(T017 ALBROOK MALL)',vendedor:'IRVING TORRES'},
+  {id:102,nombre:'COMPANIA GOLY,S.A. EL DORADO',vendedor:'IRVING TORRES'},
+  {id:103,nombre:'IMPORTADORA RICAMAR, S.A.(T.MUERTO)',vendedor:'IRVING TORRES'},
+  {id:104,nombre:'JUMBO MARKET, S.A. TUMBA MUERTO',vendedor:'IRVING TORRES'},
+  {id:105,nombre:'IMPORTADORA RICAMAR, S.A.(DORADO)',vendedor:'IRVING TORRES'},
+  {id:106,nombre:'SM REY DORADO',vendedor:'IRVING TORRES'},
+  {id:111,nombre:'COMPANIA GOLY S A TOCUMEN',vendedor:'BELTRAN FRANCO GONZALEZ'},
+  {id:112,nombre:'SUPERMERCADOS XTRA S.A.(T202 LA SIESTA MAXI FERIA)',vendedor:'BELTRAN FRANCO GONZALEZ'},
+  {id:113,nombre:'MERCADITO RIBA SMITH LA SIESTA',vendedor:'BELTRAN FRANCO GONZALEZ'},
+  {id:114,nombre:'SUPERMERCADOS XTRA S.A.(T309 MANANITAS MI FERIA)',vendedor:'BELTRAN FRANCO GONZALEZ'},
+  {id:115,nombre:'IMPORTADORA RICAMAR,S.A.(LAS MANANITAS)',vendedor:'BELTRAN FRANCO GONZALEZ'},
+  {id:116,nombre:'JUMBO MARKET, S.A.',vendedor:'BELTRAN FRANCO GONZALEZ'},
+  {id:117,nombre:'INM DON ANTONIO (MR P MANANITAS)',vendedor:'BELTRAN FRANCO GONZALEZ'},
+  {id:118,nombre:'SUPERMERCADOS XTRA S.A.(T302 EL TREBOL)',vendedor:'BELTRAN FRANCO GONZALEZ'},
+  {id:119,nombre:'SUPERMERCADOS XTRA S.A.(T012 SABANITAS-COLON)',vendedor:'CARMEN FISHER'},
+  {id:120,nombre:'JUMBO MARKET, S.A. ATLANTIC PLAZA',vendedor:'CARMEN FISHER'},
+  {id:121,nombre:'SUPERMERCADOS XTRA S.A.(T207 BUENA VISTA MAXI FER)',vendedor:'CARMEN FISHER'},
+  {id:122,nombre:'SM REY 4 ALTOS',vendedor:'CARMEN FISHER'},
+  {id:123,nombre:'IMPORTADORA RICAMAR, S.A.(PTO.ESCONDIDO)',vendedor:'CARMEN FISHER'},
+  {id:124,nombre:'SM REY SABANITAS',vendedor:'CARMEN FISHER'},
+  {id:125,nombre:'SHALOM, S.A. (TITAN 4 ALTOS)',vendedor:'CARMEN FISHER'},
+  {id:126,nombre:'TOVA (MADISON CUATRO ALTOS)',vendedor:'CARMEN FISHER'},
+  {id:127,nombre:'DOYAN, S.A.',vendedor:'CARMEN FISHER'},
+  {id:128,nombre:'SUPERMERCADOS XTRA S.A.(T036 4 ALTOS)',vendedor:'CARMEN FISHER'},
+  {id:129,nombre:'SM REY CALLE 50',vendedor:'RUTH SANCHEZ'},
+  {id:130,nombre:'SUPERMERCADOS XTRA S.A.(T035 VIA ISRAEL)',vendedor:'RUTH SANCHEZ'},
+  {id:131,nombre:'IMPORTADORA RICAMAR,S.A.(TRANSISTMICA)',vendedor:'RUTH SANCHEZ'},
+  {id:132,nombre:'SM REY VIA ESPANA',vendedor:'RUTH SANCHEZ'},
+  {id:133,nombre:'BINAT INTERINVEST,SA(DELI K)',vendedor:'RUTH SANCHEZ'},
+  {id:134,nombre:'IMPORTADORA RICAMAR, S.A.(PAITILLA)',vendedor:'RUTH SANCHEZ'},
+  {id:135,nombre:'SUPERMERCADOS XTRA S.A.(T307 GRAN ESTACION MI FERIA)',vendedor:'JAAZIEL GONZALEZ'},
+  {id:136,nombre:'COMPANIA GOLY S A S MIGUELITO',vendedor:'JAAZIEL GONZALEZ'},
+  {id:137,nombre:'TAMEK, S.A. (SUPERMERCADO EL FUERTE)',vendedor:'JAAZIEL GONZALEZ'},
+  {id:138,nombre:'IMPORTADORA RICAMAR, S.A.(LOS ANDES)',vendedor:'JAAZIEL GONZALEZ'},
+  {id:139,nombre:'SM REY C COMERCIAL 2412',vendedor:'DEIBITH JOSUE PRADO'},
+  {id:141,nombre:'SM REY VILLA LUCRE',vendedor:'DEIBITH JOSUE PRADO'},
+  {id:142,nombre:'IMPORTADORA RICAMAR,S.A.(VILLA LUCRE)',vendedor:'DEIBITH JOSUE PRADO'},
+  {id:143,nombre:'SUPERMERCADOS XTRA S.A.(T014 VILLA LUCRE)',vendedor:'DEIBITH JOSUE PRADO'},
+  {id:145,nombre:'IMPORTADORA RICAMAR, S.A.(EL FARO)',vendedor:'DEIBITH JOSUE PRADO'},
+  {id:329,nombre:'JUMBO MARKET, S.A. VERANILLO',vendedor:'DEIBITH JOSUE PRADO'},
+  {id:147,nombre:'IMPORTADORA RICAMAR, S.A.(LOS ANDES SUC.2)',vendedor:'ALEXIS SALAZAR'},
+  {id:148,nombre:'SM REY MILLA 8',vendedor:'ALEXIS SALAZAR'},
+  {id:149,nombre:'SUPERMERCADO RIBA SMITH TRST',vendedor:'ALEXIS SALAZAR'},
+  {id:150,nombre:'IMPORTADORA RICAMAR, S.A.(BETHANIA)',vendedor:'ALEXIS SALAZAR'},
+  {id:151,nombre:'IMPORTADORA RICAMAR,S.A.-MEGA DEPOT LOS ANDES MALL',vendedor:'ALEXIS SALAZAR'},
+  {id:152,nombre:'SUPERMERCADOS XTRA S.A.(T034 SAN ISIDRO)',vendedor:'ALEXIS SALAZAR'},
+  {id:153,nombre:'IMPORTADORA RICAMAR,S.A.(SABANITAS)',vendedor:'JUSTO VICTOR MACHUCA'},
+  {id:154,nombre:'SUPERMERCADOS XTRA S.A.(T013 CATIVA)',vendedor:'JUSTO VICTOR MACHUCA'},
+  {id:155,nombre:'SUPERMERCADOS XTRA S.A.(T012 SABANITAS-COLON)',vendedor:'JUSTO VICTOR MACHUCA'},
+  {id:156,nombre:'DOYAN, S.A. (EMPERADOR)',vendedor:'JUSTO VICTOR MACHUCA'},
+  {id:157,nombre:'DOYAN, S.A. (MAESTRO)',vendedor:'JUSTO VICTOR MACHUCA'},
+  {id:158,nombre:'IMPORTADORA RICAMAR, S.A.(COLMAR)',vendedor:'JUSTO VICTOR MACHUCA'},
+  {id:159,nombre:'SM REY CALLE 13',vendedor:'JUSTO VICTOR MACHUCA'},
+  {id:160,nombre:'SM REY CALLE 7A.',vendedor:'JUSTO VICTOR MACHUCA'},
+  {id:161,nombre:'IMPORTADORA RICAMAR, S.A.(COLON 2000)',vendedor:'JUSTO VICTOR MACHUCA'},
+  {id:162,nombre:'JUMBO MARKET, S.A. SABANITAS',vendedor:'JUSTO VICTOR MACHUCA'},
+  {id:163,nombre:'TAMEK,S.A.EL FUERTE LA ONDA SUC.9 LOS ANDES MALL',vendedor:'ABDIEL JUAREZ'},
+  {id:164,nombre:'TOVA, S.A. (CAMPEON VILLA ZAITA)',vendedor:'ABDIEL JUAREZ'},
+  {id:165,nombre:'MELO PET GARDEN - CHANIS FRENTE S/99',vendedor:'ABDIEL JUAREZ'},
+  {id:166,nombre:'MELO PET GARDEN - CC PLAZA NUEVO TOCUMEN',vendedor:'ABDIEL JUAREZ'},
+  {id:167,nombre:'ADMINISTRADORA DE MINI MARKET(AM:PM)PARQUE LEFVRE',vendedor:'ABDIEL JUAREZ'},
+  {id:168,nombre:'ADMINISTRADORA DE MINI MARKET(AM:PM) VILLA LUCRE',vendedor:'ABDIEL JUAREZ'},
+  {id:171,nombre:'MERCADOLLAR S A RIO ABAJO',vendedor:'ABDIEL JUAREZ'},
+  {id:172,nombre:'COCHEZ BRISAS DEL GOLF',vendedor:'ABDIEL JUAREZ'},
+  {id:178,nombre:'MELO PET GARDEN (COSTA DEL ESTE)',vendedor:'ABDIEL JUAREZ'},
+  {id:179,nombre:'MELO PET GARDEN - C/C LOS ANDES',vendedor:'ABDIEL JUAREZ'},
+  {id:186,nombre:'TOVA, S.A. (CAMPEON LOS PUEBL)',vendedor:'ABDIEL JUAREZ'},
+  {id:197,nombre:'COCHEZ PEDREGAL',vendedor:'ABDIEL JUAREZ'},
+  {id:198,nombre:'COCHEZ VILLA LUCRE',vendedor:'ABDIEL JUAREZ'},
+  {id:199,nombre:'COCHEZ SAN MIGUELITO',vendedor:'ABDIEL JUAREZ'},
+  {id:200,nombre:'COCHEZ 24 DE DICIEMBRE',vendedor:'ABDIEL JUAREZ'},
+  {id:219,nombre:'ALMACEN GEO. F. NOVEY',vendedor:'SAMUEL BARRIA'},
+  {id:220,nombre:'FARMACIA ARROCHA, S.A.(TRANSISMICA)',vendedor:'SAMUEL BARRIA'},
+  {id:221,nombre:'S/M RIBA SMITH-PANAMA PACIFICO',vendedor:'SAMUEL BARRIA'},
+  {id:222,nombre:'MELO PET GARDEN - TRANSISTMICA',vendedor:'SAMUEL BARRIA'},
+  {id:223,nombre:'NOVEY PAITILLA',vendedor:'SAMUEL BARRIA'},
+  {id:224,nombre:'NOVEY LA CHORRERA',vendedor:'SAMUEL BARRIA'},
+  {id:225,nombre:'NOVEY ALBROOK',vendedor:'SAMUEL BARRIA'},
+  {id:226,nombre:'NOVEY CALLE 50',vendedor:'SAMUEL BARRIA'},
+  {id:233,nombre:'COCHEZ VIA ESPANA',vendedor:'SAMUEL BARRIA'},
+  {id:234,nombre:'COCHEZ AVENIDA BALBOA',vendedor:'SAMUEL BARRIA'},
+  {id:235,nombre:'COCHEZ TUMBA MUERTO',vendedor:'SAMUEL BARRIA'},
+  {id:237,nombre:'ACE INT.HARDWARE (C C MULTI PLAZA)',vendedor:'SAMUEL BARRIA'},
+  {id:238,nombre:'ACE INT.HARDWARE (CHORRERA)',vendedor:'SAMUEL BARRIA'},
+  {id:239,nombre:'ACE INT.HARDWARE (C C ALBROOK MALL)',vendedor:'SAMUEL BARRIA'},
+  {id:245,nombre:'MELO PET GARDEN - CC LOS PUEBLOS ALBROOK',vendedor:'SAMUEL BARRIA'},
+  {id:253,nombre:'TOVA, S.A. (ALBROOK)',vendedor:'SAMUEL BARRIA'},
+  {id:258,nombre:'TARGET, S. A. (CONWAY ALBROOK)',vendedor:'SAMUEL BARRIA'},
+  {id:261,nombre:'FARMACIA ARROCHA SA ALBROOK MA',vendedor:'SAMUEL BARRIA'},
+  {id:270,nombre:'SUPERMERCADO RIBA SMITH VILLA ZAITA',vendedor:'SAMUEL BARRIA'},
+  {id:274,nombre:'OKTAN INT S A SUPER 7 LA CHORRERA PUMA',vendedor:'JAVIER PINZON'},
+  {id:275,nombre:'FARMACIA ARROCHA, S.A.(TERRAZAS DE SABANITAS)',vendedor:'JAVIER PINZON'},
+  {id:276,nombre:'TIENDA SUPER 7 LOS NOGALES',vendedor:'JAVIER PINZON'},
+  {id:278,nombre:'PUMA BETANIA',vendedor:'JAVIER PINZON'},
+  {id:279,nombre:'SUPER 7 BRISAS DEL GOLF',vendedor:'JAVIER PINZON'},
+  {id:280,nombre:'MELO PET GARDEN - PASEO ARRAIJAN',vendedor:'JAVIER PINZON'},
+  {id:281,nombre:'MELO PET GARDEN - CORONADO',vendedor:'JAVIER PINZON'},
+  {id:288,nombre:'ORLYN, S.A (VA Y VEN CALLE 50)',vendedor:'JAVIER PINZON'},
+  {id:289,nombre:'ORLYN, S.A (VA Y VEN CHORRERA - BALBOA)',vendedor:'JAVIER PINZON'},
+  {id:290,nombre:'ORLYN, S.A (VA Y VEN VACAMONTE)',vendedor:'JAVIER PINZON'},
+  {id:291,nombre:'ORLYN, S.A (VA Y VEN SAN CARLOS)',vendedor:'JAVIER PINZON'},
+  {id:295,nombre:'ORLYN, S.A (VA Y VEN SABANITAS)',vendedor:'JAVIER PINZON'},
+  {id:300,nombre:'NOVEY CORONADO',vendedor:'JAVIER PINZON'},
+  {id:302,nombre:'ACE INT.HARDWARE (CORONADO)',vendedor:'JAVIER PINZON'},
+  {id:307,nombre:'TIENDA SUPER 7 HIPODROMO',vendedor:'JAVIER PINZON'},
+  {id:309,nombre:'TIENDA SUPER 7 VIA PORRAS',vendedor:'JAVIER PINZON'},
+  {id:315,nombre:'SUPER 7 PUMA VILLA LUCRE',vendedor:'JAVIER PINZON'},
+];
+
+const MESES = ['2026-04','2026-05','2026-06','2026-07','2026-08','2026-09','2026-10','2026-11','2026-12','2027-01','2027-02','2027-03'];
+
+const MarsLogo = ({size=44}) => (
+  <svg width={size*2.8} height={size} viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="100" fill="#000080" rx="4"/>
+    <text x="50%" y="72" textAnchor="middle" fontFamily="Arial Black,Arial" fontWeight="900" fontSize="78" fill="white" letterSpacing="2">MARS</text>
+  </svg>
+);
+
+function App() {
+  const [user, setUser] = useState(null);
+  const [reportes, setReportes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [tiendaId, setTiendaId] = useState('');
+  const [cantidad, setCantidad] = useState('');
+  const [mesVenc, setMesVenc] = useState('');
+  const [codInput, setCodInput] = useState('');
+  const [prodSel, setProdSel] = useState(null);
+  const [mostrarSug, setMostrarSug] = useState(false);
+  const [fVend, setFVend] = useState('');
+  const [fTienda, setFTienda] = useState('');
+  const [fMes, setFMes] = useState('');
+  const [loginMode, setLoginMode] = useState(null);
+  const [selVend, setSelVend] = useState('');
+  const [searchVend, setSearchVend] = useState('');
+  const [adminPass, setAdminPass] = useState('');
+  const [adminErr, setAdminErr] = useState(false);
+  const [msg, setMsg] = useState('');
+  const [msgErr, setMsgErr] = useState('');
+
+  const showMsg = (m, err=false) => { if(err) setMsgErr(m); else setMsg(m); setTimeout(()=>{setMsg('');setMsgErr('');},3000); };
+
+  const cargar = useCallback(async () => {
+    setLoading(true);
+    const d = await sbFetch('GET', '/reportes?select=*&order=id.desc');
+    if(d) setReportes(d); else showMsg('❌ No se pudo conectar a Supabase',true);
+    setLoading(false);
+  },[]);
+
+  useEffect(()=>{ if(user) cargar(); },[user]);
+
+  const tiendasVend = useMemo(()=> user?.v ? TIENDAS.filter(t=>t.vendedor===user.v) : [], [user]);
+
+  const sugs = useMemo(()=>{
+    if(!codInput.trim()||prodSel) return [];
+    const q = codInput.toUpperCase();
+    return CATALOGO.filter(p=>p.barcode.includes(q)||p.codigo.toUpperCase().includes(q)||p.nombre.toUpperCase().includes(q)||p.marca.toUpperCase().includes(q)).slice(0,8);
+  },[codInput,prodSel]);
+
+  const vendsFilter = useMemo(()=>VENDEDORES.filter(v=>v.nombre.toUpperCase().includes(searchVend.toUpperCase())),[searchVend]);
+
+  const resetForm = () => { setTiendaId('');setCantidad('');setMesVenc('');setCodInput('');setProdSel(null);setMostrarSug(false);setShowForm(false); };
+  const logout = () => { setUser(null);setLoginMode(null);setSelVend('');setSearchVend('');setAdminPass('');setAdminErr(false);setReportes([]);resetForm(); };
+
+  const guardar = async () => {
+    if(!tiendaId||!prodSel||!cantidad||!mesVenc){ alert('Completa todos los campos'); return; }
+    const t = TIENDAS.find(t=>t.id===parseInt(tiendaId));
+    setSaving(true);
+    const r = await sbFetch('POST','/reportes',{
+      vendedor:t.vendedor, tienda:t.nombre, barcode:prodSel.barcode, codigo:prodSel.codigo,
+      producto:prodSel.nombre, marca:prodSel.marca, cantidad:parseInt(cantidad),
+      mes_vencimiento:mesVenc, fecha_reporte:new Date().toLocaleDateString('es-ES')
+    });
+    setSaving(false);
+    if(r&&!r.error){ showMsg('✅ Reporte guardado correctamente'); resetForm(); cargar(); }
+    else showMsg('❌ Error al guardar. Verifica Supabase.',true);
+  };
+
+  const limpiar = async () => {
+    if(!confirm('⚠️ ¿ELIMINAR TODOS LOS REPORTES?\nDescarga el CSV primero.')) return;
+    await sbFetch('DELETE','/reportes?id=gte.0');
+    showMsg('🗑️ Base de datos limpiada'); cargar();
+  };
+
+  const descargarCSV = (datos) => {
+    const csv=['Vendedor,Tienda,Código Barra,Código FEDURO,Producto,Marca,Cantidad,Vencimiento,Fecha'].concat(
+      datos.map(r=>`"${r.vendedor}","${r.tienda}","${r.barcode}","${r.codigo}","${r.producto}","${r.marca}",${r.cantidad},"${r.mes_vencimiento}","${r.fecha_reporte}"`)
+    ).join('\n');
+    const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+    a.download=`mars_${new Date().toISOString().split('T')[0]}.csv`; a.click();
+  };
+
+  // LOGIN
+  if(!user) return (
+    <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#0f172a,#1e293b)',display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
+      <div style={{width:'100%',maxWidth:'480px',background:'#1e293b',border:'1px solid #334155',borderRadius:'1rem',padding:'2.5rem',boxShadow:'0 25px 50px rgba(0,0,0,.5)'}}>
+        <div style={{display:'flex',flexDirection:'column',alignItems:'center',marginBottom:'2rem'}}>
+          <MarsLogo size={44}/>
+          <h1 style={{color:'white',fontSize:'1.4rem',fontWeight:'700',marginTop:'1rem',textAlign:'center'}}>MARS - REPORTE DE INVENTARIO</h1>
+          <p style={{color:'#94a3b8',fontSize:'.85rem',marginTop:'.25rem'}}>Sistema de Gestión con Supabase</p>
+        </div>
+        {!loginMode && (
+          <div style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
+            <button onClick={()=>setLoginMode('vendedor')} style={{background:'#4f46e5',color:'white',border:'none',padding:'1rem',borderRadius:'.5rem',fontWeight:'700',fontSize:'1rem',cursor:'pointer'}}>👨‍💼 Acceder como Vendedor</button>
+            <button onClick={()=>setLoginMode('admin')} style={{background:'#1d4ed8',color:'white',border:'none',padding:'1rem',borderRadius:'.5rem',fontWeight:'700',fontSize:'1rem',cursor:'pointer'}}>📊 Acceder como Admin</button>
+          </div>
+        )}
+        {loginMode==='admin' && (
+          <div>
+            <h2 style={{color:'white',fontWeight:'700',marginBottom:'.75rem'}}>🔐 Acceso Administrativo</h2>
+            <input type="password" placeholder="Contraseña..." value={adminPass}
+              onChange={e=>{setAdminPass(e.target.value);setAdminErr(false);}}
+              onKeyDown={e=>{ if(e.key==='Enter'){ if(adminPass==='Feduromars2026') setUser({admin:true}); else{setAdminErr(true);setAdminPass('');} } }}
+              style={{width:'100%',background:'#334155',color:'white',border:adminErr?'1px solid #ef4444':'1px solid #475569',borderRadius:'.5rem',padding:'.75rem 1rem',marginBottom:'.5rem',outline:'none',boxSizing:'border-box',fontSize:'1rem'}}/>
+            {adminErr && <p style={{color:'#f87171',fontSize:'.85rem',marginBottom:'.5rem'}}>❌ Contraseña incorrecta</p>}
+            <div style={{display:'flex',gap:'.75rem',marginTop:'.5rem'}}>
+              <button onClick={()=>{ if(adminPass==='Feduromars2026') setUser({admin:true}); else{setAdminErr(true);setAdminPass('');} }} style={{flex:1,background:'#1d4ed8',color:'white',border:'none',padding:'.75rem',borderRadius:'.5rem',fontWeight:'700',cursor:'pointer'}}>Entrar</button>
+              <button onClick={()=>{setLoginMode(null);setAdminPass('');setAdminErr(false);}} style={{flex:1,background:'#475569',color:'white',border:'none',padding:'.75rem',borderRadius:'.5rem',fontWeight:'700',cursor:'pointer'}}>Volver</button>
+            </div>
+          </div>
+        )}
+        {loginMode==='vendedor' && (
+          <div>
+            <h2 style={{color:'white',fontWeight:'700',marginBottom:'.75rem'}}>Selecciona tu nombre</h2>
+            <input type="text" placeholder="Buscar vendedor..." value={searchVend} onChange={e=>setSearchVend(e.target.value)}
+              style={{width:'100%',background:'#334155',color:'white',border:'1px solid #475569',borderRadius:'.5rem',padding:'.6rem 1rem',marginBottom:'.75rem',outline:'none',boxSizing:'border-box'}}/>
+            <div style={{maxHeight:'240px',overflowY:'auto',marginBottom:'1rem',display:'flex',flexDirection:'column',gap:'.25rem'}}>
+              {vendsFilter.map(v=>(
+                <button key={v.id} onClick={()=>setSelVend(v.nombre)} style={{textAlign:'left',padding:'.6rem 1rem',borderRadius:'.5rem',border:selVend===v.nombre?'1px solid #818cf8':'1px solid #475569',background:selVend===v.nombre?'#4f46e5':'#334155',color:'white',cursor:'pointer',fontWeight:'500',fontSize:'.9rem'}}>{v.nombre}</button>
+              ))}
+            </div>
+            {selVend && <p style={{color:'#4ade80',fontSize:'.85rem',textAlign:'center',marginBottom:'.75rem'}}>✓ <strong>{selVend}</strong></p>}
+            <div style={{display:'flex',gap:'.75rem'}}>
+              <button onClick={()=>{ if(selVend) setUser({v:selVend}); }} disabled={!selVend} style={{flex:1,background:selVend?'#16a34a':'#475569',color:'white',border:'none',padding:'.75rem',borderRadius:'.5rem',fontWeight:'700',cursor:selVend?'pointer':'default'}}>Entrar</button>
+              <button onClick={()=>{setLoginMode(null);setSelVend('');setSearchVend('');}} style={{flex:1,background:'#475569',color:'white',border:'none',padding:'.75rem',borderRadius:'.5rem',fontWeight:'700',cursor:'pointer'}}>Volver</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  // ADMIN
+  if(user.admin) {
+    const filtrados = reportes.filter(r=>(!fVend||r.vendedor===fVend)&&(!fTienda||r.tienda===fTienda)&&(!fMes||r.mes_vencimiento===fMes));
+    const hoy = new Date('2026-04-27');
+    const alertas = reportes.filter(r=>(new Date(r.mes_vencimiento+'-01')-hoy)/(1000*60*60*24*30)<=1).length;
+    const kpis=[
+      {label:'Total Reportes',val:reportes.length,bg:'#059669'},
+      {label:'Vendedores',val:new Set(reportes.map(r=>r.vendedor)).size,bg:'#2563eb'},
+      {label:'Tiendas',val:new Set(reportes.map(r=>r.tienda)).size,bg:'#7c3aed'},
+      {label:'⚠️ Próx. Venc.',val:alertas,bg:'#dc2626'},
+    ];
+    return (
+      <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#0f172a,#1e293b)'}}>
+        <div style={{background:'linear-gradient(90deg,#1e40af,#2563eb)',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          <div style={{display:'flex',alignItems:'center',gap:'1rem'}}><MarsLogo size={26}/>
+            <div><h1 style={{color:'white',fontWeight:'700',fontSize:'1.1rem',margin:0}}>MARS - PANEL ADMIN</h1>
+              <p style={{color:'#bfdbfe',fontSize:'.75rem',margin:0}}>📡 Conectado a Supabase</p></div>
+          </div>
+          <div style={{display:'flex',gap:'.5rem'}}>
+            <button onClick={cargar} style={{background:'#3b82f6',color:'white',border:'none',padding:'.5rem .75rem',borderRadius:'.5rem',cursor:'pointer',fontSize:'.8rem'}}>🔄 Actualizar</button>
+            <button onClick={logout} style={{background:'#dc2626',color:'white',border:'none',padding:'.5rem .75rem',borderRadius:'.5rem',cursor:'pointer',fontSize:'.8rem'}}>Salir</button>
+          </div>
+        </div>
+        {msg && <div style={{background:'rgba(34,197,94,.15)',borderBottom:'1px solid #22c55e',color:'#86efac',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{msg}</div>}
+        {msgErr && <div style={{background:'rgba(239,68,68,.15)',borderBottom:'1px solid #ef4444',color:'#fca5a5',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{msgErr}</div>}
+        <div style={{maxWidth:'1200px',margin:'0 auto',padding:'1.5rem'}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'1rem',marginBottom:'1.5rem'}}>
+            {kpis.map(k=>(
+              <div key={k.label} style={{background:k.bg,borderRadius:'.75rem',padding:'1rem 1.25rem',color:'white'}}>
+                <p style={{fontSize:'.75rem',opacity:.8,margin:'0 0 .25rem'}}>{k.label}</p>
+                <p style={{fontSize:'2rem',fontWeight:'700',margin:0}}>{k.val}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{background:'rgba(51,65,85,.5)',border:'1px solid #475569',borderRadius:'.75rem',padding:'1.25rem',marginBottom:'1.5rem'}}>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:'.75rem'}}>
+              {[
+                <select key="fv" value={fVend} onChange={e=>setFVend(e.target.value)} style={{background:'#475569',color:'white',border:'none',padding:'.6rem',borderRadius:'.5rem',fontSize:'.8rem'}}>
+                  <option value="">Todos los Vendedores</option>
+                  {[...new Set(reportes.map(r=>r.vendedor))].sort().map(v=><option key={v} value={v}>{v}</option>)}
+                </select>,
+                <select key="ft" value={fTienda} onChange={e=>setFTienda(e.target.value)} style={{background:'#475569',color:'white',border:'none',padding:'.6rem',borderRadius:'.5rem',fontSize:'.8rem'}}>
+                  <option value="">Todas las Tiendas</option>
+                  {[...new Set(reportes.map(r=>r.tienda))].sort().map(t=><option key={t} value={t}>{t}</option>)}
+                </select>,
+                <select key="fm" value={fMes} onChange={e=>setFMes(e.target.value)} style={{background:'#475569',color:'white',border:'none',padding:'.6rem',borderRadius:'.5rem',fontSize:'.8rem'}}>
+                  <option value="">Todos los Meses</option>
+                  {[...new Set(reportes.map(r=>r.mes_vencimiento))].sort().map(m=><option key={m} value={m}>{m}</option>)}
+                </select>,
+                <button key="dl" onClick={()=>descargarCSV(filtrados)} style={{background:'#16a34a',color:'white',border:'none',padding:'.6rem',borderRadius:'.5rem',fontWeight:'700',cursor:'pointer',fontSize:'.8rem'}}>⬇️ Descargar CSV</button>,
+                <button key="cl" onClick={limpiar} style={{background:'#dc2626',color:'white',border:'none',padding:'.6rem',borderRadius:'.5rem',fontWeight:'700',cursor:'pointer',fontSize:'.8rem'}}>🗑️ Limpiar BD</button>
+              ]}
+            </div>
+          </div>
+          <div style={{background:'rgba(51,65,85,.5)',border:'1px solid #475569',borderRadius:'.75rem',padding:'1.25rem',overflowX:'auto'}}>
+            <h2 style={{color:'white',fontWeight:'700',marginTop:0}}>Reportes ({filtrados.length})</h2>
+            {loading ? <p style={{color:'#94a3b8',textAlign:'center',padding:'2rem'}}>⏳ Cargando...</p>
+            : filtrados.length===0 ? <p style={{color:'#94a3b8',textAlign:'center',padding:'2rem'}}>No hay reportes aún</p>
+            : <table style={{width:'100%',borderCollapse:'collapse',fontSize:'.8rem'}}>
+              <thead><tr style={{borderBottom:'1px solid #475569'}}>
+                {['Vendedor','Tienda','Cód. Barra','Producto','Cant.','Vencimiento','Fecha'].map(h=>(
+                  <th key={h} style={{color:'#cbd5e1',fontWeight:'600',padding:'.6rem .5rem',textAlign:'left'}}>{h}</th>
+                ))}
+              </tr></thead>
+              <tbody>
+                {filtrados.map(r=>{
+                  const urg=(new Date(r.mes_vencimiento+'-01')-hoy)/(1000*60*60*24*30)<=1;
+                  return <tr key={r.id} style={{borderBottom:'1px solid rgba(71,85,105,.3)',background:urg?'rgba(220,38,38,.1)':'transparent'}}>
+                    <td style={{color:'white',padding:'.5rem',fontWeight:'500'}}>{r.vendedor}</td>
+                    <td style={{color:'#cbd5e1',padding:'.5rem',maxWidth:'150px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</td>
+                    <td style={{color:'#93c5fd',padding:'.5rem',fontFamily:'monospace'}}>{r.barcode}</td>
+                    <td style={{color:'white',padding:'.5rem',maxWidth:'180px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.producto}</td>
+                    <td style={{color:'#cbd5e1',padding:'.5rem'}}>{r.cantidad}</td>
+                    <td style={{padding:'.5rem'}}><span style={{background:urg?'rgba(239,68,68,.2)':'rgba(245,158,11,.2)',color:urg?'#fca5a5':'#fcd34d',padding:'.2rem .5rem',borderRadius:'.25rem',fontWeight:'700'}}>{r.mes_vencimiento}</span></td>
+                    <td style={{color:'#94a3b8',padding:'.5rem'}}>{r.fecha_reporte}</td>
+                  </tr>;
+                })}
+              </tbody>
+            </table>}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // VENDEDOR
+  const misRep = reportes.filter(r=>r.vendedor===user.v);
+  return (
+    <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#312e81,#3730a3)'}}>
+      <div style={{background:'linear-gradient(90deg,#4338ca,#6366f1)',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+        <div style={{display:'flex',alignItems:'center',gap:'1rem'}}><MarsLogo size={26}/>
+          <div><h1 style={{color:'white',fontWeight:'700',fontSize:'1rem',margin:0}}>MARS - REPORTE</h1>
+            <p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0}}>{user.v}</p></div>
+        </div>
+        <button onClick={logout} style={{background:'#dc2626',color:'white',border:'none',padding:'.5rem .75rem',borderRadius:'.5rem',cursor:'pointer',fontSize:'.8rem'}}>Salir</button>
+      </div>
+      {msg && <div style={{background:'rgba(34,197,94,.15)',borderBottom:'1px solid #22c55e',color:'#86efac',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{msg}</div>}
+      {msgErr && <div style={{background:'rgba(239,68,68,.15)',borderBottom:'1px solid #ef4444',color:'#fca5a5',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{msgErr}</div>}
+      <div style={{maxWidth:'600px',margin:'0 auto',padding:'1.5rem'}}>
+        <div style={{background:'rgba(67,56,202,.4)',border:'1px solid #4338ca',borderRadius:'.75rem',padding:'1rem 1.25rem',marginBottom:'1.5rem',display:'flex',justifyContent:'space-between'}}>
+          <div><p style={{color:'#c7d2fe',fontSize:'.8rem',margin:0}}>Vendedor</p><p style={{color:'white',fontWeight:'700',margin:'.25rem 0 0'}}>{user.v}</p></div>
+          <div style={{textAlign:'right'}}><p style={{color:'#c7d2fe',fontSize:'.8rem',margin:0}}>Mis Reportes</p><p style={{color:'#4ade80',fontWeight:'700',fontSize:'1.5rem',margin:'.25rem 0 0'}}>{misRep.length}</p></div>
+        </div>
+        {!showForm && (
+          <button onClick={()=>setShowForm(true)} style={{width:'100%',background:'linear-gradient(90deg,#16a34a,#22c55e)',color:'white',border:'none',padding:'1rem',borderRadius:'.75rem',fontWeight:'700',fontSize:'1rem',cursor:'pointer',marginBottom:'1.5rem'}}>
+            + Agregar Producto con Próximo Vencimiento
+          </button>
+        )}
+        {showForm && (
+          <div style={{background:'rgba(67,56,202,.4)',border:'1px solid rgba(34,197,94,.3)',borderRadius:'.75rem',padding:'1.5rem',marginBottom:'1.5rem'}}>
+            <h2 style={{color:'white',fontWeight:'700',marginTop:0}}>Nuevo Reporte</h2>
+            {/* Tienda */}
+            <div style={{marginBottom:'1rem'}}>
+              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📍 Tienda</label>
+              <select value={tiendaId} onChange={e=>setTiendaId(e.target.value)} style={{width:'100%',background:'#4338ca',color:'white',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',fontSize:'.9rem',boxSizing:'border-box'}}>
+                <option value="">-- Selecciona tu tienda --</option>
+                {tiendasVend.map(t=><option key={t.id} value={t.id}>{t.nombre}</option>)}
+              </select>
+            </div>
+            {/* Producto */}
+            <div style={{marginBottom:'1rem',position:'relative'}}>
+              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>🔍 Buscar Producto</label>
+              <input type="text" placeholder="Código de barra o nombre del producto..." value={codInput}
+                onChange={e=>{setCodInput(e.target.value);setMostrarSug(true);if(prodSel)setProdSel(null);}}
+                onFocus={()=>codInput&&setMostrarSug(true)}
+                style={{width:'100%',background:'#4338ca',color:'white',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',fontSize:'.9rem',boxSizing:'border-box'}}/>
+              {mostrarSug && sugs.length>0 && (
+                <div style={{position:'absolute',top:'100%',left:0,right:0,background:'#312e81',border:'1px solid #4338ca',borderRadius:'.5rem',zIndex:100,maxHeight:'220px',overflowY:'auto',marginTop:'2px',boxShadow:'0 10px 25px rgba(0,0,0,.5)'}}>
+                  {sugs.map(p=>(
+                    <button key={p.barcode} onMouseDown={e=>{e.preventDefault();setProdSel(p);setCodInput(p.barcode+' - '+p.nombre);setMostrarSug(false);}}
+                      style={{display:'block',width:'100%',textAlign:'left',padding:'.75rem 1rem',border:'none',borderBottom:'1px solid rgba(67,56,202,.5)',background:'transparent',cursor:'pointer',color:'white'}}>
+                      <div style={{color:'#93c5fd',fontFamily:'monospace',fontSize:'.75rem'}}>{p.barcode}</div>
+                      <div style={{fontWeight:'600',fontSize:'.9rem',marginTop:'2px'}}>{p.nombre}</div>
+                      <div style={{color:'#4ade80',fontSize:'.75rem'}}>{p.marca}</div>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {prodSel && (
+                <div style={{marginTop:'.5rem',background:'rgba(34,197,94,.15)',border:'1px solid #22c55e',borderRadius:'.5rem',padding:'.75rem',display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+                  <div>
+                    <div style={{color:'#93c5fd',fontFamily:'monospace',fontSize:'.75rem'}}>{prodSel.barcode}</div>
+                    <div style={{color:'white',fontWeight:'700',fontSize:'.9rem',marginTop:'2px'}}>{prodSel.nombre}</div>
+                    <div style={{color:'#4ade80',fontSize:'.75rem'}}>{prodSel.marca}</div>
+                  </div>
+                  <button onClick={()=>{setProdSel(null);setCodInput('');}} style={{background:'none',border:'none',color:'#f87171',cursor:'pointer',fontSize:'1.2rem',lineHeight:1}}>✕</button>
+                </div>
+              )}
+            </div>
+            {/* Cantidad y mes */}
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem',marginBottom:'1rem'}}>
+              <div>
+                <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📦 Cantidad</label>
+                <input type="number" min="1" placeholder="Ej: 50" value={cantidad} onChange={e=>setCantidad(e.target.value)}
+                  style={{width:'100%',background:'#4338ca',color:'white',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',fontSize:'.9rem',boxSizing:'border-box'}}/>
+              </div>
+              <div>
+                <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📅 Vencimiento</label>
+                <select value={mesVenc} onChange={e=>setMesVenc(e.target.value)} style={{width:'100%',background:'#4338ca',color:'white',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',fontSize:'.9rem',boxSizing:'border-box'}}>
+                  <option value="">-- Mes --</option>
+                  {MESES.map(m=><option key={m} value={m}>{m}</option>)}
+                </select>
+              </div>
+            </div>
+            <div style={{display:'flex',gap:'.75rem'}}>
+              <button onClick={guardar} disabled={saving} style={{flex:1,background:saving?'#475569':'#16a34a',color:'white',border:'none',padding:'.75rem',borderRadius:'.5rem',fontWeight:'700',cursor:saving?'default':'pointer'}}>
+                {saving?'⏳ Guardando...':'✓ Guardar Reporte'}
+              </button>
+              <button onClick={resetForm} style={{flex:1,background:'#4338ca',color:'white',border:'none',padding:'.75rem',borderRadius:'.5rem',fontWeight:'700',cursor:'pointer'}}>Cancelar</button>
+            </div>
+          </div>
+        )}
+        {/* Mis reportes */}
+        <div style={{background:'rgba(67,56,202,.4)',border:'1px solid #4338ca',borderRadius:'.75rem',padding:'1.25rem'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1rem'}}>
+            <h2 style={{color:'white',fontWeight:'700',margin:0,fontSize:'1rem'}}>Mis Reportes ({misRep.length})</h2>
+            <button onClick={cargar} style={{background:'none',border:'none',color:'#a5b4fc',cursor:'pointer',fontSize:'.8rem'}}>🔄 Actualizar</button>
+          </div>
+          {loading ? <p style={{color:'#a5b4fc',textAlign:'center',padding:'1.5rem'}}>⏳ Cargando...</p>
+          : misRep.length===0 ? <p style={{color:'#a5b4fc',textAlign:'center',padding:'1.5rem',fontSize:'.9rem'}}>Aún no has enviado reportes</p>
+          : <div style={{display:'flex',flexDirection:'column',gap:'.75rem'}}>
+            {misRep.map(r=>(
+              <div key={r.id} style={{background:'rgba(67,56,202,.5)',border:'1px solid #4338ca',borderRadius:'.5rem',padding:'1rem'}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+                  <div style={{flex:1,minWidth:0}}>
+                    <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.9rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.producto}</p>
+                    <p style={{color:'#93c5fd',fontFamily:'monospace',fontSize:'.75rem',margin:'0 0 2px'}}>{r.barcode}</p>
+                    <p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</p>
+                  </div>
+                  <div style={{textAlign:'right',marginLeft:'.75rem',flexShrink:0}}>
+                    <span style={{background:'rgba(245,158,11,.2)',color:'#fcd34d',padding:'.2rem .5rem',borderRadius:'.25rem',fontSize:'.75rem',fontWeight:'700'}}>{r.mes_vencimiento}</span>
+                    <p style={{color:'#4ade80',fontWeight:'700',margin:'.25rem 0 0',fontSize:'.9rem'}}>{r.cantidad} un.</p>
+                  </div>
+                </div>
+                <p style={{color:'#6366f1',fontSize:'.7rem',margin:'.5rem 0 0'}}>{r.fecha_reporte}</p>
+              </div>
+            ))}
+          </div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.render(<App/>, document.getElementById('root'));
+</script>
+</body>
+</html>

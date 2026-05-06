@@ -31,6 +31,41 @@ const sb=async(method,endpoint,data=null)=>{
   catch(e){console.error(e);return null;}
 };
 
+/* ── AUDITORES ── */
+const AUDITORES=['Carlos Gomez','Eliecer Hidalgo','Margarita Hernández','Faustina'];
+
+/* ── TIENDAS REY (para auditores) ── */
+const REY_TIENDAS=[
+  'SM REY CHORRERA',
+  'SM REY CC COSTA VERDE',
+  'S M REY PASEO ALBROOK',
+  'SM REY CENTENIAL',
+  'SM REY PASEO ARRAIJAN',
+  'SM REY SANTA MARIA',
+  'S M REY VERSALLES',
+  'S M REY CORONADO',
+  'SM REY PASEO DEL VALLE',
+  'SM REY 12 OCTUBRE',
+  'SM REY PARQUE LEFEVRE',
+  'SM REY BRISAS DEL GOLF',
+  'SM REY BRISAS DEL NORTE',
+  'SM REY COSTA DEL ESTE',
+  'S M REY CHANIS',
+  'SM REY BELLA VISTA',
+  'INM. DON ANTONIO REY CASCO ANTIGUO',
+  'SM REY VISTA ALEGRE',
+  'SM REY DORADO',
+  'SM REY 4 ALTOS',
+  'SM REY SABANITAS',
+  'SM REY CALLE 50',
+  'SM REY VIA ESPANA',
+  'SM REY C COMERCIAL 2412',
+  'SM REY VILLA LUCRE',
+  'SM REY MILLA 8',
+  'SM REY CALLE 13',
+  'SM REY CALLE 7A.',
+];
+
 const CAT=[
   {b:'040000001447',c:'W4-144825',n:"M&MS PEANUT BUTTER SNG 24CT 12CS PH",m:'MARS',t:'EX',u:24,p:23.52},
   {b:'040000580881',c:'W4-580898',n:"M&M'S MILK CHOCOLATE CRUNCHY COOKIE 1.35OZ",m:'MARS',t:'EX',u:24,p:21.60},
@@ -382,314 +417,12 @@ const TIENDAS=[
   {id:160,n:'SM REY CALLE 7A.',v:'JUSTO VICTOR MACHUCA'},
   {id:161,n:'IMPORTADORA RICAMAR, S.A.(COLON 2000)',v:'JUSTO VICTOR MACHUCA'},
   {id:162,n:'JUMBO MARKET, S.A. SABANITAS',v:'JUSTO VICTOR MACHUCA'},
-  {id:163,n:'TAMEK,S.A.EL FUERTE LA ONDA SUC.9 LOS ANDES MALL',v:'ABDIEL JUAREZ'},
-  {id:164,n:'TOVA, S.A. (CAMPEON VILLA ZAITA)',v:'ABDIEL JUAREZ'},
-  {id:167,n:'ADMINISTRADORA DE MINI MARKET(AM:PM)PARQUE LEFVRE',v:'ABDIEL JUAREZ'},
-  {id:168,n:'ADMINISTRADORA DE MINI MARKET(AM:PM) VILLA LUCRE',v:'ABDIEL JUAREZ'},
-  {id:169,n:'ADMINISTRADORA DE MINI MARKET(AM:PM)BRISAS MALL',v:'ABDIEL JUAREZ'},
-  {id:170,n:'ADMINISTRADORA DE MINI MARKET (AM:PM) PLAZA SONOMA',v:'ABDIEL JUAREZ'},
-  {id:171,n:'MERCADOLLAR S A RIO ABAJO',v:'ABDIEL JUAREZ'},
-  {id:172,n:'COCHEZ BRISAS DEL GOLF',v:'ABDIEL JUAREZ'},
-  {id:176,n:'FARMACIA ARROCHA SA CENTENNIAL',v:'ABDIEL JUAREZ'},
-  {id:178,n:'MELO PET GARDEN (COSTA DEL ESTE)',v:'ABDIEL JUAREZ'},
-  {id:179,n:'MELO PET GARDEN - C/C LOS ANDES',v:'ABDIEL JUAREZ'},
-  {id:186,n:'TOVA, S.A. (CAMPEON LOS PUEBL)',v:'ABDIEL JUAREZ'},
-  {id:187,n:'TOVA, S.A. (CAMPEON LOS ANDES)',v:'ABDIEL JUAREZ'},
-  {id:188,n:'TOVA, S.A. (CAMPEON LA DONA)',v:'ABDIEL JUAREZ'},
-  {id:191,n:'FCIAS. ARROCHA PLAZA LAS AMERICAS',v:'ABDIEL JUAREZ'},
-  {id:192,n:'FARMACIA ARROCHA S A (V.LUCRE)',v:'ABDIEL JUAREZ'},
-  {id:197,n:'COCHEZ PEDREGAL',v:'ABDIEL JUAREZ'},
-  {id:198,n:'COCHEZ VILLA LUCRE',v:'ABDIEL JUAREZ'},
-  {id:199,n:'COCHEZ SAN MIGUELITO',v:'ABDIEL JUAREZ'},
-  {id:200,n:'COCHEZ 24 DE DICIEMBRE',v:'ABDIEL JUAREZ'},
-  {id:214,n:'ADMINISTRADORA DE MINI MARKET (AM:PM) CHANIS',v:'ABDIEL JUAREZ'},
-  {id:215,n:'ADMINISTRADORA DE MINI MARKET (AM:PM) LOS ANDES',v:'ABDIEL JUAREZ'},
-  {id:216,n:'ADMINISTRADORA DE MINI MARKET (AM:PM) TOCUMEN',v:'ABDIEL JUAREZ'},
-  {id:217,n:'ADMINISTRADORA DE MINI MARKET (AM:PM)GRAN ESTACION',v:'ABDIEL JUAREZ'},
-  {id:413,n:'GRUPO RAKK (M/MERCADO EL SELECTO MANANITAS)',v:'ABDIEL JUAREZ'},
-  {id:414,n:'GRUPO PANAMA ESTE-S/M LA PAGODA MANANITAS',v:'ABDIEL JUAREZ'},
-  {id:415,n:'ACE INT.HARDWARE (AVE. 12 DE OCTUBRE)',v:'ABDIEL JUAREZ'},
-  {id:416,n:'INVERSIONES UNICO',v:'ABDIEL JUAREZ'},
-  {id:417,n:'IRIS LOS ANDES',v:'ABDIEL JUAREZ'},
-  {id:418,n:'MEGA BAI',v:'ABDIEL JUAREZ'},
-  {id:419,n:'MINI MARKET KIKI',v:'ABDIEL JUAREZ'},
-  {id:420,n:'ASOC. PADRES DE FAMILIA C.S.A.',v:'ABDIEL JUAREZ'},
-  {id:421,n:'ACE INT.HARDWARE (VILLA LUCRE)',v:'ABDIEL JUAREZ'},
-  {id:422,n:'TAMEK, S.A. - VILLA LUCRE',v:'ABDIEL JUAREZ'},
-  {id:423,n:'ACE INT.HARDWARE SUC.26 (BRISAS DEL GOLF)',v:'ABDIEL JUAREZ'},
-  {id:424,n:'MELO PET GARDEN - VILLA LUCRE',v:'ABDIEL JUAREZ'},
-  {id:425,n:'MARKET MORRISON',v:'ABDIEL JUAREZ'},
-  {id:426,n:'ACE INT.HARDWARE (RIO ABAJO)',v:'ABDIEL JUAREZ'},
-  {id:427,n:'YETTA STAPLES',v:'ABDIEL JUAREZ'},
-  {id:428,n:'ACE INT.HARDWARE (C C LOS PUEBLOS)',v:'ABDIEL JUAREZ'},
-  {id:429,n:'OFER MARKET',v:'ABDIEL JUAREZ'},
-  {id:430,n:'ACE INT.HARDWARE (C C LOS ANDES)',v:'ABDIEL JUAREZ'},
-  {id:431,n:'SUPER ECOFAMILIA',v:'ABDIEL JUAREZ'},
-  {id:432,n:'NOVEY BRISAS DEL GOLF',v:'ABDIEL JUAREZ'},
-  {id:433,n:'ACE INT.HARDWARE (LA DONA)',v:'ABDIEL JUAREZ'},
-  {id:434,n:'MINI MARKET EXITO',v:'ABDIEL JUAREZ'},
-  {id:435,n:'KADIMA, S.A. - CEDI',v:'ABDIEL JUAREZ'},
-  {id:436,n:'MELO PET GARDEN - BRISAS DEL GOLF',v:'ABDIEL JUAREZ'},
-  {id:437,n:'NOVEY COSTA DEL ESTE',v:'ABDIEL JUAREZ'},
-  {id:438,n:'MELO PET GARDEN - METRO PLAZA 12 OCTUBRE',v:'ABDIEL JUAREZ'},
-  {id:439,n:'FCIA ARROCHA(COSTA DEL ESTE)',v:'ABDIEL JUAREZ'},
-  {id:440,n:'MELO PET GARDEN - AIRPORT C PARK',v:'ABDIEL JUAREZ'},
-  {id:441,n:'ACE INT.HARDWARE (SANTA MARIA PLAZA)',v:'ABDIEL JUAREZ'},
-  {id:442,n:'MELO PET GARDEN - GALERIA ESPANA',v:'ABDIEL JUAREZ'},
-  {id:443,n:'EMPRESAS MELO, S.A. (RIO ABAJO AGRO.)',v:'ABDIEL JUAREZ'},
-  {id:444,n:'FARMACIAS ARROCHA - THE ISTRIP MALL PLAZA',v:'ABDIEL JUAREZ'},
-  {id:445,n:'MINI SUPER COSTA DE ORO',v:'ABDIEL JUAREZ'},
-  {id:446,n:'MELO PET GARDEN - LAS AMERICAS',v:'ABDIEL JUAREZ'},
-  {id:447,n:'MINI SUPER FRUTERIA MIMI (COSTA DEL ESTE)',v:'ABDIEL JUAREZ'},
-  {id:448,n:'COCHEZ CHANIS COSTA DEL ESTE',v:'ABDIEL JUAREZ'},
-  {id:449,n:'NOVEY TOCUMEN CEDI',v:'ABDIEL JUAREZ'},
-  {id:450,n:'NOVEY - PARQUE LEFEBRE SUC. 22',v:'ABDIEL JUAREZ'},
-  {id:451,n:'MARKET 7',v:'ABDIEL JUAREZ'},
-  {id:452,n:'FARMACIA ARROCHA SA (TOWN CENTER)',v:'ABDIEL JUAREZ'},
-  {id:453,n:'NOVEY LA DONA',v:'ABDIEL JUAREZ'},
-  {id:454,n:'MINI MARKET FULL FRESH',v:'ABDIEL JUAREZ'},
-  {id:455,n:'MELO PET GARDEN - SUC. 15 C/C LA DONA',v:'ABDIEL JUAREZ'},
-  {id:456,n:'EMPRESAS MELO, S.A. (24 DIC.AGRO.)',v:'ABDIEL JUAREZ'},
-  {id:457,n:'COCHEZ 24 DE DICIEMBRE',v:'ABDIEL JUAREZ'},
-  {id:458,n:'SUPER MERCADO LA PAGODA-24 DICIEMBRE',v:'ABDIEL JUAREZ'},
-  {id:459,n:'NOVEY VERSALLES',v:'ABDIEL JUAREZ'},
-  {id:460,n:'COCHEZ Y COMPANIA LA SIETA',v:'ABDIEL JUAREZ'},
-  {id:461,n:'SHALOM, S.A. (CEDI M8)',v:'ABDIEL JUAREZ'},
-  {id:462,n:'EMPRESAS MELO S A VILLALOBOS AGROPECUARIO',v:'ABDIEL JUAREZ'},
-  {id:463,n:'FARMACIA ARROCHA, S.A.(VERSALLES)',v:'ABDIEL JUAREZ'},
-  {id:464,n:'TOVA SA STEVENS METROMALL',v:'ABDIEL JUAREZ'},
-  {id:465,n:'MELO PET GARDEN VERSALLES',v:'ABDIEL JUAREZ'},
-  {id:466,n:'MELO PET GARDEN - LOS PUEBLOS',v:'ABDIEL JUAREZ'},
-  {id:467,n:'TAMEK,S.A.EL FUERTE LA ONDA SUC.1 LOS PUEBLOS',v:'ABDIEL JUAREZ'},
-  {id:468,n:'SANDONIA,S.A. PORTOLA RESTAURANTE LOUNGE',v:'ABDIEL JUAREZ'},
-  {id:469,n:'TOVA, S.A.(MADISON STORE MEGAMALL)',v:'ABDIEL JUAREZ'},
-  {id:470,n:'NOVEY LAS MANANITAS',v:'ABDIEL JUAREZ'},
-  {id:471,n:'TARGET, S.A.(CONWAY LOS PUEBLOS)',v:'ABDIEL JUAREZ'},
-  {id:472,n:'ACE INT.HARDWARE (TOCUMEN)',v:'ABDIEL JUAREZ'},
-  {id:473,n:'INVERSIONES PARNA ONDA LOS ANDES',v:'ABDIEL JUAREZ'},
-  {id:474,n:'INVERS. PARNA C C VILLA LUCRE',v:'ABDIEL JUAREZ'},
-  {id:475,n:'INVER. PARNA ONDA LOS PUEBLOS',v:'ABDIEL JUAREZ'},
-  {id:476,n:'ALMACEN LA OCA LOCA LOS PUEBLOS',v:'ABDIEL JUAREZ'},
-  {id:477,n:'ALMACEN LA OCA LOCA MEGA MALL',v:'ABDIEL JUAREZ'},
-  {id:478,n:'FARMACIA ARROCHA SA(LOS ANDES)',v:'ABDIEL JUAREZ'},
-  {id:479,n:'FARMACIA ARROCHA,S.A. AVE. 12 OCT.',v:'ABDIEL JUAREZ'},
-  {id:480,n:'FARMACIA ARROCHA SA OBARRIO 3',v:'ABDIEL JUAREZ'},
-  {id:481,n:'FARMACIA ARROCHA-BRISAS DEL GOLF PANAMA',v:'ABDIEL JUAREZ'},
-  {id:482,n:'FARMACIA ARROCHA S A (FC PLAZA)',v:'ABDIEL JUAREZ'},
-  {id:483,n:'FARMACIA ARROCHA,S.A (J/DIAZ NO 41)',v:'ABDIEL JUAREZ'},
-  {id:484,n:'SUPER COSECHAS,S.A.(FOODIE MARKET COSTA DEL ESTE)',v:'ABDIEL JUAREZ'},
-  {id:485,n:'SUPERMERCADO A2 20',v:'ABDIEL JUAREZ'},
-  {id:486,n:'EMIROMA, S.A. (TODO A DOLLAR)',v:'ABDIEL JUAREZ'},
-  {id:487,n:'INM DON ANTONIO (MR P C LIMBERG)',v:'ABDIEL JUAREZ'},
-  {id:488,n:'INM DON ANTONIO (MR P V BELEN)',v:'ABDIEL JUAREZ'},
-  {id:489,n:'INM DON ANTONIO (MR P TEREMAR)',v:'ABDIEL JUAREZ'},
-  {id:490,n:'INM DON ANTONIO (MR P LA SIESTA)',v:'ABDIEL JUAREZ'},
-  {id:491,n:'EMPRESAS MELO, S.A. (PLAZA LOS PINOS AGRO.)',v:'ABDIEL JUAREZ'},
-  {id:492,n:'MELO PET GARDEN - CITY PLAZA',v:'ABDIEL JUAREZ'},
-  {id:493,n:'FARMACIA ARROCHA SA (CARIO)',v:'ABDIEL JUAREZ'},
-  {id:494,n:'EMPRESAS MELO, S A (PET)',v:'ABDIEL JUAREZ'},
-  {id:495,n:'TOVA, S.A. (MADISON LOS ANDES MALL)',v:'ABDIEL JUAREZ'},
-  {id:496,n:'OPERADORA DE TIENDAS INC (AM:PM) COSTA DEL ESTE',v:'ABDIEL JUAREZ'},
-  {id:497,n:'UNICO VIA ESPANA',v:'ABDIEL JUAREZ'},
-  {id:498,n:'GRUPO TODO A DOLAR S A',v:'ABDIEL JUAREZ'},
-  {id:499,n:'IMP. MADURO, S.A.(COSTA DEL ESTE)',v:'ABDIEL JUAREZ'},
-  {id:500,n:'TOVA, S.A. (BODEGA MILLA 9)',v:'ABDIEL JUAREZ'},
-  {id:501,n:'IMPORTADORA MEDITERRANEO,S.A.- MASKEBUENO',v:'ABDIEL JUAREZ'},
-  {id:502,n:'MERCADOLLAR S A EL CARMEN',v:'ABDIEL JUAREZ'},
-  {id:503,n:'SUPLIDORES DIVERSOS, S.A.',v:'ABDIEL JUAREZ'},
-  {id:504,n:'SUPER COSECHAS,S.A.(FOODIE MARKET SANTA MARIA)',v:'ABDIEL JUAREZ'},
-  {id:505,n:'MELO PET GARDEN - BRISAS NORTE',v:'ABDIEL JUAREZ'},
-  {id:506,n:'ABC TRADING HOLDING, S.A.',v:'ABDIEL JUAREZ'},
-  {id:507,n:'OPERADORA DE TIENDAS INC (AM:PM) RIO ABAJO',v:'ABDIEL JUAREZ'},
-  {id:508,n:'DISTRIBUIDORA UNICO - TOCUMEN',v:'ABDIEL JUAREZ'},
-  {id:509,n:'OPERADORA DE TIENDAS INC (AM:PM) CRISOL',v:'ABDIEL JUAREZ'},
   {id:219,n:'ALMACEN GEO. F. NOVEY',v:'SAMUEL BARRIA'},
   {id:220,n:'FARMACIA ARROCHA, S.A.(TRANSISMICA)',v:'SAMUEL BARRIA'},
   {id:221,n:'S/M RIBA SMITH-PANAMA PACIFICO',v:'SAMUEL BARRIA'},
-  {id:222,n:'MELO PET GARDEN - TRANSISTMICA',v:'SAMUEL BARRIA'},
-  {id:223,n:'NOVEY PAITILLA',v:'SAMUEL BARRIA'},
-  {id:224,n:'NOVEY LA CHORRERA',v:'SAMUEL BARRIA'},
-  {id:225,n:'NOVEY ALBROOK',v:'SAMUEL BARRIA'},
-  {id:226,n:'NOVEY CALLE 50',v:'SAMUEL BARRIA'},
-  {id:233,n:'COCHEZ VIA ESPANA',v:'SAMUEL BARRIA'},
-  {id:234,n:'COCHEZ AVENIDA BALBOA',v:'SAMUEL BARRIA'},
-  {id:235,n:'COCHEZ TUMBA MUERTO',v:'SAMUEL BARRIA'},
-  {id:236,n:'COCHEZ Y CIA,S.A. COSTA VERDE',v:'SAMUEL BARRIA'},
-  {id:237,n:'ACE INT.HARDWARE (C C MULTI PLAZA)',v:'SAMUEL BARRIA'},
-  {id:238,n:'ACE INT.HARDWARE (CHORRERA)',v:'SAMUEL BARRIA'},
-  {id:239,n:'ACE INT.HARDWARE (C C ALBROOK MALL)',v:'SAMUEL BARRIA'},
-  {id:240,n:'ACE INT.HARDWARE (TRANSISTMICA)',v:'SAMUEL BARRIA'},
-  {id:245,n:'MELO PET GARDEN - CC LOS PUEBLOS ALBROOK',v:'SAMUEL BARRIA'},
-  {id:253,n:'TOVA, S.A. (ALBROOK)',v:'SAMUEL BARRIA'},
-  {id:258,n:'TARGET, S. A. (CONWAY ALBROOK)',v:'SAMUEL BARRIA'},
-  {id:261,n:'FARMACIA ARROCHA SA ALBROOK MA',v:'SAMUEL BARRIA'},
-  {id:264,n:'FARMACIA ARROCHA,S.A COSTA VERDE',v:'SAMUEL BARRIA'},
-  {id:270,n:'SUPERMERCADO RIBA SMITH VILLA ZAITA',v:'SAMUEL BARRIA'},
-  {id:510,n:'MIXI MERCADO EL SELECTO (CABRA)',v:'SAMUEL BARRIA'},
-  {id:511,n:'GRUPO PRIMAVERA HOLDING, S.A.',v:'SAMUEL BARRIA'},
-  {id:512,n:'OPERADORA DE TIENDAS INC (AM:PM) EL BOSQUE',v:'SAMUEL BARRIA'},
-  {id:513,n:'ADMINISTRADORA DE MINI MARKET (AM:PM) PEREJIL',v:'SAMUEL BARRIA'},
-  {id:514,n:'COMPANIA GOLY-MACHETAZO EXPRESS 3',v:'SAMUEL BARRIA'},
-  {id:515,n:'SOHO MARKET JFK SPIRITIS S,A.',v:'SAMUEL BARRIA'},
-  {id:516,n:'OPERADORA DE TIENDAS INC (AM:PM)LOS ANGELES',v:'SAMUEL BARRIA'},
-  {id:517,n:'UPMARKET, S.A.',v:'SAMUEL BARRIA'},
-  {id:518,n:'DISTRIBUIDORA IRIS PANAMA 2',v:'SAMUEL BARRIA'},
-  {id:519,n:'DISTRIBUIDOR EXPRESS MARCHA II',v:'SAMUEL BARRIA'},
-  {id:520,n:'I SHOP FOR LESS',v:'SAMUEL BARRIA'},
-  {id:521,n:'ACE INT.HARDWARE (ARRAIJAN)',v:'SAMUEL BARRIA'},
-  {id:522,n:'ADMINISTRADORA DE MINI MARKET (AM:PM) MUNDIAL BURU',v:'SAMUEL BARRIA'},
-  {id:523,n:'FARMACIA ARROCHA S A (VILLA ZAITA)',v:'SAMUEL BARRIA'},
-  {id:524,n:'ADMINISTRADORA DE MINI MARKET (AM:PM) COCO DEL MAR',v:'SAMUEL BARRIA'},
-  {id:525,n:'FARMACIA ARROCHA S A BETANIA',v:'SAMUEL BARRIA'},
-  {id:526,n:'FCIA ARROCHA,S.A.- (BRISAS DEL GOLF ARRAIJAN)',v:'SAMUEL BARRIA'},
-  {id:527,n:'NOVEY OBARRIO',v:'SAMUEL BARRIA'},
-  {id:528,n:'MELO PET GARDEN - CC LOS PUEBLOS ALBROOK',v:'SAMUEL BARRIA'},
-  {id:529,n:'EMPRESAS MELO, S.A. (STA ANA AGRO.)',v:'SAMUEL BARRIA'},
-  {id:530,n:'TAMEK,S.A.EL FUERTE LA ONDA SUC.7 CALIDONIA',v:'SAMUEL BARRIA'},
-  {id:531,n:'EMPRESAS MELO, S.A. (MILLA 8 AGRO.)',v:'SAMUEL BARRIA'},
-  {id:532,n:'TAMEK,S.A.EL FUERTE DE SAN MIGUELITO',v:'SAMUEL BARRIA'},
-  {id:533,n:'MELO PET GARDEN - WESTLAND MALL',v:'SAMUEL BARRIA'},
-  {id:534,n:'FARMACIA ARROCHA SA DIACOR COM',v:'SAMUEL BARRIA'},
-  {id:535,n:'SEMFLYL SA DISCOVERY CENTER(FOOD)',v:'SAMUEL BARRIA'},
-  {id:536,n:'ACE INT.HARDWARE (TUMBA MUERTO)',v:'SAMUEL BARRIA'},
-  {id:537,n:'NOVEY LOS ANGELES',v:'SAMUEL BARRIA'},
-  {id:538,n:'MELO PET GARDEN - BETANIA',v:'SAMUEL BARRIA'},
-  {id:539,n:'MELO PET GARDEN - SAN FRANCISCO',v:'SAMUEL BARRIA'},
-  {id:540,n:'MELO PET GARDEN (VIA PORRAS)',v:'SAMUEL BARRIA'},
-  {id:541,n:'SUPER COSECHAS,S.A.(PTA.PACIFICA)',v:'SAMUEL BARRIA'},
-  {id:542,n:'MELO PET GARDEN - PAITILLA',v:'SAMUEL BARRIA'},
-  {id:543,n:'FARMACIA ARROCHA S A (CEMALI)',v:'SAMUEL BARRIA'},
-  {id:544,n:'FARMACIA ARROCHA,S.A.(OBARRIO)',v:'SAMUEL BARRIA'},
-  {id:545,n:'INVER. PARNA ONDA MULTICENTRO',v:'SAMUEL BARRIA'},
-  {id:546,n:'ACE INT HARDWARE PH VILLA ZAITA',v:'SAMUEL BARRIA'},
-  {id:547,n:'MELO PET GARDEN - VILLA ZAITA',v:'SAMUEL BARRIA'},
-  {id:548,n:'ALMACEN LA OCA LOCA ALBROOK',v:'SAMUEL BARRIA'},
-  {id:549,n:'EMPRESAS MELO, S.A. (LAS CUMBRES AGRO.)',v:'SAMUEL BARRIA'},
-  {id:550,n:'EMPRESAS MELO, S A (020)',v:'SAMUEL BARRIA'},
-  {id:551,n:'NOVEY CENTENARIO',v:'SAMUEL BARRIA'},
-  {id:552,n:'ACE INT.HARDWARE (PLAZA CENTENARIO)',v:'SAMUEL BARRIA'},
-  {id:553,n:'MELO PET GARDEN - CENTENIAL',v:'SAMUEL BARRIA'},
-  {id:554,n:'FARMACIA ARROCHA S A (MEDIC)',v:'SAMUEL BARRIA'},
-  {id:555,n:'FARMACIA ARROCHA SA(AMERICANA)',v:'SAMUEL BARRIA'},
-  {id:556,n:'FARMACIA ARROCHA S A(RAMIL)',v:'SAMUEL BARRIA'},
-  {id:557,n:'FARMACIA ARROCHA S A (ARROCO)',v:'SAMUEL BARRIA'},
-  {id:558,n:'FCIA ARROCHA(PUNTA PACIFICA)',v:'SAMUEL BARRIA'},
-  {id:559,n:'FARMACIA ARROCHA S,A.(BELLA VISTA-MARBELLA)',v:'SAMUEL BARRIA'},
-  {id:560,n:'BRANES, S.A.',v:'SAMUEL BARRIA'},
-  {id:561,n:'SUPER COSECHAS,S.A.(VIA ITALIA)',v:'SAMUEL BARRIA'},
-  {id:562,n:'ROYAL SUCCESS, S.A.',v:'SAMUEL BARRIA'},
-  {id:563,n:'MINI SUPER Y FRUTERIA MINI-MAX',v:'SAMUEL BARRIA'},
-  {id:564,n:'OPERADORA DE TIENDAS, INC. (AM.PM)',v:'SAMUEL BARRIA'},
-  {id:565,n:'AM PM MARKET',v:'SAMUEL BARRIA'},
-  {id:566,n:'INM DON ANTONIO (MR P V MAR)',v:'SAMUEL BARRIA'},
-  {id:567,n:'BEERMARKT PANAMA S A - ANCON',v:'SAMUEL BARRIA'},
-  {id:568,n:'FARMACIA ARROCHA S A (VERACRUZ)',v:'SAMUEL BARRIA'},
-  {id:569,n:'FARMACIA ARROCHA S,A.(VISTA MAR CHORRERA)',v:'SAMUEL BARRIA'},
-  {id:570,n:'CITY MARKET',v:'SAMUEL BARRIA'},
-  {id:571,n:'OPERADORA DE TIENDAS INC (AM:PM) SAN FRANCISCO',v:'SAMUEL BARRIA'},
-  {id:572,n:'OPERADORA DE TIENDAS INC (AM:PM) EL CANGREJO',v:'SAMUEL BARRIA'},
-  {id:573,n:'KENNEDY HOME',v:'SAMUEL BARRIA'},
-  {id:574,n:'FARMACIA ARROCHA S A GREENWOOD PLAZA',v:'SAMUEL BARRIA'},
-  {id:575,n:'TOVA, S.A. (MULTIPLAZA)',v:'SAMUEL BARRIA'},
-  {id:576,n:'OPERADORA DE TIENDAS INC (AM:PM) CASCO VIEJO',v:'SAMUEL BARRIA'},
-  {id:577,n:'IMP. MADURO, S.A.(VIA ESPANA)',v:'SAMUEL BARRIA'},
-  {id:578,n:'IMP. MADURO, S.A.(ALBROOK)',v:'SAMUEL BARRIA'},
-  {id:579,n:'IMP. MADURO, S.A.(ALTA PLAZA MALL)',v:'SAMUEL BARRIA'},
-  {id:580,n:'OPERADORA DE TIENDAS INC (AM:PM) EL DORADO',v:'SAMUEL BARRIA'},
-  {id:581,n:'WJM GROUP CORP.- ECONO SUPER',v:'SAMUEL BARRIA'},
-  {id:582,n:'ADMINISTRADORA DE MINI MARKET (AM:PM) VILLA ZAITA',v:'SAMUEL BARRIA'},
-  {id:583,n:'ADMINISTRADORA DE MINI MARKET (AM:PM) CHORRERA',v:'SAMUEL BARRIA'},
-  {id:584,n:'TAMEK,S.A.EL FUERTE LA ONDA SUC.3 EL DORADO',v:'SAMUEL BARRIA'},
-  {id:585,n:'FARMACIAS ARROCHA S,A (PMA.PACIFICO 2)',v:'SAMUEL BARRIA'},
-  {id:586,n:'IMP. MADURO, S.A.(MULTIPLAZA)',v:'SAMUEL BARRIA'},
-  {id:587,n:'MELO PET GARDEN - PC LOS ALBROOK VILLAGE',v:'SAMUEL BARRIA'},
-  {id:588,n:'FARMACIAS ARROCHA - PLAZA SANTA ELENA',v:'SAMUEL BARRIA'},
   {id:274,n:'OKTAN INT S A SUPER 7 LA CHORRERA PUMA',v:'JAVIER PINZON'},
   {id:275,n:'FARMACIA ARROCHA, S.A.(TERRAZAS DE SABANITAS)',v:'JAVIER PINZON'},
-  {id:276,n:'TIENDA SUPER 7 LOS NOGALES',v:'JAVIER PINZON'},
-  {id:278,n:'PUMA BETANIA',v:'JAVIER PINZON'},
-  {id:279,n:'SUPER 7 BRISAS DEL GOLF',v:'JAVIER PINZON'},
-  {id:280,n:'MELO PET GARDEN - PASEO ARRAIJAN',v:'JAVIER PINZON'},
-  {id:281,n:'MELO PET GARDEN - CORONADO',v:'JAVIER PINZON'},
-  {id:288,n:'ORLYN, S.A (VA Y VEN CALLE 50)',v:'JAVIER PINZON'},
-  {id:289,n:'ORLYN, S.A (VA Y VEN CHORRERA - BALBOA)',v:'JAVIER PINZON'},
-  {id:290,n:'ORLYN, S.A (VA Y VEN VACAMONTE)',v:'JAVIER PINZON'},
-  {id:291,n:'ORLYN, S.A (VA Y VEN SAN CARLOS)',v:'JAVIER PINZON'},
-  {id:295,n:'ORLYN, S.A (VA Y VEN SABANITAS)',v:'JAVIER PINZON'},
-  {id:300,n:'NOVEY CORONADO',v:'JAVIER PINZON'},
-  {id:302,n:'ACE INT.HARDWARE (CORONADO)',v:'JAVIER PINZON'},
-  {id:307,n:'TIENDA SUPER 7 HIPODROMO',v:'JAVIER PINZON'},
-  {id:309,n:'TIENDA SUPER 7 VIA PORRAS',v:'JAVIER PINZON'},
-  {id:315,n:'SUPER 7 PUMA VILLA LUCRE',v:'JAVIER PINZON'},
-  {id:590,n:'TIENDA SUPER 7 CURUNDU',v:'JAVIER PINZON'},
-  {id:591,n:'MELO PET GARDEN - (SABANITAS C/C LAS TERRAZAS)',v:'JAVIER PINZON'},
-  {id:592,n:'EMPRESAS MELO, S.A. (CHORRERA 2)',v:'JAVIER PINZON'},
-  {id:593,n:'EMPRESAS MELO, S.A. (AVE. LAS AMERICA AGRP.)',v:'JAVIER PINZON'},
-  {id:594,n:'S7EB S A (MILLA 8)',v:'JAVIER PINZON'},
-  {id:595,n:'JMJ INVERSIONES DE PANAMA, S.A.-SUPER 7 RODMAN',v:'JAVIER PINZON'},
-  {id:596,n:'ORLYN, S.A (LA PESA)',v:'JAVIER PINZON'},
-  {id:597,n:'TIENDITA S7 VIA BOLIVAR',v:'JAVIER PINZON'},
-  {id:598,n:'GARDEN SHOP, S.A',v:'JAVIER PINZON'},
-  {id:599,n:'RODRIGUEZ VEGA S,A. (PUMA SUPER 7 CENTENARIO)',v:'JAVIER PINZON'},
-  {id:600,n:'ORLYN, S.A (VA Y VEN JUAN DIAZ)',v:'JAVIER PINZON'},
-  {id:601,n:'ORLYN, S.A (VA Y VEN CUATRO ALTOS)',v:'JAVIER PINZON'},
-  {id:602,n:'MELO PET GARDEN - LA MARQUESA',v:'JAVIER PINZON'},
-  {id:603,n:'ORLYN, S.A (VA Y VEN VILLA CATALINA)',v:'JAVIER PINZON'},
-  {id:604,n:'SUPER 7 CUATRO ALTOS',v:'JAVIER PINZON'},
-  {id:605,n:'ISAFELU S A (SUPER 7 VIA ARGENTINA)',v:'JAVIER PINZON'},
-  {id:606,n:'N N Y M INVERSIONES (SUPER 7 PLAZA EL SOL)',v:'JAVIER PINZON'},
-  {id:607,n:'RODRIGUEZ VEGA S,A. (PUMA SUPER 7 ALBROOK)',v:'JAVIER PINZON'},
-  {id:608,n:'ORLYN, S.A (TERPEL LA ALAMEDA)',v:'JAVIER PINZON'},
-  {id:609,n:'MELO PET GARDEN - AMERICAS CHORRERA',v:'JAVIER PINZON'},
-  {id:610,n:'MELO PET GARDEN - CUATRO ALTOS',v:'JAVIER PINZON'},
-  {id:611,n:'EMPRESAS MELO, S.A. (EL TRAPOCHITO AGROP.)',v:'JAVIER PINZON'},
-  {id:612,n:'S7EB S A (SUPER 7 EL BOSQUE)',v:'JAVIER PINZON'},
-  {id:613,n:'MELO PET GARDEN - ON D GO',v:'JAVIER PINZON'},
-  {id:614,n:'MELO PET GARDEN - MARKET PLAZA C/VERDE',v:'JAVIER PINZON'},
-  {id:615,n:'ORLYN,S.A.(CIUDAD DEL FUTURO)',v:'JAVIER PINZON'},
-  {id:616,n:'EMPRESAS MELO, S.A.(CERRO SILVESTRE-NVO CHORRILLO)',v:'JAVIER PINZON'},
-  {id:617,n:'ORLYN, S.A (VA Y VEN ALBROOK CANFIELD)',v:'JAVIER PINZON'},
-  {id:618,n:'NOVEY COLON',v:'JAVIER PINZON'},
-  {id:619,n:'ACE INT.HARDWARE (COSTA DE ORO-COLON)',v:'JAVIER PINZON'},
-  {id:620,n:'ACE INT.HARDWARE (COLON)',v:'JAVIER PINZON'},
-  {id:621,n:'COCHEZ VISTA ALEGRE',v:'JAVIER PINZON'},
-  {id:622,n:'JMJ INVERSIONES DE PANAMA, S.A',v:'JAVIER PINZON'},
-  {id:623,n:'ORLYN, S.A (ARRAIJAN)',v:'JAVIER PINZON'},
-  {id:624,n:'RODRIGUEZ VEGA S,A. (PUMA SUPER 7 LOCERIA)',v:'JAVIER PINZON'},
-  {id:625,n:'JUMBO MARKET, S.A. VERANILLO',v:'JAVIER PINZON'},
-  {id:626,n:'EMPRESAS MELO, S.A. (EL ESPINO AGRO)',v:'JAVIER PINZON'},
-  {id:627,n:'ORLYN, S.A (VA Y VEN FELIPILLO OESTE)',v:'JAVIER PINZON'},
-  {id:628,n:'TIENDA SUPER 7 GO ARRAIJAN',v:'JAVIER PINZON'},
-  {id:629,n:'RAPID FUEL, S.A.',v:'JAVIER PINZON'},
-  {id:630,n:'ORLYN, S.A.(TERPEL LAS MENDOZAS)',v:'JAVIER PINZON'},
-  {id:631,n:'ESTACION LAS AMERICAS COMERCIAL SA',v:'JAVIER PINZON'},
-  {id:632,n:'ORLYN, S.A(BRISAS DEL GOLF ARRAIJAN)',v:'JAVIER PINZON'},
-  {id:633,n:'ORLYN,S.A.(VA Y VEN SABANITAS)',v:'JAVIER PINZON'},
-  {id:634,n:'ORLYN, S.A (VA Y VEN 18)',v:'JAVIER PINZON'},
-  {id:635,n:'ORLYN,S.A.-MINI TIENDA QUICK SHOP COLON 28',v:'JAVIER PINZON'},
-  {id:636,n:'ORLYN, S.A (VA Y VEN SAN ANTONIO 2)',v:'JAVIER PINZON'},
-  {id:637,n:'ORLYN, S.A (VA Y VEN NO.16)',v:'JAVIER PINZON'},
-  {id:638,n:'ORLYN,S.A.No.96 TERPEL PUERTO PILON',v:'JAVIER PINZON'},
-  {id:639,n:'ORLYN S.A.(ACCEL LLANO BONITO)',v:'JAVIER PINZON'},
-  {id:640,n:'ORLYN, S.A (VA Y VEN 12)',v:'JAVIER PINZON'},
-  {id:641,n:'ORLYN, S.A.(VA Y VEN 13)',v:'JAVIER PINZON'},
-  {id:642,n:'ORLYN, S.A (VA Y VEN N 8)',v:'JAVIER PINZON'},
-  {id:643,n:'ORLYN, S.A (VA Y VEN N 1)',v:'JAVIER PINZON'},
-  {id:644,n:'ORLYN, S.A (TERPEL MILI)',v:'JAVIER PINZON'},
-  {id:645,n:'ORLYN, S.A (QUICK SHOP HOWARD)',v:'JAVIER PINZON'},
-  {id:646,n:'ORLYN SA(ACCEL TERPEL SATURNO)',v:'JAVIER PINZON'},
-  {id:647,n:'ORLYN,S.A. (VA AND VEN FOOD TRUCK)',v:'JAVIER PINZON'},
-  {id:648,n:'ORLYN S A (TANARA)',v:'JAVIER PINZON'},
-  {id:649,n:'ORLYN, S.A (VA Y VEN VILLA LOBOS ROTONDA)',v:'JAVIER PINZON'},
-  {id:650,n:'ORLYN SA(QUICK SHOP ARRAIJAN)',v:'JAVIER PINZON'},
-  {id:651,n:'ORLYN, SA (QUICK SHOP ALBROOK)',v:'JAVIER PINZON'},
-  {id:652,n:'NOVEY VISTA ALEGRE',v:'JAVIER PINZON'},
-  {id:653,n:'ORLYN SA(ACCEL TERPEL MIRAFLO)',v:'JAVIER PINZON'},
-  {id:654,n:'ORLYN SA(QUICK SHOP V. BRASIL)',v:'JAVIER PINZON'},
-  {id:655,n:'ORLYN, S.A(TERPEL)',v:'JAVIER PINZON'},
 ];
-
-const MESES=['2026-04','2026-05','2026-06','2026-07','2026-08','2026-09','2026-10','2026-11','2026-12','2027-01','2027-02','2027-03'];
 
 const Logo=()=>(
   <svg width="120" height="40" viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg">
@@ -698,9 +431,10 @@ const Logo=()=>(
   </svg>
 );
 
+/* ── CAMBIO 1: fórmula simplificada → cantidad × precio (sin dividir) ── */
 const calcMonto=(prod,cant)=>{
   if(!prod||!cant||isNaN(cant)||parseFloat(cant)<=0)return null;
-  return((parseFloat(cant)/prod.u)*prod.p).toFixed(2);
+  return(parseFloat(cant)*prod.p).toFixed(2);
 };
 
 function App(){
@@ -711,7 +445,6 @@ function App(){
   const [showForm,setShowForm]=useState(false);
   const [tId,setTId]=useState('');
   const [cant,setCant]=useState('');
-  const [mes,setMes]=useState('');
   const [codIn,setCodIn]=useState('');
   const [prod,setProd]=useState(null);
   const [showSug,setShowSug]=useState(false);
@@ -721,6 +454,8 @@ function App(){
   const [lMode,setLMode]=useState(null);
   const [selV,setSelV]=useState('');
   const [srchV,setSrchV]=useState('');
+  const [selA,setSelA]=useState('');
+  const [srchA,setSrchA]=useState('');
   const [aPass,setAPass]=useState('');
   const [aErr,setAErr]=useState(false);
   const [msg,setMsg]=useState('');
@@ -737,7 +472,7 @@ function App(){
 
   useEffect(()=>{if(user)cargar();},[user]);
 
-  const tiendasV=useMemo(()=>user?.v?TIENDAS.filter(t=>t.v===user.v):[], [user]);
+  const tiendasV=useMemo(()=>user?.v&&!user?.auditor?TIENDAS.filter(t=>t.v===user.v):[], [user]);
 
   const sugs=useMemo(()=>{
     if(!codIn.trim()||prod)return[];
@@ -746,20 +481,24 @@ function App(){
   },[codIn,prod]);
 
   const vFilt=useMemo(()=>VENDS.filter(v=>v.n.toUpperCase().includes(srchV.toUpperCase())),[srchV]);
+  const aFilt=useMemo(()=>AUDITORES.filter(a=>a.toUpperCase().includes(srchA.toUpperCase())),[srchA]);
 
-  const reset=()=>{setTId('');setCant('');setMes('');setCodIn('');setProd(null);setShowSug(false);setShowForm(false);};
-  const logout=()=>{setUser(null);setLMode(null);setSelV('');setSrchV('');setAPass('');setAErr(false);setReps([]);reset();};
+  /* ── CAMBIO 2: reset ya no incluye mes ── */
+  const reset=()=>{setTId('');setCant('');setCodIn('');setProd(null);setShowSug(false);setShowForm(false);};
+  const logout=()=>{setUser(null);setLMode(null);setSelV('');setSrchV('');setSelA('');setSrchA('');setAPass('');setAErr(false);setReps([]);reset();};
 
   const guardar=async()=>{
-    if(!tId||!prod||!cant||!mes){alert('Completa todos los campos');return;}
-    const t=TIENDAS.find(t=>t.id===parseInt(tId));
+    /* ── CAMBIO 3: validación sin mes ── */
+    if(!tId||!prod||!cant){alert('Completa todos los campos');return;}
+    const tiendaName=user.auditor?tId:TIENDAS.find(t=>t.id===parseInt(tId))?.n;
+    const vendedorName=user.auditor?`AUDITOR: ${user.v}`:TIENDAS.find(t=>t.id===parseInt(tId))?.v;
     const monto=calcMonto(prod,cant);
     setSaving(true);
     const r=await sb('POST','/reportes',{
-      vendedor:t.v,tienda:t.n,barcode:prod.b,codigo:prod.c,
+      vendedor:vendedorName,tienda:tiendaName,barcode:prod.b,codigo:prod.c,
       producto:prod.n,marca:prod.m,cantidad:parseInt(cant),
       monto_estimado:parseFloat(monto),
-      mes_vencimiento:mes,fecha_reporte:new Date().toLocaleDateString('es-ES')
+      fecha_reporte:new Date().toLocaleDateString('es-ES')
     });
     setSaving(false);
     if(r&&!r.error){showM('✅ Reporte guardado');reset();cargar();}
@@ -773,8 +512,8 @@ function App(){
   };
 
   const csv=(datos)=>{
-    const c=['Vendedor,Tienda,Cod.Barra,Cod.FEDURO,Producto,Marca,Cantidad,Monto Est.($),Vencimiento,Fecha'].concat(
-      datos.map(r=>`"${r.vendedor}","${r.tienda}","${r.barcode}","${r.codigo}","${r.producto}","${r.marca}",${r.cantidad},${r.monto_estimado||''},"${r.mes_vencimiento}","${r.fecha_reporte}"`)
+    const c=['Vendedor,Tienda,Cod.Barra,Cod.FEDURO,Producto,Marca,Cantidad,Monto Est.($),Fecha'].concat(
+      datos.map(r=>`"${r.vendedor}","${r.tienda}","${r.barcode}","${r.codigo}","${r.producto}","${r.marca}",${r.cantidad},${r.monto_estimado||''},"${r.fecha_reporte}"`)
     ).join('\n');
     const a=document.createElement('a');
     a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));
@@ -783,7 +522,9 @@ function App(){
 
   const btn=(bg,hov,extra={})=>({background:bg,color:'white',border:'none',borderRadius:'.5rem',padding:'.75rem 1rem',fontWeight:'700',cursor:'pointer',...extra});
 
-  // LOGIN
+  /* ════════════════════════════════
+     LOGIN
+  ════════════════════════════════ */
   if(!user)return(
     <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#0f172a,#1e293b)',display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
       <div style={{width:'100%',maxWidth:'460px',background:'#1e293b',border:'1px solid #334155',borderRadius:'1rem',padding:'2.5rem',boxShadow:'0 25px 50px rgba(0,0,0,.5)'}}>
@@ -792,10 +533,13 @@ function App(){
           <h1 style={{color:'white',fontSize:'1.3rem',fontWeight:'700',marginTop:'1rem',textAlign:'center'}}>MARS - REPORTE DE INVENTARIO</h1>
           <p style={{color:'#94a3b8',fontSize:'.8rem',marginTop:'.25rem'}}>Sistema de Gestión con Supabase</p>
         </div>
+
         {!lMode&&<div style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
           <button onClick={()=>setLMode('v')} style={btn('#4f46e5','#4338ca',{padding:'1rem',fontSize:'1rem'})}>👨‍💼 Acceder como Vendedor</button>
+          <button onClick={()=>setLMode('r')} style={btn('linear-gradient(90deg,#b91c1c,#ef4444)','',{padding:'1rem',fontSize:'1rem',boxShadow:'0 4px 15px rgba(185,28,28,.4)'})}>🏪 Sugerido Rey</button>
           <button onClick={()=>setLMode('a')} style={btn('#1d4ed8','#1e40af',{padding:'1rem',fontSize:'1rem'})}>📊 Acceder como Admin</button>
         </div>}
+
         {lMode==='a'&&<div>
           <h2 style={{color:'white',fontWeight:'700',marginBottom:'.75rem'}}>🔐 Acceso Administrativo</h2>
           <input type="password" placeholder="Contraseña..." value={aPass}
@@ -808,6 +552,7 @@ function App(){
             <button onClick={()=>{setLMode(null);setAPass('');setAErr(false);}} style={btn('#475569','',{flex:1})}>Volver</button>
           </div>
         </div>}
+
         {lMode==='v'&&<div>
           <h2 style={{color:'white',fontWeight:'700',marginBottom:'.75rem'}}>Selecciona tu nombre</h2>
           <input type="text" placeholder="Buscar..." value={srchV} onChange={e=>setSrchV(e.target.value)}
@@ -826,15 +571,40 @@ function App(){
             <button onClick={()=>{setLMode(null);setSelV('');setSrchV('');}} style={btn('#475569','',{flex:1})}>Volver</button>
           </div>
         </div>}
+
+        {lMode==='r'&&<div>
+          <div style={{display:'flex',alignItems:'center',gap:'.75rem',marginBottom:'1rem'}}>
+            <span style={{fontSize:'1.5rem'}}>🏪</span>
+            <h2 style={{color:'white',fontWeight:'700',margin:0}}>Selecciona tu nombre — Auditor</h2>
+          </div>
+          <input type="text" placeholder="Buscar auditor..." value={srchA} onChange={e=>setSrchA(e.target.value)}
+            style={{width:'100%',background:'#334155',color:'white',border:'1px solid #475569',borderRadius:'.5rem',padding:'.6rem',marginBottom:'.75rem',outline:'none',boxSizing:'border-box'}}/>
+          <div style={{maxHeight:'220px',overflowY:'auto',marginBottom:'1rem',display:'flex',flexDirection:'column',gap:'.25rem'}}>
+            {aFilt.map(a=>(
+              <button key={a} onClick={()=>setSelA(a)}
+                style={{textAlign:'left',padding:'.6rem 1rem',borderRadius:'.5rem',border:selA===a?'1px solid #f87171':'1px solid #475569',background:selA===a?'#b91c1c':'#334155',color:'white',cursor:'pointer',fontSize:'.9rem',fontWeight:selA===a?'700':'400'}}>
+                {a}
+              </button>
+            ))}
+          </div>
+          {selA&&<p style={{color:'#fca5a5',fontSize:'.85rem',textAlign:'center',marginBottom:'.75rem'}}>✓ <strong>{selA}</strong></p>}
+          <div style={{display:'flex',gap:'.75rem'}}>
+            <button onClick={()=>{if(selA)setUser({auditor:true,v:selA});}} disabled={!selA}
+              style={btn(selA?'linear-gradient(90deg,#b91c1c,#ef4444)':'#475569','',{flex:1,boxShadow:selA?'0 4px 12px rgba(185,28,28,.4)':'none'})}>
+              Entrar
+            </button>
+            <button onClick={()=>{setLMode(null);setSelA('');setSrchA('');}} style={btn('#475569','',{flex:1})}>Volver</button>
+          </div>
+        </div>}
       </div>
     </div>
   );
 
-  // ADMIN
+  /* ════════════════════════════════
+     ADMIN
+  ════════════════════════════════ */
   if(user.admin){
     const fil=reps.filter(r=>(!fV||r.vendedor===fV)&&(!fT||r.tienda===fT)&&(!fM||r.mes_vencimiento===fM));
-    const hoy=new Date('2026-05-05');
-    const alr=reps.filter(r=>(new Date(r.mes_vencimiento+'-01')-hoy)/(1000*60*60*24*30)<=1).length;
     const montoTotal=fil.reduce((a,r)=>a+(parseFloat(r.monto_estimado)||0),0);
     return(
       <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#0f172a,#1e293b)'}}>
@@ -851,12 +621,11 @@ function App(){
         {msg&&<div style={{background:'rgba(34,197,94,.15)',borderBottom:'1px solid #22c55e',color:'#86efac',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{msg}</div>}
         {err&&<div style={{background:'rgba(239,68,68,.15)',borderBottom:'1px solid #ef4444',color:'#fca5a5',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{err}</div>}
         <div style={{maxWidth:'1280px',margin:'0 auto',padding:'1.5rem'}}>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'1rem',marginBottom:'1.5rem'}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'1rem',marginBottom:'1.5rem'}}>
             {[
               {l:'Total Reportes',v:reps.length,bg:'#059669'},
               {l:'Vendedores',v:new Set(reps.map(r=>r.vendedor)).size,bg:'#2563eb'},
               {l:'Tiendas',v:new Set(reps.map(r=>r.tienda)).size,bg:'#7c3aed'},
-              {l:'⚠️ Próx.Venc.',v:alr,bg:'#dc2626'},
             ].map(k=>(
               <div key={k.l} style={{background:k.bg,borderRadius:'.75rem',padding:'1rem 1.25rem',color:'white'}}>
                 <p style={{fontSize:'.75rem',opacity:.8,margin:'0 0 .25rem'}}>{k.l}</p>
@@ -865,7 +634,7 @@ function App(){
             ))}
           </div>
           <div style={{background:'rgba(51,65,85,.5)',border:'1px solid #475569',borderRadius:'.75rem',padding:'1.25rem',marginBottom:'1.5rem'}}>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr auto auto',gap:'.75rem',alignItems:'center'}}>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr auto auto',gap:'.75rem',alignItems:'center'}}>
               <select value={fV} onChange={e=>setFV(e.target.value)} style={{background:'#475569',color:'white',border:'none',padding:'.6rem',borderRadius:'.5rem',fontSize:'.8rem'}}>
                 <option value="">Todos Vendedores</option>
                 {[...new Set(reps.map(r=>r.vendedor))].sort().map(v=><option key={v} value={v}>{v}</option>)}
@@ -873,10 +642,6 @@ function App(){
               <select value={fT} onChange={e=>setFT(e.target.value)} style={{background:'#475569',color:'white',border:'none',padding:'.6rem',borderRadius:'.5rem',fontSize:'.8rem'}}>
                 <option value="">Todas Tiendas</option>
                 {[...new Set(reps.map(r=>r.tienda))].sort().map(t=><option key={t} value={t}>{t}</option>)}
-              </select>
-              <select value={fM} onChange={e=>setFM(e.target.value)} style={{background:'#475569',color:'white',border:'none',padding:'.6rem',borderRadius:'.5rem',fontSize:'.8rem'}}>
-                <option value="">Todos Meses</option>
-                {[...new Set(reps.map(r=>r.mes_vencimiento))].sort().map(m=><option key={m} value={m}>{m}</option>)}
               </select>
               <button onClick={()=>csv(fil)} style={btn('#16a34a','',{fontSize:'.8rem',padding:'.6rem .9rem'})}>⬇️ CSV</button>
               <button onClick={limpiar} style={btn('#dc2626','',{fontSize:'.8rem',padding:'.6rem .9rem'})}>🗑️ Limpiar</button>
@@ -891,21 +656,20 @@ function App(){
             :fil.length===0?<p style={{color:'#94a3b8',textAlign:'center',padding:'2rem'}}>No hay reportes</p>
             :<table style={{width:'100%',borderCollapse:'collapse',fontSize:'.78rem'}}>
               <thead><tr style={{borderBottom:'1px solid #475569'}}>
-                {['Vendedor','Tienda','Cód.Barra','Producto','Cant.','Monto $','Vencim.','Fecha'].map(h=>(
+                {['Vendedor/Auditor','Tienda','Cód.Barra','Producto','Cant.','Monto $','Fecha'].map(h=>(
                   <th key={h} style={{color:'#cbd5e1',fontWeight:'600',padding:'.6rem .4rem',textAlign:'left'}}>{h}</th>
                 ))}
               </tr></thead>
               <tbody>
                 {fil.map(r=>{
-                  const urg=(new Date(r.mes_vencimiento+'-01')-hoy)/(1000*60*60*24*30)<=1;
-                  return<tr key={r.id} style={{borderBottom:'1px solid rgba(71,85,105,.3)',background:urg?'rgba(220,38,38,.1)':'transparent'}}>
-                    <td style={{color:'white',padding:'.5rem .4rem',fontWeight:'500'}}>{r.vendedor}</td>
+                  const isAudit=r.vendedor&&r.vendedor.startsWith('AUDITOR:');
+                  return<tr key={r.id} style={{borderBottom:'1px solid rgba(71,85,105,.3)'}}>
+                    <td style={{color:isAudit?'#fca5a5':'white',padding:'.5rem .4rem',fontWeight:'500'}}>{r.vendedor}{isAudit&&<span style={{background:'rgba(185,28,28,.3)',fontSize:'.65rem',padding:'1px 4px',borderRadius:'3px',marginLeft:'4px'}}>REY</span>}</td>
                     <td style={{color:'#cbd5e1',padding:'.5rem .4rem',maxWidth:'140px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</td>
                     <td style={{color:'#93c5fd',padding:'.5rem .4rem',fontFamily:'monospace'}}>{r.barcode}</td>
                     <td style={{color:'white',padding:'.5rem .4rem',maxWidth:'160px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.producto}</td>
                     <td style={{color:'#cbd5e1',padding:'.5rem .4rem'}}>{r.cantidad}</td>
                     <td style={{color:'#4ade80',padding:'.5rem .4rem',fontWeight:'700'}}>${(parseFloat(r.monto_estimado)||0).toFixed(2)}</td>
-                    <td style={{padding:'.5rem .4rem'}}><span style={{background:urg?'rgba(239,68,68,.2)':'rgba(245,158,11,.2)',color:urg?'#fca5a5':'#fcd34d',padding:'.2rem .4rem',borderRadius:'.25rem',fontWeight:'700',fontSize:'.75rem'}}>{r.mes_vencimiento}</span></td>
                     <td style={{color:'#94a3b8',padding:'.5rem .4rem'}}>{r.fecha_reporte}</td>
                   </tr>;
                 })}
@@ -917,7 +681,154 @@ function App(){
     );
   }
 
-  // VENDEDOR
+  /* ════════════════════════════════
+     AUDITOR REY
+  ════════════════════════════════ */
+  if(user.auditor){
+    const misR=reps.filter(r=>r.vendedor===`AUDITOR: ${user.v}`);
+    const montoMio=misR.reduce((a,r)=>a+(parseFloat(r.monto_estimado)||0),0);
+    const montoActual=calcMonto(prod,cant);
+    return(
+      <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#450a0a,#7f1d1d)'}}>
+        <div style={{background:'linear-gradient(90deg,#991b1b,#ef4444)',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',boxShadow:'0 4px 20px rgba(0,0,0,.4)'}}>
+          <div style={{display:'flex',alignItems:'center',gap:'1rem'}}>
+            <Logo/>
+            <div>
+              <h1 style={{color:'white',fontWeight:'700',fontSize:'1rem',margin:0}}>🏪 SUGERIDO REY</h1>
+              <p style={{color:'#fecaca',fontSize:'.75rem',margin:0}}>{user.v}</p>
+            </div>
+          </div>
+          <button onClick={logout} style={btn('#7f1d1d','',{fontSize:'.8rem',padding:'.5rem .75rem',border:'1px solid #fca5a5'})}>Salir</button>
+        </div>
+
+        {msg&&<div style={{background:'rgba(34,197,94,.15)',borderBottom:'1px solid #22c55e',color:'#86efac',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{msg}</div>}
+        {err&&<div style={{background:'rgba(239,68,68,.15)',borderBottom:'1px solid #ef4444',color:'#fca5a5',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{err}</div>}
+
+        <div style={{maxWidth:'600px',margin:'0 auto',padding:'1.5rem'}}>
+          <div style={{background:'rgba(153,27,27,.4)',border:'1px solid #b91c1c',borderRadius:'.75rem',padding:'1rem 1.25rem',marginBottom:'1.5rem',display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'1rem'}}>
+            <div>
+              <p style={{color:'#fecaca',fontSize:'.75rem',margin:0}}>Nombre Auditor</p>
+              <p style={{color:'white',fontWeight:'700',margin:'.2rem 0 0',fontSize:'.85rem'}}>{user.v}</p>
+            </div>
+            <div>
+              <p style={{color:'#fecaca',fontSize:'.75rem',margin:0}}>Mis Reportes</p>
+              <p style={{color:'#4ade80',fontWeight:'700',fontSize:'1.5rem',margin:'.2rem 0 0'}}>{misR.length}</p>
+            </div>
+            <div>
+              <p style={{color:'#fecaca',fontSize:'.75rem',margin:0}}>Monto Total</p>
+              <p style={{color:'#fcd34d',fontWeight:'700',fontSize:'1.1rem',margin:'.2rem 0 0'}}>${montoMio.toFixed(2)}</p>
+            </div>
+          </div>
+
+          {!showForm&&<button onClick={()=>setShowForm(true)} style={btn('linear-gradient(90deg,#16a34a,#22c55e)','',{width:'100%',padding:'1rem',fontSize:'1rem',marginBottom:'1.5rem',borderRadius:'.75rem',boxShadow:'0 4px 15px rgba(22,163,74,.4)'})}>
+            + Agregar Producto
+          </button>}
+
+          {showForm&&<div style={{background:'rgba(153,27,27,.4)',border:'1px solid rgba(34,197,94,.3)',borderRadius:'.75rem',padding:'1.5rem',marginBottom:'1.5rem'}}>
+            <h2 style={{color:'white',fontWeight:'700',marginTop:0}}>Agregar Producto</h2>
+
+            {/* TIENDA */}
+            <div style={{marginBottom:'1rem'}}>
+              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📍 Tienda</label>
+              <select value={tId} onChange={e=>setTId(e.target.value)}
+                style={{width:'100%',background:'#991b1b',color:'white',border:'1px solid #ef4444',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box'}}>
+                <option value="">-- Selecciona la tienda --</option>
+                {REY_TIENDAS.map(t=><option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+
+            {/* BUSCAR PRODUCTO */}
+            <div style={{marginBottom:'1rem',position:'relative'}}>
+              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>🔍 Buscar Producto</label>
+              <input type="text" placeholder="Código de barra, código FEDURO o nombre..." value={codIn}
+                onChange={e=>{setCodIn(e.target.value);setShowSug(true);if(prod)setProd(null);}}
+                onFocus={()=>codIn&&setShowSug(true)}
+                style={{width:'100%',background:'#991b1b',color:'white',border:'1px solid #ef4444',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box',outline:'none'}}/>
+              {showSug&&sugs.length>0&&(
+                <div style={{position:'absolute',top:'100%',left:0,right:0,background:'#7f1d1d',border:'1px solid #b91c1c',borderRadius:'.5rem',zIndex:100,maxHeight:'220px',overflowY:'auto',marginTop:'2px',boxShadow:'0 10px 25px rgba(0,0,0,.5)'}}>
+                  {sugs.map(p=>(
+                    <button key={p.b} onMouseDown={e=>{e.preventDefault();setProd(p);setCodIn(p.b+' - '+p.n);setShowSug(false);}}
+                      style={{display:'block',width:'100%',textAlign:'left',padding:'.75rem 1rem',border:'none',borderBottom:'1px solid rgba(185,28,28,.5)',background:'transparent',cursor:'pointer',color:'white'}}>
+                      <div style={{color:'#fca5a5',fontFamily:'monospace',fontSize:'.75rem'}}>{p.b}</div>
+                      <div style={{fontWeight:'600',fontSize:'.85rem',marginTop:'2px'}}>{p.n}</div>
+                      <div style={{color:'#4ade80',fontSize:'.75rem'}}>{p.m} · {p.t} · {p.u} un · ${p.p}</div>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {prod&&(
+                <div style={{marginTop:'.5rem',background:'rgba(34,197,94,.15)',border:'1px solid #22c55e',borderRadius:'.5rem',padding:'.75rem',display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+                  <div>
+                    <div style={{color:'#fca5a5',fontFamily:'monospace',fontSize:'.75rem'}}>{prod.b} · {prod.c}</div>
+                    <div style={{color:'white',fontWeight:'700',fontSize:'.9rem',marginTop:'2px'}}>{prod.n}</div>
+                    <div style={{color:'#4ade80',fontSize:'.75rem'}}>{prod.m} · {prod.t} de {prod.u} un · ${prod.p}</div>
+                  </div>
+                  <button onClick={()=>{setProd(null);setCodIn('');}} style={{background:'none',border:'none',color:'#f87171',cursor:'pointer',fontSize:'1.2rem'}}>✕</button>
+                </div>
+              )}
+            </div>
+
+            {/* CANTIDAD — sin mes */}
+            <div style={{marginBottom:'1rem'}}>
+              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📦 Cantidad</label>
+              <input type="number" min="1" placeholder="Ej: 2" value={cant} onChange={e=>setCant(e.target.value)}
+                style={{width:'100%',background:'#991b1b',color:'white',border:'1px solid #ef4444',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box',outline:'none'}}/>
+            </div>
+
+            {/* MONTO ESTIMADO */}
+            {prod&&cant&&parseFloat(cant)>0&&(
+              <div style={{marginBottom:'1rem',background:'rgba(16,185,129,.15)',border:'1px solid #10b981',borderRadius:'.5rem',padding:'1rem'}}>
+                <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO</p>
+                <p style={{color:'white',fontSize:'1.4rem',fontWeight:'700',margin:0}}>${montoActual}</p>
+                <p style={{color:'#a7f3d0',fontSize:'.7rem',margin:'4px 0 0'}}>
+                  {cant} × ${prod.p} = ${montoActual}
+                </p>
+              </div>
+            )}
+
+            <div style={{display:'flex',gap:'.75rem'}}>
+              <button onClick={guardar} disabled={saving} style={btn(saving?'#475569':'#16a34a','',{flex:1})}>
+                {saving?'⏳ Guardando...':'✓ Guardar Reporte'}
+              </button>
+              <button onClick={reset} style={btn('#991b1b','',{flex:1,border:'1px solid #ef4444'})}>Cancelar</button>
+            </div>
+          </div>}
+
+          {/* MIS REPORTES */}
+          <div style={{background:'rgba(153,27,27,.4)',border:'1px solid #b91c1c',borderRadius:'.75rem',padding:'1.25rem'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1rem'}}>
+              <h2 style={{color:'white',fontWeight:'700',margin:0,fontSize:'1rem'}}>Mis Reportes ({misR.length})</h2>
+              <button onClick={cargar} style={{background:'none',border:'none',color:'#fca5a5',cursor:'pointer',fontSize:'.8rem'}}>🔄 Actualizar</button>
+            </div>
+            {load?<p style={{color:'#fca5a5',textAlign:'center',padding:'1.5rem'}}>⏳ Cargando...</p>
+            :misR.length===0?<p style={{color:'#fca5a5',textAlign:'center',padding:'1.5rem',fontSize:'.9rem'}}>Aún no has enviado reportes</p>
+            :<div style={{display:'flex',flexDirection:'column',gap:'.75rem'}}>
+              {misR.map(r=>(
+                <div key={r.id} style={{background:'rgba(153,27,27,.5)',border:'1px solid #b91c1c',borderRadius:'.5rem',padding:'1rem'}}>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+                    <div style={{flex:1,minWidth:0}}>
+                      <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.9rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.producto}</p>
+                      <p style={{color:'#fca5a5',fontFamily:'monospace',fontSize:'.75rem',margin:'0 0 2px'}}>{r.barcode}</p>
+                      <p style={{color:'#fecaca',fontSize:'.75rem',margin:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</p>
+                    </div>
+                    <div style={{textAlign:'right',marginLeft:'.75rem',flexShrink:0}}>
+                      <p style={{color:'#4ade80',fontWeight:'700',margin:'.25rem 0 0',fontSize:'.85rem'}}>{r.cantidad} un.</p>
+                      <p style={{color:'#fcd34d',fontWeight:'700',margin:'2px 0 0',fontSize:'.85rem'}}>${(parseFloat(r.monto_estimado)||0).toFixed(2)}</p>
+                    </div>
+                  </div>
+                  <p style={{color:'#f87171',fontSize:'.7rem',margin:'.5rem 0 0'}}>{r.fecha_reporte}</p>
+                </div>
+              ))}
+            </div>}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ════════════════════════════════
+     VENDEDOR
+  ════════════════════════════════ */
   const misR=reps.filter(r=>r.vendedor===user.v);
   const montoMio=misR.reduce((a,r)=>a+(parseFloat(r.monto_estimado)||0),0);
   const montoActual=calcMonto(prod,cant);
@@ -979,26 +890,20 @@ function App(){
               </div>
             )}
           </div>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem',marginBottom:'1rem'}}>
-            <div>
-              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📦 Cantidad (unidades)</label>
-              <input type="number" min="1" placeholder="Ej: 50" value={cant} onChange={e=>setCant(e.target.value)}
-                style={{width:'100%',background:'#4338ca',color:'white',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box',outline:'none'}}/>
-            </div>
-            <div>
-              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📅 Mes Vencimiento</label>
-              <select value={mes} onChange={e=>setMes(e.target.value)} style={{width:'100%',background:'#4338ca',color:'white',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box'}}>
-                <option value="">-- Mes --</option>
-                {MESES.map(m=><option key={m} value={m}>{m}</option>)}
-              </select>
-            </div>
+
+          {/* CANTIDAD — sin mes */}
+          <div style={{marginBottom:'1rem'}}>
+            <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📦 Cantidad</label>
+            <input type="number" min="1" placeholder="Ej: 2" value={cant} onChange={e=>setCant(e.target.value)}
+              style={{width:'100%',background:'#4338ca',color:'white',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box',outline:'none'}}/>
           </div>
+
           {prod&&cant&&parseFloat(cant)>0&&(
             <div style={{marginBottom:'1rem',background:'rgba(16,185,129,.15)',border:'1px solid #10b981',borderRadius:'.5rem',padding:'1rem'}}>
-              <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO POR VENCER</p>
+              <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO</p>
               <p style={{color:'white',fontSize:'1.4rem',fontWeight:'700',margin:0}}>${montoActual}</p>
               <p style={{color:'#a7f3d0',fontSize:'.7rem',margin:'4px 0 0'}}>
-                {cant} un ÷ {prod.u} ({prod.t}) × ${prod.p} = ${montoActual}
+                {cant} × ${prod.p} = ${montoActual}
               </p>
             </div>
           )}
@@ -1026,7 +931,6 @@ function App(){
                     <p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</p>
                   </div>
                   <div style={{textAlign:'right',marginLeft:'.75rem',flexShrink:0}}>
-                    <span style={{background:'rgba(245,158,11,.2)',color:'#fcd34d',padding:'.2rem .5rem',borderRadius:'.25rem',fontSize:'.75rem',fontWeight:'700'}}>{r.mes_vencimiento}</span>
                     <p style={{color:'#4ade80',fontWeight:'700',margin:'.25rem 0 0',fontSize:'.85rem'}}>{r.cantidad} un.</p>
                     <p style={{color:'#fcd34d',fontWeight:'700',margin:'2px 0 0',fontSize:'.85rem'}}>${(parseFloat(r.monto_estimado)||0).toFixed(2)}</p>
                   </div>
@@ -1041,7 +945,6 @@ function App(){
   );
 }
 
-// ✅ CORRECCIÓN: React 18 usa createRoot en lugar de ReactDOM.render
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 root.render(<App />);

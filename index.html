@@ -781,8 +781,6 @@ function App(){
     a.download=`mars_${new Date().toISOString().split('T')[0]}.csv`;a.click();
   };
 
-  const S=(p)=>({...p});
-  const box=(bg,br)=>({background:bg,border:`1px solid ${br}`,borderRadius:'.75rem',padding:'1.25rem'});
   const btn=(bg,hov,extra={})=>({background:bg,color:'white',border:'none',borderRadius:'.5rem',padding:'.75rem 1rem',fontWeight:'700',cursor:'pointer',...extra});
 
   // LOGIN
@@ -1023,7 +1021,7 @@ function App(){
               <div key={r.id} style={{background:'rgba(67,56,202,.5)',border:'1px solid #4338ca',borderRadius:'.5rem',padding:'1rem'}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
                   <div style={{flex:1,minWidth:0}}>
-                    <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.9rem',overflow:'hidden',textOverflow:'ellipsis'}}>{r.nombre}</p>
+                    <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.9rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.producto}</p>
                     <p style={{color:'#93c5fd',fontFamily:'monospace',fontSize:'.75rem',margin:'0 0 2px'}}>{r.barcode}</p>
                     <p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</p>
                   </div>
@@ -1043,7 +1041,10 @@ function App(){
   );
 }
 
-ReactDOM.render(<React.createElement(App),document.getElementById('root'));
+// ✅ CORRECCIÓN: React 18 usa createRoot en lugar de ReactDOM.render
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+root.render(<App />);
 </script>
 </body>
 </html>

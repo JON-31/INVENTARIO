@@ -431,8 +431,18 @@ const Logo=()=>(
   </svg>
 );
 
-/* ── CAMBIO 1: fórmula simplificada → cantidad × precio (sin dividir) ── */
-const calcMonto=(prod,cant)=>{
+/* ──────────────────────────────────────────────────────
+   FÓRMULAS DE MONTO:
+   - VENDEDOR: precio por unidad → (precio / unidades) × cantidad
+   - AUDITOR REY: precio por exhibidor/caja → precio × cantidad
+   ────────────────────────────────────────────────────── */
+const calcMontoVendedor=(prod,cant)=>{
+  if(!prod||!cant||isNaN(cant)||parseFloat(cant)<=0)return null;
+  const precioUnitario=prod.p/prod.u;
+  return(parseFloat(cant)*precioUnitario).toFixed(2);
+};
+
+const calcMontoAuditor=(prod,cant)=>{
   if(!prod||!cant||isNaN(cant)||parseFloat(cant)<=0)return null;
   return(parseFloat(cant)*prod.p).toFixed(2);
 };
@@ -445,6 +455,7 @@ function App(){
   const [showForm,setShowForm]=useState(false);
   const [tId,setTId]=useState('');
   const [cant,setCant]=useState('');
+  const [mesVenc,setMesVenc]=useState('');
   const [codIn,setCodIn]=useState('');
   const [prod,setProd]=useState(null);
   const [showSug,setShowSug]=useState(false);
@@ -483,21 +494,24 @@ function App(){
   const vFilt=useMemo(()=>VENDS.filter(v=>v.n.toUpperCase().includes(srchV.toUpperCase())),[srchV]);
   const aFilt=useMemo(()=>AUDITORES.filter(a=>a.toUpperCase().includes(srchA.toUpperCase())),[srchA]);
 
-  /* ── CAMBIO 2: reset ya no incluye mes ── */
-  const reset=()=>{setTId('');setCant('');setCodIn('');setProd(null);setShowSug(false);setShowForm(false);};
-  const logout=()=>{setUser(null);setLMode(null);setSelV('');setSrchV('');setSelA('');setSrchA('');setAPass('');setAErr(false);setReps([]);reset();};
+  /* ── reset: NO borra tId para mantener tienda seleccionada ── */
+  const reset=()=>{setCant('');setCodIn('');setProd(null);setShowSug(false);setShowForm(false);setMesVenc('');};
+  const logout=()=>{setUser(null);setLMode(null);setSelV('');setSrchV('');setSelA('');setSrchA('');setAPass('');setAErr(false);setReps([]);setTId('');setMesVenc('');reset();};
 
   const guardar=async()=>{
-    /* ── CAMBIO 3: validación sin mes ── */
     if(!tId||!prod||!cant){alert('Completa todos los campos');return;}
-    const tiendaName=user.auditor?tId:TIENDAS.find(t=>t.id===parseInt(tId))?.n;
-    const vendedorName=user.auditor?`AUDITOR: ${user.v}`:TIENDAS.find(t=>t.id===parseInt(tId))?.v;
-    const monto=calcMonto(prod,cant);
+    const isAuditor=user.auditor;
+    if(!isAuditor&&!mesVenc){alert('Selecciona el mes de vencimiento');return;}
+    const tiendaName=isAuditor?tId:TIENDAS.find(t=>t.id===parseInt(tId))?.n;
+    const vendedorName=isAuditor?`AUDITOR: ${user.v}`:TIENDAS.find(t=>t.id===parseInt(tId))?.v;
+    /* Monto según rol */
+    const monto=isAuditor?calcMontoAuditor(prod,cant):calcMontoVendedor(prod,cant);
     setSaving(true);
     const r=await sb('POST','/reportes',{
       vendedor:vendedorName,tienda:tiendaName,barcode:prod.b,codigo:prod.c,
-      producto:prod.n,marca:prod.m,cantidad:parseInt(cant),
+      producto:prod.n,marca:prod.m,tipo:prod.t,cantidad:parseInt(cant),
       monto_estimado:parseFloat(monto),
+      mes_vencimiento:isAuditor?null:mesVenc,
       fecha_reporte:new Date().toLocaleDateString('es-ES')
     });
     setSaving(false);
@@ -511,9 +525,10 @@ function App(){
     showM('🗑️ Base de datos limpiada');cargar();
   };
 
+  /* ── CSV con columna Tipo ── */
   const csv=(datos)=>{
-    const c=['Vendedor,Tienda,Cod.Barra,Cod.FEDURO,Producto,Marca,Cantidad,Monto Est.($),Fecha'].concat(
-      datos.map(r=>`"${r.vendedor}","${r.tienda}","${r.barcode}","${r.codigo}","${r.producto}","${r.marca}",${r.cantidad},${r.monto_estimado||''},"${r.fecha_reporte}"`)
+    const c=['Vendedor,Tienda,Cod.Barra,Cod.FEDURO,Producto,Marca,Tipo,Cantidad,Monto Est.($),Mes Vencimiento,Fecha'].concat(
+      datos.map(r=>`"${r.vendedor}","${r.tienda}","${r.barcode}","${r.codigo}","${r.producto}","${r.marca}","${r.tipo||''}",${r.cantidad},${r.monto_estimado||''},"${r.mes_vencimiento||''}","${r.fecha_reporte}"`)
     ).join('\n');
     const a=document.createElement('a');
     a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));
@@ -656,7 +671,7 @@ function App(){
             :fil.length===0?<p style={{color:'#94a3b8',textAlign:'center',padding:'2rem'}}>No hay reportes</p>
             :<table style={{width:'100%',borderCollapse:'collapse',fontSize:'.78rem'}}>
               <thead><tr style={{borderBottom:'1px solid #475569'}}>
-                {['Vendedor/Auditor','Tienda','Cód.Barra','Producto','Cant.','Monto $','Fecha'].map(h=>(
+                {['Vendedor/Auditor','Tienda','Cód.Barra','Producto','Tipo','Cant.','Monto $','Mes Venc.','Fecha'].map(h=>(
                   <th key={h} style={{color:'#cbd5e1',fontWeight:'600',padding:'.6rem .4rem',textAlign:'left'}}>{h}</th>
                 ))}
               </tr></thead>
@@ -668,8 +683,14 @@ function App(){
                     <td style={{color:'#cbd5e1',padding:'.5rem .4rem',maxWidth:'140px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</td>
                     <td style={{color:'#93c5fd',padding:'.5rem .4rem',fontFamily:'monospace'}}>{r.barcode}</td>
                     <td style={{color:'white',padding:'.5rem .4rem',maxWidth:'160px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.producto}</td>
+                    <td style={{padding:'.5rem .4rem'}}>
+                      <span style={{background:r.tipo==='EX'?'rgba(79,70,229,.4)':r.tipo==='CJ'?'rgba(5,150,105,.4)':r.tipo==='UN'?'rgba(217,119,6,.4)':'rgba(107,114,128,.4)',color:r.tipo==='EX'?'#a5b4fc':r.tipo==='CJ'?'#6ee7b7':r.tipo==='UN'?'#fcd34d':'#d1d5db',fontSize:'.7rem',fontWeight:'700',padding:'2px 6px',borderRadius:'4px'}}>
+                        {r.tipo||'—'}
+                      </span>
+                    </td>
                     <td style={{color:'#cbd5e1',padding:'.5rem .4rem'}}>{r.cantidad}</td>
                     <td style={{color:'#4ade80',padding:'.5rem .4rem',fontWeight:'700'}}>${(parseFloat(r.monto_estimado)||0).toFixed(2)}</td>
+                    <td style={{padding:'.5rem .4rem'}}>{r.mes_vencimiento?<span style={{background:'rgba(251,191,36,.15)',color:'#fcd34d',fontSize:'.7rem',fontWeight:'700',padding:'2px 5px',borderRadius:'3px'}}>{r.mes_vencimiento}</span>:<span style={{color:'#475569'}}>—</span>}</td>
                     <td style={{color:'#94a3b8',padding:'.5rem .4rem'}}>{r.fecha_reporte}</td>
                   </tr>;
                 })}
@@ -687,7 +708,8 @@ function App(){
   if(user.auditor){
     const misR=reps.filter(r=>r.vendedor===`AUDITOR: ${user.v}`);
     const montoMio=misR.reduce((a,r)=>a+(parseFloat(r.monto_estimado)||0),0);
-    const montoActual=calcMonto(prod,cant);
+    /* AUDITOR: monto por exhibidor/caja (fórmula original) */
+    const montoActual=calcMontoAuditor(prod,cant);
     return(
       <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#450a0a,#7f1d1d)'}}>
         <div style={{background:'linear-gradient(90deg,#991b1b,#ef4444)',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',boxShadow:'0 4px 20px rgba(0,0,0,.4)'}}>
@@ -727,7 +749,7 @@ function App(){
           {showForm&&<div style={{background:'rgba(153,27,27,.4)',border:'1px solid rgba(34,197,94,.3)',borderRadius:'.75rem',padding:'1.5rem',marginBottom:'1.5rem'}}>
             <h2 style={{color:'white',fontWeight:'700',marginTop:0}}>Agregar Producto</h2>
 
-            {/* TIENDA */}
+            {/* TIENDA — persiste al guardar */}
             <div style={{marginBottom:'1rem'}}>
               <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📍 Tienda</label>
               <select value={tId} onChange={e=>setTId(e.target.value)}
@@ -768,20 +790,20 @@ function App(){
               )}
             </div>
 
-            {/* CANTIDAD — sin mes */}
+            {/* CANTIDAD */}
             <div style={{marginBottom:'1rem'}}>
-              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📦 Cantidad</label>
+              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📦 Cantidad (exhibidores/cajas)</label>
               <input type="number" min="1" placeholder="Ej: 2" value={cant} onChange={e=>setCant(e.target.value)}
                 style={{width:'100%',background:'#991b1b',color:'white',border:'1px solid #ef4444',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box',outline:'none'}}/>
             </div>
 
-            {/* MONTO ESTIMADO */}
+            {/* MONTO ESTIMADO — precio por exhibidor/caja */}
             {prod&&cant&&parseFloat(cant)>0&&(
               <div style={{marginBottom:'1rem',background:'rgba(16,185,129,.15)',border:'1px solid #10b981',borderRadius:'.5rem',padding:'1rem'}}>
-                <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO</p>
+                <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO (por {prod.t})</p>
                 <p style={{color:'white',fontSize:'1.4rem',fontWeight:'700',margin:0}}>${montoActual}</p>
                 <p style={{color:'#a7f3d0',fontSize:'.7rem',margin:'4px 0 0'}}>
-                  {cant} × ${prod.p} = ${montoActual}
+                  {cant} {prod.t} × ${prod.p} = ${montoActual}
                 </p>
               </div>
             )}
@@ -812,6 +834,7 @@ function App(){
                       <p style={{color:'#fecaca',fontSize:'.75rem',margin:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</p>
                     </div>
                     <div style={{textAlign:'right',marginLeft:'.75rem',flexShrink:0}}>
+                      <span style={{background:'rgba(255,255,255,.1)',color:'#fcd34d',fontSize:'.7rem',fontWeight:'700',padding:'2px 6px',borderRadius:'4px',display:'inline-block',marginBottom:'4px'}}>{r.tipo||'—'}</span>
                       <p style={{color:'#4ade80',fontWeight:'700',margin:'.25rem 0 0',fontSize:'.85rem'}}>{r.cantidad} un.</p>
                       <p style={{color:'#fcd34d',fontWeight:'700',margin:'2px 0 0',fontSize:'.85rem'}}>${(parseFloat(r.monto_estimado)||0).toFixed(2)}</p>
                     </div>
@@ -831,7 +854,10 @@ function App(){
   ════════════════════════════════ */
   const misR=reps.filter(r=>r.vendedor===user.v);
   const montoMio=misR.reduce((a,r)=>a+(parseFloat(r.monto_estimado)||0),0);
-  const montoActual=calcMonto(prod,cant);
+  /* VENDEDOR: monto por unidad individual */
+  const montoActual=calcMontoVendedor(prod,cant);
+  const precioUnitario=prod?(prod.p/prod.u).toFixed(4):null;
+
   return(
     <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#312e81,#3730a3)'}}>
       <div style={{background:'linear-gradient(90deg,#4338ca,#6366f1)',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
@@ -854,6 +880,7 @@ function App(){
         </button>}
         {showForm&&<div style={{background:'rgba(67,56,202,.4)',border:'1px solid rgba(34,197,94,.3)',borderRadius:'.75rem',padding:'1.5rem',marginBottom:'1.5rem'}}>
           <h2 style={{color:'white',fontWeight:'700',marginTop:0}}>Nuevo Reporte</h2>
+          {/* TIENDA — persiste al guardar */}
           <div style={{marginBottom:'1rem'}}>
             <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📍 Tienda</label>
             <select value={tId} onChange={e=>setTId(e.target.value)} style={{width:'100%',background:'#4338ca',color:'white',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box'}}>
@@ -874,7 +901,7 @@ function App(){
                     style={{display:'block',width:'100%',textAlign:'left',padding:'.75rem 1rem',border:'none',borderBottom:'1px solid rgba(67,56,202,.5)',background:'transparent',cursor:'pointer',color:'white'}}>
                     <div style={{color:'#93c5fd',fontFamily:'monospace',fontSize:'.75rem'}}>{p.b}</div>
                     <div style={{fontWeight:'600',fontSize:'.85rem',marginTop:'2px'}}>{p.n}</div>
-                    <div style={{color:'#4ade80',fontSize:'.75rem'}}>{p.m} · {p.t} · {p.u} un · ${p.p}</div>
+                    <div style={{color:'#4ade80',fontSize:'.75rem'}}>{p.m} · {p.t} · {p.u} un · ${p.p} → <strong>${(p.p/p.u).toFixed(4)}/un</strong></div>
                   </button>
                 ))}
               </div>
@@ -884,29 +911,46 @@ function App(){
                 <div>
                   <div style={{color:'#93c5fd',fontFamily:'monospace',fontSize:'.75rem'}}>{prod.b} · {prod.c}</div>
                   <div style={{color:'white',fontWeight:'700',fontSize:'.9rem',marginTop:'2px'}}>{prod.n}</div>
-                  <div style={{color:'#4ade80',fontSize:'.75rem'}}>{prod.m} · {prod.t} de {prod.u} un · ${prod.p}</div>
+                  <div style={{color:'#4ade80',fontSize:'.75rem'}}>{prod.m} · {prod.t} de {prod.u} un · ${prod.p} → <strong>${precioUnitario}/unidad</strong></div>
                 </div>
                 <button onClick={()=>{setProd(null);setCodIn('');}} style={{background:'none',border:'none',color:'#f87171',cursor:'pointer',fontSize:'1.2rem'}}>✕</button>
               </div>
             )}
           </div>
 
-          {/* CANTIDAD — sin mes */}
+          {/* CANTIDAD — unidades individuales */}
           <div style={{marginBottom:'1rem'}}>
-            <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📦 Cantidad</label>
-            <input type="number" min="1" placeholder="Ej: 2" value={cant} onChange={e=>setCant(e.target.value)}
+            <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📦 Cantidad (unidades individuales)</label>
+            <input type="number" min="1" placeholder="Ej: 10" value={cant} onChange={e=>setCant(e.target.value)}
               style={{width:'100%',background:'#4338ca',color:'white',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box',outline:'none'}}/>
           </div>
 
+          {/* MES DE VENCIMIENTO — solo vendedor */}
+          <div style={{marginBottom:'1rem'}}>
+            <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📅 Mes de Vencimiento</label>
+            <select value={mesVenc} onChange={e=>setMesVenc(e.target.value)}
+              style={{width:'100%',background:'#4338ca',color:mesVenc?'white':'#94a3b8',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box'}}>
+              <option value="">-- Selecciona el mes --</option>
+              {['Enero 2026','Febrero 2026','Marzo 2026','Abril 2026','Mayo 2026','Junio 2026','Julio 2026','Agosto 2026','Septiembre 2026','Octubre 2026','Noviembre 2026','Diciembre 2026'].map(m=>(
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* MONTO ESTIMADO — precio por unidad individual */}
           {prod&&cant&&parseFloat(cant)>0&&(
             <div style={{marginBottom:'1rem',background:'rgba(16,185,129,.15)',border:'1px solid #10b981',borderRadius:'.5rem',padding:'1rem'}}>
-              <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO</p>
+              <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO (por unidades)</p>
               <p style={{color:'white',fontSize:'1.4rem',fontWeight:'700',margin:0}}>${montoActual}</p>
               <p style={{color:'#a7f3d0',fontSize:'.7rem',margin:'4px 0 0'}}>
-                {cant} × ${prod.p} = ${montoActual}
+                {cant} un. × ${precioUnitario}/un = ${montoActual}
+              </p>
+              <p style={{color:'#6ee7b7',fontSize:'.7rem',margin:'2px 0 0'}}>
+                (${prod.p} ÷ {prod.u} un. por {prod.t})
               </p>
             </div>
           )}
+
           <div style={{display:'flex',gap:'.75rem'}}>
             <button onClick={guardar} disabled={saving} style={btn(saving?'#475569':'#16a34a','',{flex:1})}>
               {saving?'⏳ Guardando...':'✓ Guardar Reporte'}
@@ -931,11 +975,12 @@ function App(){
                     <p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</p>
                   </div>
                   <div style={{textAlign:'right',marginLeft:'.75rem',flexShrink:0}}>
+                    <span style={{background:'rgba(255,255,255,.1)',color:'#a5b4fc',fontSize:'.7rem',fontWeight:'700',padding:'2px 6px',borderRadius:'4px',display:'inline-block',marginBottom:'4px'}}>{r.tipo||'—'}</span>
                     <p style={{color:'#4ade80',fontWeight:'700',margin:'.25rem 0 0',fontSize:'.85rem'}}>{r.cantidad} un.</p>
                     <p style={{color:'#fcd34d',fontWeight:'700',margin:'2px 0 0',fontSize:'.85rem'}}>${(parseFloat(r.monto_estimado)||0).toFixed(2)}</p>
                   </div>
                 </div>
-                <p style={{color:'#6366f1',fontSize:'.7rem',margin:'.5rem 0 0'}}>{r.fecha_reporte}</p>
+                <p style={{color:'#6366f1',fontSize:'.7rem',margin:'.5rem 0 0'}}>{r.fecha_reporte}{r.mes_vencimiento&&<span style={{marginLeft:'6px',background:'rgba(251,191,36,.15)',color:'#fcd34d',padding:'1px 6px',borderRadius:'3px',fontWeight:'700'}}>📅 Vence: {r.mes_vencimiento}</span>}</p>
               </div>
             ))}
           </div>}

@@ -59,63 +59,143 @@ const MACHETAZO_TIENDAS=[
 ];
 
 const MACHETAZO_PRODUCTOS=[
-  {row:12, material:'10851349', codigo:'750617451441', descripcion:'PEDIGREE RAZAS PEQUEÑAS ETG 10/1KG'},
-  {row:13, material:'10851347', codigo:'750617451440', descripcion:'PEDIGREE PUPPY NUTRIDEFENSE ETG 10/1KG'},
-  {row:14, material:'10897017', codigo:'750617451439', descripcion:'PEDIGREE ADULTO ETG 10/1KG'},
-  {row:15, material:'10254381', codigo:'2310005104',   descripcion:'PEDIGREE ADULTO 10BL/2KG.'},
-  {row:16, material:'10002142', codigo:'2310004104',   descripcion:'PEDIGREE CACHORRO 10BL/2KG.'},
-  {row:17, material:'10022665', codigo:'70646001371',  descripcion:'PEDIGREE RAZAS PEQUEÑAS 10BL/2KG.'},
-  {row:18, material:'10007176', codigo:'2310005103',   descripcion:'PEDIGREE ADULTO 4/4KG.'},
-  {row:19, material:'10007174', codigo:'2310004103',   descripcion:'PEDIGREE CACHORRO 4/4KG.'},
-  {row:20, material:'10022840', codigo:'70646023881',  descripcion:'PEDIGREE RAZAS PEQUEÑAS 4/4KG.'},
-  {row:21, material:'10304181', codigo:'70646024486',  descripcion:'PEDIGREE CACHORRO 7KG. SC/1'},
-  {row:22, material:'10767457', codigo:'750617451073', descripcion:'PEDIGREE POUCH CORDERO ADULTO 100GRS.'},
-  {row:23, material:'10552611', codigo:'70646024923',  descripcion:'PEDIGREE POUCH POLLO ADULTO 100GRS.'},
-  {row:24, material:'10552597', codigo:'70646024927',  descripcion:'PEDIGREE POUCH RES ADULTO 100GRS.'},
-  {row:25, material:'10552587', codigo:'70646024936',  descripcion:'PEDIGREE POUCH POLLO CACHORRO 100GRS.'},
-  {row:26, material:'10552578', codigo:'70646024931',  descripcion:'PEDIGREE POUCH RES CACHORRO 100GRS.'},
-  {row:27, material:'10767458', codigo:'750617450699', descripcion:'PEDIGREE POUCH CORDERO RAZAS PEQ. 100GRS.'},
-  {row:28, material:'10552591', codigo:'70646024928',  descripcion:'PEDIGREE POUCH POLLO RAZAS PEQ. 100GRS.'},
-  {row:29, material:'10552603', codigo:'70646024948',  descripcion:'PEDIGREE POUCH RES RAZAS PEQ. 100GRS.'},
-  {row:30, material:'10883240', codigo:'750617551508', descripcion:'PEDIGREE WET HIGH PROTEIN BEEF & CHICKEN 24/85G'},
-  {row:31, material:'10883241', codigo:'750617451509', descripcion:'PEDIGREE WET HIGH PROTEIN PORK & BEEF 24/85G'},
-  {row:32, material:'10883242', codigo:'750617451510', descripcion:'PEDIGREE WET HIGH PROTEIN CHICKEN & PORK 24/85G'},
-  {row:33, material:'10007053', codigo:'2310001527',   descripcion:'PEDIGREE LATA CHOICE CUTS BEEF CJ12/375GRS.'},
-  {row:34, material:'10001783', codigo:'2310001301',   descripcion:'PEDIGREE LATA CACHORRO CJ12/375GRS.'},
-  {row:35, material:'10002139', codigo:'210001004',    descripcion:'PEDIGREE LATA CHOPPED BEEF CJ12/375GRS.'},
-  {row:36, material:'10002141', codigo:'2310001075',   descripcion:'PEDIGREE LATA CHOPPED CHICKEN CJ12/375GRS.'},
-  {row:37, material:'10304183', codigo:'750617451523', descripcion:'Pedigree Biscrok Cachorro 12/100GR'},
-  {row:38, material:'10012131', codigo:'750617451524', descripcion:'Pedigree Biscrok Adulto 12/225G'},
-  {row:39, material:'10530530', codigo:'2310001401',   descripcion:'CESAR BEEF CJ24/100GR'},
-  {row:40, material:'10656452', codigo:'2310001405',   descripcion:'CESAR CHICKEN AND LIVER CJ24/100GR'},
-  {row:41, material:'10656485', codigo:'2310002607',   descripcion:'CESAR CACHORRO CJ24/100GR'},
-  {row:42, material:'10656476', codigo:'5310005672',   descripcion:'CESAR TOP SIRLOIN CJ24/100GR'},
-  {row:43, material:'10656458', codigo:'2310001407',   descripcion:'CESAR TURKEY CJ24/100GR'},
-  {row:44, material:'10945845', codigo:'70646002937',  descripcion:'WHISKAS CARNE ORIGINAL 5/3KG'},
-  {row:45, material:'10851346', codigo:'750617451478', descripcion:'WHISKAS CARNE ORIGINAL 12BL/500GRS.'},
-  {row:46, material:'10767459', codigo:'750617451360', descripcion:'WHISKAS GATITOS 12BL/1.4KG.'},
-  {row:47, material:'10022667', codigo:'70646002928',  descripcion:'WHISKAS CARNE ORIGINAL 12BL/1.5KG.'},
-  {row:48, material:'10022834', codigo:'70646002932',  descripcion:'WHISKAS PESCADO 12BL/1.5KG.'},
-  {row:49, material:'10022669', codigo:'70646002930',  descripcion:'WHISKAS POLLO 12BL/1.5KG'},
-  {row:50, material:'10953843', codigo:'750617451480', descripcion:'WHISKAS MIX PROTEINAS SECO 12/1.5KG'},
-  {row:51, material:'10952276', codigo:'70646000074',  descripcion:'WHISKAS POUCH PARRILLADA MIXTA CJ24/85GR.'},
-  {row:52, material:'10952277', codigo:'70646000064',  descripcion:'WHISKAS POUCH SALMON 24/85GR.'},
-  {row:53, material:'10848756', codigo:'70646000067',  descripcion:'WHISKAS POUCH PAVO 24/85GR.'},
-  {row:54, material:'10512047', codigo:'70646024167',  descripcion:'WHISKAS POUCH ATÚN GATITOS CJ24/85GR.'},
-  {row:55, material:'10512046', codigo:'70646024166',  descripcion:'WHISKAS POUCH RES GATITOS CJ24/85GR.'},
-  {row:56, material:'10767461', codigo:'750617450437', descripcion:'WHISKAS JELLY POUCH ATÚN Y SARDINA CJ24/85GR.'},
-  {row:57, material:'10767462', codigo:'750617450436', descripcion:'WHISKAS JELLY POUCH RES CJ24/85GR.'},
-  {row:58, material:'10001781', codigo:'70646000066',  descripcion:'WHISKAS POUCH ATUN CJ24/85GR.'},
-  {row:59, material:'10001780', codigo:'70646000065',  descripcion:'WHISKAS POUCH POLLO CJ24/85GR.'},
-  {row:60, material:'10001782', codigo:'70646000068',  descripcion:'WHISKAS POUCH RES CJ24/85GR.'},
-  {row:61, material:'10985846', codigo:'745202641733', descripcion:'4PACK PEDIGREE CACHORRO CAJA6 / 4POUCH'},
-  {row:62, material:'10985847', codigo:'745202641731', descripcion:'4PACK PEDIGREE RAZAS PEQUENAS CAJA6 / 4POUCH'},
-  {row:63, material:'10985848', codigo:'745202641732', descripcion:'4PACK PEDIGREE ADULTO CAJA6 / 4POUCH'},
-  {row:64, material:'10985849', codigo:'745202641729', descripcion:'4PACK WHISKAS GATO CAJA6 / 4POUCH'},
-  {row:65, material:'10985166', codigo:'745202641730', descripcion:'4PACK WHISKAS GATITO CAJA6 / 4POUCH'},
-  {row:69, material:'11036528', codigo:'7506174516161',descripcion:'PANCITA SALUDABLE POLLO Y CAMOTE 24/100GR'},
-  {row:70, material:'11036526', codigo:'7506174516147',descripcion:'PANCITA SALUDABLE SALMON Y ARROZ INTEGRAL 24/100GR'},
-  {row:71, material:'11036527', codigo:'7506174516154',descripcion:'PANCITA SALUDABLE PAVO Y ZANAHORIA 24/100GR'},
+  {row:12, material:'10851349', codigo:'750617451441', descripcion:'PEDIGREE RAZAS PEQUEÑAS ETG 10/1KG',              t:'CJ', u:10, p:39.50},
+  {row:13, material:'10851347', codigo:'750617451440', descripcion:'PEDIGREE PUPPY NUTRIDEFENSE ETG 10/1KG',          t:'CJ', u:10, p:39.50},
+  {row:14, material:'10897017', codigo:'750617451439', descripcion:'PEDIGREE ADULTO ETG 10/1KG',                      t:'CJ', u:10, p:39.50},
+  {row:15, material:'10254381', codigo:'2310005104',   descripcion:'PEDIGREE ADULTO 10BL/2KG.',                       t:'CJ', u:10, p:74.30},
+  {row:16, material:'10002142', codigo:'2310004104',   descripcion:'PEDIGREE CACHORRO 10BL/2KG.',                     t:'CJ', u:10, p:74.30},
+  {row:17, material:'10022665', codigo:'70646001371',  descripcion:'PEDIGREE RAZAS PEQUEÑAS 10BL/2KG.',               t:'CJ', u:10, p:74.30},
+  {row:18, material:'10007176', codigo:'2310005103',   descripcion:'PEDIGREE ADULTO 4/4KG.',                          t:'CJ', u:4,  p:74.30},
+  {row:19, material:'10007174', codigo:'2310004103',   descripcion:'PEDIGREE CACHORRO 4/4KG.',                        t:'CJ', u:4,  p:74.30},
+  {row:20, material:'10022840', codigo:'70646023881',  descripcion:'PEDIGREE RAZAS PEQUEÑAS 4/4KG.',                  t:'CJ', u:4,  p:74.30},
+  {row:21, material:'10304181', codigo:'70646024486',  descripcion:'PEDIGREE CACHORRO 7KG. SC/1',                     t:'CJ', u:1,  p:74.30},
+  {row:22, material:'10767457', codigo:'750617451073', descripcion:'PEDIGREE POUCH CORDERO ADULTO 100GRS.',           t:'CJ', u:24, p:39.50},
+  {row:23, material:'10552611', codigo:'70646024923',  descripcion:'PEDIGREE POUCH POLLO ADULTO 100GRS.',             t:'CJ', u:24, p:39.50},
+  {row:24, material:'10552597', codigo:'70646024927',  descripcion:'PEDIGREE POUCH RES ADULTO 100GRS.',               t:'CJ', u:24, p:39.50},
+  {row:25, material:'10552587', codigo:'70646024936',  descripcion:'PEDIGREE POUCH POLLO CACHORRO 100GRS.',           t:'CJ', u:24, p:39.50},
+  {row:26, material:'10552578', codigo:'70646024931',  descripcion:'PEDIGREE POUCH RES CACHORRO 100GRS.',             t:'CJ', u:24, p:39.50},
+  {row:27, material:'10767458', codigo:'750617450699', descripcion:'PEDIGREE POUCH CORDERO RAZAS PEQ. 100GRS.',       t:'CJ', u:24, p:39.50},
+  {row:28, material:'10552591', codigo:'70646024928',  descripcion:'PEDIGREE POUCH POLLO RAZAS PEQ. 100GRS.',         t:'CJ', u:24, p:39.50},
+  {row:29, material:'10552603', codigo:'70646024948',  descripcion:'PEDIGREE POUCH RES RAZAS PEQ. 100GRS.',           t:'CJ', u:24, p:39.50},
+  {row:30, material:'10883240', codigo:'750617551508', descripcion:'PEDIGREE WET HIGH PROTEIN BEEF & CHICKEN 24/85G', t:'CJ', u:24, p:39.50},
+  {row:31, material:'10883241', codigo:'750617451509', descripcion:'PEDIGREE WET HIGH PROTEIN PORK & BEEF 24/85G',   t:'CJ', u:24, p:39.50},
+  {row:32, material:'10883242', codigo:'750617451510', descripcion:'PEDIGREE WET HIGH PROTEIN CHICKEN & PORK 24/85G',t:'CJ', u:24, p:39.50},
+  {row:33, material:'10007053', codigo:'2310001527',   descripcion:'PEDIGREE LATA CHOICE CUTS BEEF CJ12/375GRS.',    t:'CJ', u:12, p:39.50},
+  {row:34, material:'10001783', codigo:'2310001301',   descripcion:'PEDIGREE LATA CACHORRO CJ12/375GRS.',             t:'CJ', u:12, p:39.50},
+  {row:35, material:'10002139', codigo:'210001004',    descripcion:'PEDIGREE LATA CHOPPED BEEF CJ12/375GRS.',         t:'CJ', u:12, p:39.50},
+  {row:36, material:'10002141', codigo:'2310001075',   descripcion:'PEDIGREE LATA CHOPPED CHICKEN CJ12/375GRS.',      t:'CJ', u:12, p:39.50},
+  {row:37, material:'10304183', codigo:'750617451523', descripcion:'Pedigree Biscrok Cachorro 12/100GR',              t:'CJ', u:12, p:39.50},
+  {row:38, material:'10012131', codigo:'750617451524', descripcion:'Pedigree Biscrok Adulto 12/225G',                 t:'CJ', u:12, p:39.50},
+  {row:39, material:'10530530', codigo:'2310001401',   descripcion:'CESAR BEEF CJ24/100GR',                          t:'CJ', u:24, p:39.50},
+  {row:40, material:'10656452', codigo:'2310001405',   descripcion:'CESAR CHICKEN AND LIVER CJ24/100GR',             t:'CJ', u:24, p:39.50},
+  {row:41, material:'10656485', codigo:'2310002607',   descripcion:'CESAR CACHORRO CJ24/100GR',                      t:'CJ', u:24, p:39.50},
+  {row:42, material:'10656476', codigo:'5310005672',   descripcion:'CESAR TOP SIRLOIN CJ24/100GR',                   t:'CJ', u:24, p:39.50},
+  {row:43, material:'10656458', codigo:'2310001407',   descripcion:'CESAR TURKEY CJ24/100GR',                        t:'CJ', u:24, p:39.50},
+  {row:44, material:'10945845', codigo:'70646002937',  descripcion:'WHISKAS CARNE ORIGINAL 5/3KG',                   t:'CJ', u:5,  p:39.50},
+  {row:45, material:'10851346', codigo:'750617451478', descripcion:'WHISKAS CARNE ORIGINAL 12BL/500GRS.',             t:'CJ', u:12, p:39.50},
+  {row:46, material:'10767459', codigo:'750617451360', descripcion:'WHISKAS GATITOS 12BL/1.4KG.',                    t:'CJ', u:12, p:39.50},
+  {row:47, material:'10022667', codigo:'70646002928',  descripcion:'WHISKAS CARNE ORIGINAL 12BL/1.5KG.',             t:'CJ', u:12, p:39.50},
+  {row:48, material:'10022834', codigo:'70646002932',  descripcion:'WHISKAS PESCADO 12BL/1.5KG.',                    t:'CJ', u:12, p:39.50},
+  {row:49, material:'10022669', codigo:'70646002930',  descripcion:'WHISKAS POLLO 12BL/1.5KG',                       t:'CJ', u:12, p:39.50},
+  {row:50, material:'10953843', codigo:'750617451480', descripcion:'WHISKAS MIX PROTEINAS SECO 12/1.5KG',            t:'CJ', u:12, p:39.50},
+  {row:51, material:'10952276', codigo:'70646000074',  descripcion:'WHISKAS POUCH PARRILLADA MIXTA CJ24/85GR.',      t:'CJ', u:24, p:39.50},
+  {row:52, material:'10952277', codigo:'70646000064',  descripcion:'WHISKAS POUCH SALMON 24/85GR.',                  t:'CJ', u:24, p:39.50},
+  {row:53, material:'10848756', codigo:'70646000067',  descripcion:'WHISKAS POUCH PAVO 24/85GR.',                    t:'CJ', u:24, p:39.50},
+  {row:54, material:'10512047', codigo:'70646024167',  descripcion:'WHISKAS POUCH ATÚN GATITOS CJ24/85GR.',          t:'CJ', u:24, p:39.50},
+  {row:55, material:'10512046', codigo:'70646024166',  descripcion:'WHISKAS POUCH RES GATITOS CJ24/85GR.',           t:'CJ', u:24, p:39.50},
+  {row:56, material:'10767461', codigo:'750617450437', descripcion:'WHISKAS JELLY POUCH ATÚN Y SARDINA CJ24/85GR.', t:'CJ', u:24, p:39.50},
+  {row:57, material:'10767462', codigo:'750617450436', descripcion:'WHISKAS JELLY POUCH RES CJ24/85GR.',             t:'CJ', u:24, p:39.50},
+  {row:58, material:'10001781', codigo:'70646000066',  descripcion:'WHISKAS POUCH ATUN CJ24/85GR.',                  t:'CJ', u:24, p:39.50},
+  {row:59, material:'10001780', codigo:'70646000065',  descripcion:'WHISKAS POUCH POLLO CJ24/85GR.',                 t:'CJ', u:24, p:39.50},
+  {row:60, material:'10001782', codigo:'70646000068',  descripcion:'WHISKAS POUCH RES CJ24/85GR.',                   t:'CJ', u:24, p:39.50},
+  {row:61, material:'10985846', codigo:'745202641733', descripcion:'4PACK PEDIGREE CACHORRO CAJA6 / 4POUCH',         t:'CJ', u:6,  p:39.50},
+  {row:62, material:'10985847', codigo:'745202641731', descripcion:'4PACK PEDIGREE RAZAS PEQUENAS CAJA6 / 4POUCH',   t:'CJ', u:6,  p:39.50},
+  {row:63, material:'10985848', codigo:'745202641732', descripcion:'4PACK PEDIGREE ADULTO CAJA6 / 4POUCH',           t:'CJ', u:6,  p:39.50},
+  {row:64, material:'10985849', codigo:'745202641729', descripcion:'4PACK WHISKAS GATO CAJA6 / 4POUCH',              t:'CJ', u:6,  p:39.50},
+  {row:65, material:'10985166', codigo:'745202641730', descripcion:'4PACK WHISKAS GATITO CAJA6 / 4POUCH',            t:'CJ', u:6,  p:39.50},
+  {row:69, material:'11036528', codigo:'7506174516161',descripcion:'PANCITA SALUDABLE POLLO Y CAMOTE 24/100GR',       t:'CJ', u:24, p:39.50},
+  {row:70, material:'11036526', codigo:'7506174516147',descripcion:'PANCITA SALUDABLE SALMON Y ARROZ INTEGRAL 24/100GR',t:'CJ',u:24,p:39.50},
+  {row:71, material:'11036527', codigo:'7506174516154',descripcion:'PANCITA SALUDABLE PAVO Y ZANAHORIA 24/100GR',    t:'CJ', u:24, p:39.50},
+  {row:101, material:'10021042', codigo:'40000514510',  descripcion:'CHOCOLATE MANI M&M 1.74OZ',                      t:'EX', u:48, p:46.56},
+  {row:102, material:'10021167', codigo:'40000004325',  descripcion:'CHOCOLATE MANI KING M&M 3.27OZ',                 t:'EX', u:24, p:39.12},
+  {row:103, material:'10021037', codigo:'40000002376',  descripcion:'CHOCOLATE MINI TUBO M&M 30.6GR',                 t:'EX', u:24, p:23.52},
+  {row:104, material:'10020907', codigo:'40000514480',  descripcion:'CHOCOLATE M&M 1.69OZ',                           t:'EX', u:36, p:34.92},
+  {row:105, material:'10354985', codigo:'40000001447',  descripcion:'CHOCOLATE MANTEQUILLA MANI M&M 46.2GR',          t:'EX', u:24, p:23.52},
+  {row:106, material:'10385420', codigo:'40000476528',  descripcion:'CHOCOLATE MINIS MEGA TUBO M&M 1.94OZ',           t:'EX', u:24, p:39.36},
+  {row:107, material:'10952129', codigo:'40000580881',  descripcion:'CHOCOLATE CON GALLETA MM 38.3GR',                t:'EX', u:24, p:21.60},
+  {row:108, material:'10015507', codigo:'40000017318',  descripcion:'CHOCOLATE M&M 5.30OZ',                           t:'CJ', u:12, p:25.92},
+  {row:109, material:'10015508', codigo:'40000017325',  descripcion:'CHOCOLATE CON MANI M&M 5.3OZ',                   t:'CJ', u:12, p:25.92},
+  {row:110, material:'10019953', codigo:'40000505921',  descripcion:'CHOCOLATE MANI FUN SIZE M&M 10.57OZ',            t:'CJ', u:16, p:77.60},
+  {row:111, material:'11004934', codigo:'40000580164',  descripcion:'CHOCOLATE MINIS MMS 9.4 OZ',                     t:'CJ', u:8,  p:37.92},
+  {row:112, material:'10015727', codigo:'40000505969',  descripcion:'CHOCOLATE FUN SIZE M&M 10.53OZ',                 t:'CJ', u:16, p:77.60},
+  {row:113, material:'10354986', codigo:'40000017448',  descripcion:'CHOCOLATE MANTEQUILLA MANI M&M 144.6GR',         t:'CJ', u:12, p:26.04},
+  {row:114, material:'11004933', codigo:'40000579793',  descripcion:'CHOCOLATE LECHE MMS 10 OZ',                      t:'CJ', u:12, p:57.00},
+  {row:115, material:'11004932', codigo:'40000579779',  descripcion:'CHOCOLATE MANI MMS 10.5OZ',                      t:'CJ', u:12, p:57.00},
+  {row:116, material:'10998340', codigo:'40000565673',  descripcion:'CHOCOLATE CLASICO MIX MMS 8.3OZ',                t:'CJ', u:8,  p:37.92},
+  {row:117, material:'10998341', codigo:'40000579946',  descripcion:'CHOCOLATE CON ALMENDRAS MMS 9OZ',                t:'CJ', u:8,  p:37.92},
+  {row:118, material:'10952130', codigo:'40000580966',  descripcion:'CHOCOLATE CON GALLETA MM 209.8GR',               t:'CJ', u:8,  p:37.52},
+  {row:119, material:'10991884', codigo:'40000579816',  descripcion:'CHOCOLATE MANTEQUILLA MANI MMS 255.2GR',         t:'CJ', u:8,  p:37.68},
+  {row:120, material:'10955755', codigo:'40000597551',  descripcion:'CHOCOLATE MINI VARIADO MARS 8.31OZ',             t:'CJ', u:18, p:37.52},
+  {row:130, material:'10385410', codigo:'40000514251',  descripcion:'CHOCOLATE SINGLE SNICKERS 1.86 OZ',              t:'EX', u:48, p:47.04},
+  {row:131, material:'10015503', codigo:'40000002635',  descripcion:'CHOCOLATE KING SIZE SNICKERS 3.29OZ',            t:'EX', u:24, p:39.12},
+  {row:132, material:'10020913', codigo:'40000001058',  descripcion:'CHOCOLATE SNICKERS ALMOND 1.76OZ',               t:'EX', u:24, p:23.52},
+  {row:133, material:'10816258', codigo:'40000560470',  descripcion:'CHOCOLATE BLANCO SNICKERS 1.41OZ',               t:'EX', u:24, p:23.52},
+  {row:134, material:'10957875', codigo:'7502271917061',descripcion:'CHOCOLATE EXPRESSO SNICKERS 41.5GR',              t:'EX', u:24, p:24.48},
+  {row:135, material:'10015506', codigo:'40000015024',  descripcion:'CHOCOLATE MINIS SNICKERS 4.40OZ',                t:'CJ', u:12, p:25.92},
+  {row:136, material:'10015724', codigo:'40000505334',  descripcion:'CHOCOLATE FUN SIZE SNICKERS 10.59OZ',            t:'CJ', u:18, p:87.30},
+  {row:137, material:'11008699', codigo:'40000151258',  descripcion:'CHOCOLATE ALMENDRA SNICKER 10.23OZ',             t:'CJ', u:12, p:57.00},
+  {row:138, material:'10688105', codigo:'40000525578',  descripcion:'CHOCOLATE MINIATURAS SNICKERS 9.7OZ',            t:'CJ', u:8,  p:37.52},
+  {row:140, material:'10385411', codigo:'40000602040',  descripcion:'CHOCOLATE MILKY WAY 1.84OZ',                     t:'EX', u:36, p:36.72},
+  {row:141, material:'10021169', codigo:'40000004356',  descripcion:'TWIX CARAMEL SINGLE 1.79 OZ',                    t:'EX', u:36, p:34.92},
+  {row:150, material:'10866403', codigo:'810008800898', descripcion:'CHOCOLATE ZERO TURIN 16GR',                      t:'EX', u:18, p:15.66},
+  {row:151, material:'10952127', codigo:'7502271917108',descripcion:'CHOCOLATE MINI ZERO ALMENDRA S/A TURIN 18',      t:'EX', u:18, p:15.66},
+  {row:152, material:'10952128', codigo:'7502271917146',descripcion:'CHOCOLATE MINI EXOTICA NUEZ TURIN 18GR',         t:'EX', u:18, p:16.38},
+  {row:153, material:'10965111', codigo:'7502271917160',descripcion:'CHOCOLATE BOLSA TURIN ZERO 75G',                 t:'CJ', u:18, p:69.30},
+  {row:160, material:'10889269', codigo:'22000293213',  descripcion:'CHICLE DOUBLEMINT WRIGLEY 5 STICKS',             t:'EX', u:20, p:6.40},
+  {row:161, material:'10889270', codigo:'22000293275',  descripcion:'CHICLE WINTERFRESH WRIGLEY 5 STICKS',            t:'EX', u:20, p:6.40},
+  {row:162, material:'10700058', codigo:'22000007698',  descripcion:'CHICLE PEPPERMINT ALTOIDS 34GR',                 t:'CJ', u:8,  p:28.00},
+  {row:163, material:'10014948', codigo:'22000006660',  descripcion:'DOUBLEMINT 15 STK',                              t:'EX', u:10, p:10.10},
+  {row:164, material:'10014951', codigo:'22000008381',  descripcion:'FRUIT SENSATIONS 15STK',                         t:'EX', u:10, p:11.20},
+  {row:165, material:'10700067', codigo:'22000009951',  descripcion:'CHICLE FRESA ALTOIDS 34GR',                      t:'CJ', u:8,  p:28.00},
+  {row:166, material:'10423355', codigo:'22000159540',  descripcion:'EXTRA SPEARMINT 10 CT',                          t:'EX', u:10, p:11.20},
+  {row:167, material:'10952726', codigo:'725181068013', descripcion:'CARAMELOS LUCAS MUECAS CHA WRIGLEY 25GR',        t:'CJ', u:10, p:8.00},
+  {row:168, material:'10700110', codigo:'22110079806',  descripcion:'CHICLE HUBBA BUBBA BUBBLE GUM 56.7GR',           t:'CJ', u:6,  p:12.00},
+  {row:169, material:'10615208', codigo:'22000008916',  descripcion:'EXTRA PEPPERMINT 15 STK',                        t:'EX', u:10, p:11.20},
+  {row:170, material:'10952727', codigo:'93613583',     descripcion:'CHICLES HUBBA BUBBA FRESA WRIGLEY 6CT',          t:'CJ', u:6,  p:12.00},
+  {row:171, material:'10948246', codigo:'810008800546', descripcion:'SKWINKLES CHUNK SINGLE WRIGLEY CS 45GR',         t:'CJ', u:6,  p:10.00},
+  {row:172, material:'10952725', codigo:'7506174513900',descripcion:'CARAMELOS LUCAS MUECAS TAMA WRIGLEY 25GR',       t:'CJ', u:10, p:8.00},
+  {row:173, material:'10952724', codigo:'725181203018', descripcion:'CARAMELOS LUCAS MUECAS MANGO WRIGLEY 25GR',      t:'CJ', u:10, p:8.00},
+  {row:174, material:'10948247', codigo:'810008800614', descripcion:'SKWINKLES CHUNK PEGBAG WRIGLEY CS 70G',          t:'CJ', u:12, p:18.00},
+  {row:175, material:'10712794', codigo:'22000019189',  descripcion:'CHICLE BLANCO MENTA 100GR',                      t:'CJ', u:6,  p:14.00},
+  {row:176, material:'10897632', codigo:'22000285966',  descripcion:'SKITTLES GUMMIES WILDBERRY PGPK 5.8OZ',          t:'CJ', u:12, p:25.92},
+  {row:177, material:'10897611', codigo:'22000285942',  descripcion:'SKITTLES GUMMIES ORG PGPK 5.8OZ',               t:'CJ', u:12, p:25.92},
+  {row:178, material:'10615205', codigo:'22000116024',  descripcion:'FIVE WATERMELON 15 STK',                         t:'EX', u:10, p:13.30},
+  {row:179, material:'10648235', codigo:'22000019172',  descripcion:'WHITE SOFT CHEW SPEARM 240GR',                   t:'CJ', u:6,  p:14.00},
+  {row:180, material:'10014952', codigo:'22000008404',  descripcion:'EXTRA WINTERFRESH 15STK',                        t:'EX', u:10, p:11.20},
+  {row:181, material:'11008239', codigo:'22000296207',  descripcion:'CHICLE POLAR ICE WRIGLEY EXTRA 3PK',             t:'EX', u:10, p:11.20},
+  {row:182, material:'11008235', codigo:'22000296283',  descripcion:'CHICLE SANDIA DULCE WRIGLEY EXTRA 3PK',          t:'EX', u:10, p:11.20},
+  {row:183, material:'10573594', codigo:'22000005144',  descripcion:'FIVE RAIN 15 STK WRIGLEY 12UND',                 t:'EX', u:10, p:13.30},
+  {row:190, material:'10021035', codigo:'22000018489',  descripcion:'CARAMELO WILD BERRY SKITTLES 61.5GR',            t:'EX', u:36, p:35.28},
+  {row:191, material:'10021038', codigo:'40000002666',  descripcion:'SKITTLES SOUR SINGLE 1.8 OZ',                    t:'EX', u:24, p:23.52},
+  {row:192, material:'10021034', codigo:'22000018465',  descripcion:'CARAMELO ORIGINAL SKITTLES 61.5GR',              t:'EX', u:36, p:35.28},
+  {row:193, material:'10944578', codigo:'22000289735',  descripcion:'GOMITAS MASTICABLES SKITTLES GUMMIES 5.8OZ',     t:'CJ', u:12, p:25.92},
+  {row:194, material:'10021036', codigo:'40000001638',  descripcion:'CARAMELO TROPICAL SKITTLES 2.17 OZ',             t:'EX', u:36, p:35.28},
+  {row:195, material:'10021646', codigo:'40000140931',  descripcion:'SKITTLES SOUR PEG BAG PACK 5.7 OZ',              t:'CJ', u:12, p:25.92},
+  {row:196, material:'10766259', codigo:'22000284143',  descripcion:'SKITTLES ORIGINAL PEG PACK 3.13OZ',              t:'CJ', u:12, p:25.92},
+  {row:197, material:'10021488', codigo:'40000140924',  descripcion:'CARAMELO ORIGINAL SKITTLES BOLSA 204.1GR',       t:'CJ', u:12, p:25.92},
+  {row:198, material:'11039744', codigo:'2200029882',   descripcion:'STARBURST GUMMIES SHARING SIZE 3OZ',             t:'CJ', u:15, p:30.00},
+  {row:199, material:'10021648', codigo:'40000141143',  descripcion:'STARBURST ORIGINAL PEG PACK 7.2 OZ',             t:'CJ', u:12, p:25.92},
+  {row:200, material:'11007555', codigo:'22000298492',  descripcion:'STARBURST GUMMIES SOUR PGPK 5 OZ',              t:'CJ', u:12, p:25.92},
+  {row:201, material:'11007554', codigo:'220000298416', descripcion:'STARBURST GUMMIES ORG PGPK 5 OZ',               t:'CJ', u:12, p:25.92},
+  {row:210, material:'11007597', codigo:'810008801154', descripcion:'LUCAS GOMITAS SANDIA SINGLE CS 40GR',            t:'CJ', u:6,  p:10.00},
+  {row:211, material:'11007598', codigo:'810008801178', descripcion:'LUCAS GOMITAS MANGO SINGLE CS 40GR',             t:'CJ', u:6,  p:10.00},
+  {row:212, material:'10908620', codigo:'725181363019', descripcion:'CARAMELO CEREZA LUCAS MUECAS 25G',               t:'CJ', u:10, p:8.00},
+  {row:213, material:'10908616', codigo:'7502226812335',descripcion:'CARAMELO SANDIA LUCAS MUECAS 25G',               t:'CJ', u:10, p:8.00},
+  {row:214, material:'11003611', codigo:'810008800980', descripcion:'GOMITAS MANGO PICANTE LUCAS 70G',                t:'CJ', u:12, p:18.00},
+  {row:215, material:'11003610', codigo:'810008800997', descripcion:'GOMITAS SANDIA PICANTE LUCAS 70GR',              t:'CJ', u:12, p:18.00},
+  {row:216, material:'11027707', codigo:'7502271918266',descripcion:'CARAMELO LUCAS LENWAS MANGO 140GR',              t:'CJ', u:6,  p:14.00},
+  {row:217, material:'11027706', codigo:'7502271919775',descripcion:'CARAMELO LUCAS LENWAS SANDIA 140GR',             t:'CJ', u:6,  p:14.00},
+  {row:218, material:'11013005', codigo:'810008801192', descripcion:'SKWINKLES CHUNK SANDIA SINGLE WRIGLEY CS 45GR', t:'CJ', u:6,  p:10.00},
 ];
 
 const CAT=[
@@ -268,53 +348,102 @@ const calcMontoAuditor=(prod,cant)=>{
   if(!prod||!cant||isNaN(cant)||parseFloat(cant)<=0)return null;
   return(parseFloat(cant)*prod.p).toFixed(2);
 };
+const calcMachetazoUnidades=(prod,cantCajas)=>{
+  if(!prod||!cantCajas||isNaN(cantCajas)||parseFloat(cantCajas)<=0)return null;
+  return parseInt(cantCajas)*prod.u;
+};
+const calcMachetazoMonto=(prod,cantCajas)=>{
+  if(!prod||!cantCajas||isNaN(cantCajas)||parseFloat(cantCajas)<=0)return null;
+  return(parseFloat(cantCajas)*prod.p).toFixed(2);
+};
 
+// ── Excel Machetazo (solo Admin) ──────────────────────────────────────────────
 const descargarMachetazoExcel=(pedidos)=>{
   if(!pedidos||pedidos.length===0){alert('Agrega al menos un producto');return;}
   try{
-    // Hoja 1: Lista detallada
-    const rows1=[['#','Material','Codigo','Descripcion','Tienda','Columna','Cantidad']];
+    const rows1=[['#','Material','Codigo','Descripcion','Tienda','Columna','Cajas/Ex','Unidades','Monto ($)']];
     pedidos.forEach((p,i)=>{
-      rows1.push([i+1, p.pMat, p.pCod, p.pDesc, p.tStore, p.tColL, p.qty]);
+      rows1.push([i+1,p.pMat,p.pCod,p.pDesc,p.tStore,p.tColL,p.qtyCajas,p.qtyUnidades,p.monto]);
     });
     rows1.push([]);
-
-    // Resumen por tienda
-    rows1.push(['RESUMEN POR TIENDA','','','','','','']);
-    rows1.push(['Tienda','Productos','Unidades','','','','']);
+    const totalUnidades=pedidos.reduce((a,p)=>a+p.qtyUnidades,0);
+    const totalMonto=pedidos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0);
+    rows1.push(['','','','','','','TOTAL UNIDADES:',totalUnidades,'']);
+    rows1.push(['','','','','','','TOTAL MONTO:','','$'+totalMonto.toFixed(2)]);
+    rows1.push([]);
+    rows1.push(['RESUMEN POR TIENDA','','','','','','','','']);
+    rows1.push(['Tienda','Productos','Unidades','Monto ($)','','','','','']);
     const rt={};
     pedidos.forEach(p=>{
-      if(!rt[p.tStore])rt[p.tStore]={n:0,u:0};
-      rt[p.tStore].n++;rt[p.tStore].u+=p.qty;
+      if(!rt[p.tStore])rt[p.tStore]={n:0,u:0,m:0};
+      rt[p.tStore].n++;rt[p.tStore].u+=p.qtyUnidades;rt[p.tStore].m+=parseFloat(p.monto)||0;
     });
-    Object.keys(rt).forEach(k=>rows1.push([k,rt[k].n,rt[k].u,'','','','']));
-    const total=pedidos.reduce((a,p)=>a+p.qty,0);
-    rows1.push(['TOTAL','',total,'','','','']);
-
-    // Hoja 2: Formato cruzado
+    Object.keys(rt).forEach(k=>rows1.push([k,rt[k].n,rt[k].u,'$'+rt[k].m.toFixed(2),'','','','','']));
     const tiendas=[...new Set(pedidos.map(p=>p.tStore))];
     const prods=[...new Set(pedidos.map(p=>p.pMat))];
-    const rows2=[['Material','Descripcion',...tiendas]];
+    const rows2=[['Material','Descripcion',...tiendas,'Total Unidades','Total Monto ($)']];
     prods.forEach(mat=>{
       const pd=pedidos.find(p=>p.pMat===mat);
-      const fila=[mat, pd.pDesc];
+      const fila=[mat,pd.pDesc];
+      let totU=0,totM=0;
       tiendas.forEach(ts=>{
         const m=pedidos.find(p=>p.pMat===mat&&p.tStore===ts);
-        fila.push(m?m.qty:'');
+        fila.push(m?m.qtyUnidades:'');
+        if(m){totU+=m.qtyUnidades;totM+=parseFloat(m.monto)||0;}
       });
+      fila.push(totU,'$'+totM.toFixed(2));
       rows2.push(fila);
     });
-
     const wb=XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows1), 'PEDIDO');
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows2), 'PLANTILLA');
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows1),'PEDIDO');
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows2),'PLANTILLA');
     XLSX.writeFile(wb,'machetazo_'+new Date().toISOString().slice(0,10)+'.xlsx');
-  }catch(err){
-    console.error(err);
-    alert('Error generando Excel: '+err.message);
-  }
+  }catch(err){console.error(err);alert('Error generando Excel: '+err.message);}
 };
 
+// ── Componente de lista con editar/eliminar ────────────────────────────────────
+function ItemEditable({item,idx,onEliminar,onEditar,accentColor,borderColor,bgColor,labelCant,renderDetalle}){
+  const [editando,setEditando]=useState(false);
+  const [nuevaCant,setNuevaCant]=useState(String(item.cantidad||item.qtyCajas||''));
+
+  const guardarEdicion=()=>{
+    const val=parseFloat(nuevaCant);
+    if(!val||val<=0){alert('Cantidad inválida');return;}
+    onEditar(idx,val);
+    setEditando(false);
+  };
+
+  return(
+    <div style={{background:bgColor,border:`1px solid ${borderColor}`,borderRadius:'.5rem',padding:'.75rem 1rem',marginBottom:'.4rem'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+        <div style={{flex:1,minWidth:0}}>
+          {renderDetalle(item)}
+        </div>
+        <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:'4px',flexShrink:0,marginLeft:'.75rem'}}>
+          <div style={{display:'flex',gap:'4px'}}>
+            <button onClick={()=>{setEditando(!editando);setNuevaCant(String(item.cantidad||item.qtyCajas||''));}}
+              style={{background:`rgba(251,191,36,.2)`,border:`1px solid #fbbf24`,color:'#fcd34d',borderRadius:'.35rem',padding:'3px 8px',cursor:'pointer',fontSize:'.72rem',fontWeight:'700'}}>
+              ✏️
+            </button>
+            <button onClick={()=>onEliminar(idx)}
+              style={{background:'rgba(220,38,38,.3)',border:'1px solid #dc2626',color:'#fca5a5',borderRadius:'.35rem',padding:'3px 8px',cursor:'pointer',fontSize:'.72rem',fontWeight:'700'}}>
+              ✕
+            </button>
+          </div>
+        </div>
+      </div>
+      {editando&&(
+        <div style={{marginTop:'.6rem',background:'rgba(0,0,0,.25)',borderRadius:'.4rem',padding:'.6rem',display:'flex',gap:'.5rem',alignItems:'center'}}>
+          <label style={{color:'#fcd34d',fontSize:'.78rem',whiteSpace:'nowrap'}}>{labelCant}:</label>
+          <input type="number" min="1" value={nuevaCant} onChange={e=>setNuevaCant(e.target.value)}
+            style={{flex:1,background:'#1e293b',color:'white',border:'1px solid #fbbf24',borderRadius:'.35rem',padding:'.4rem .6rem',outline:'none',fontSize:'.85rem'}}/>
+          <button onClick={guardarEdicion} style={{background:'#16a34a',color:'white',border:'none',borderRadius:'.35rem',padding:'.4rem .75rem',cursor:'pointer',fontSize:'.78rem',fontWeight:'700'}}>OK</button>
+          <button onClick={()=>setEditando(false)} style={{background:'#475569',color:'white',border:'none',borderRadius:'.35rem',padding:'.4rem .6rem',cursor:'pointer',fontSize:'.78rem'}}>✕</button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function App(){
   const [user,setUser]=useState(null);
@@ -339,6 +468,8 @@ function App(){
   const [aErr,setAErr]=useState(false);
   const [msg,setMsg]=useState('');
   const [err,setErr]=useState('');
+
+  // Machetazo state
   const [mPedidos,setMPedidos]=useState([]);
   const [mTiendaSel,setMTiendaSel]=useState('');
   const [mProdSel,setMProdSel]=useState(null);
@@ -346,6 +477,12 @@ function App(){
   const [mCant,setMCant]=useState('');
   const [mShowSug,setMShowSug]=useState(false);
   const [mShowForm,setMShowForm]=useState(false);
+
+  // Vendedor / Inventario lista local
+  const [vPedidos,setVPedidos]=useState([]);
+
+  // REY lista local
+  const [reyPedidos,setReyPedidos]=useState([]);
 
   const showM=(m,e=false)=>{if(e)setErr(m);else setMsg(m);setTimeout(()=>{setMsg('');setErr('');},3000);};
 
@@ -356,7 +493,7 @@ function App(){
     setLoad(false);
   },[]);
 
-  useEffect(()=>{if(user&&!user.machetazo)cargar();},[user]);
+  useEffect(()=>{if(user&&!user.machetazo&&!user.vendedorLocal)cargar();},[user]);
 
   const tiendasV=useMemo(()=>user?.v&&!user?.auditor&&!user?.machetazo?TIENDAS.filter(t=>t.v===user.v):[], [user]);
 
@@ -377,29 +514,93 @@ function App(){
   const vFilt=useMemo(()=>VENDS.filter(v=>v.n.toUpperCase().includes(srchV.toUpperCase())),[srchV]);
   const aFilt=useMemo(()=>AUDITORES.filter(a=>a.toUpperCase().includes(srchA.toUpperCase())),[srchA]);
 
-  const reset=()=>{setCant('');setCodIn('');setProd(null);setShowSug(false);setShowForm(false);setMesVenc('');};
-  const mReset=()=>{setMCant('');setMCodIn('');setMProdSel(null);setMShowSug(false);setMShowForm(false);};
-  const logout=()=>{setUser(null);setLMode(null);setSelV('');setSrchV('');setSelA('');setSrchA('');setAPass('');setAErr(false);setReps([]);setTId('');setMesVenc('');setMPedidos([]);setMTiendaSel('');reset();mReset();};
+  const resetProd=()=>{setCant('');setCodIn('');setProd(null);setShowSug(false);setMesVenc('');setTId('');};
+  const mReset=()=>{setMCant('');setMCodIn('');setMProdSel(null);setMShowSug(false);};
+  const logout=()=>{setUser(null);setLMode(null);setSelV('');setSrchV('');setSelA('');setSrchA('');setAPass('');setAErr(false);setReps([]);setTId('');setMesVenc('');setMPedidos([]);setMTiendaSel('');setVPedidos([]);setReyPedidos([]);resetProd();mReset();setShowForm(false);setMShowForm(false);};
 
-  const guardar=async()=>{
-    if(!tId||!prod||!cant){alert('Completa todos los campos');return;}
-    const isAuditor=user.auditor;
-    if(!isAuditor&&!mesVenc){alert('Selecciona el mes de vencimiento');return;}
-    const tiendaName=isAuditor?tId:TIENDAS.find(t=>t.id===parseInt(tId))?.n;
-    const vendedorName=isAuditor?`AUDITOR: ${user.v}`:TIENDAS.find(t=>t.id===parseInt(tId))?.v;
-    const monto=isAuditor?calcMontoAuditor(prod,cant):calcMontoVendedor(prod,cant);
-    setSaving(true);
-    const r=await sb('POST','/reportes',{
-      vendedor:vendedorName,tienda:tiendaName,barcode:prod.b,codigo:prod.c,
-      producto:prod.n,marca:prod.m,tipo:prod.t,cantidad:parseInt(cant),
-      monto_estimado:parseFloat(monto),
-      mes_vencimiento:isAuditor?null:mesVenc,
-      fecha_reporte:new Date().toLocaleDateString('es-ES')
-    });
-    setSaving(false);
-    if(r&&!r.error){showM('✅ Reporte guardado');reset();cargar();}
-    else showM('❌ Error al guardar.',true);
+  const btn=(bg,extra={})=>({background:bg,color:'white',border:'none',borderRadius:'.5rem',padding:'.75rem 1rem',fontWeight:'700',cursor:'pointer',...extra});
+
+  // ──── VENDEDOR/INVENTARIO: agregar a lista local ─────────────────────────
+  const vAgregar=()=>{
+    if(!tId||!prod||!cant||!mesVenc){alert('Completa todos los campos');return;}
+    const tienda=TIENDAS.find(t=>t.id===parseInt(tId));
+    const monto=calcMontoVendedor(prod,cant);
+    setVPedidos(prev=>[...prev,{
+      barcode:prod.b,codigo:prod.c,producto:prod.n,marca:prod.m,tipo:prod.t,
+      tienda:tienda?.n||'',cantidad:parseInt(cant),monto_estimado:parseFloat(monto),
+      mes_vencimiento:mesVenc,fecha_reporte:new Date().toLocaleDateString('es-ES'),
+      vendedor:user.v,_prod:prod,_tId:tId
+    }]);
+    showM('✅ Agregado: '+prod.n);
+    setCant('');setCodIn('');setProd(null);setShowSug(false);setMesVenc('');
   };
+
+  const vEditar=(idx,nuevaCant)=>{
+    setVPedidos(prev=>prev.map((p,i)=>{
+      if(i!==idx)return p;
+      const monto=parseFloat((nuevaCant*(p._prod.p/p._prod.u)).toFixed(2));
+      return{...p,cantidad:parseInt(nuevaCant),monto_estimado:monto};
+    }));
+    showM('✅ Cantidad actualizada');
+  };
+
+  const vGuardarTodo=async()=>{
+    if(vPedidos.length===0){alert('No hay productos en la lista');return;}
+    setSaving(true);
+    let ok=0;
+    for(const p of vPedidos){
+      const {_prod,_tId,...datos}=p;
+      const r=await sb('POST','/reportes',datos);
+      if(r&&!r.error)ok++;
+    }
+    setSaving(false);
+    if(ok===vPedidos.length){showM('✅ '+ok+' reportes guardados');setVPedidos([]);cargar();}
+    else showM('⚠️ '+ok+'/'+vPedidos.length+' guardados. Revisa conexión.',true);
+  };
+
+  const vEliminar=(idx)=>setVPedidos(prev=>prev.filter((_,i)=>i!==idx));
+  const vTotalMonto=vPedidos.reduce((a,p)=>a+(parseFloat(p.monto_estimado)||0),0);
+
+  // ──── REY: lista local y guardar ─────────────────────────────────────────
+  const reyAgregar=()=>{
+    if(!tId||!prod||!cant){alert('Completa todos los campos');return;}
+    const monto=calcMontoAuditor(prod,cant);
+    setReyPedidos(prev=>[...prev,{
+      vendedor:`AUDITOR: ${user.v}`,tienda:tId,barcode:prod.b,codigo:prod.c,
+      producto:prod.n,marca:prod.m,tipo:prod.t,cantidad:parseInt(cant),
+      monto_estimado:parseFloat(monto),mes_vencimiento:null,
+      fecha_reporte:new Date().toLocaleDateString('es-ES'),
+      _prod:prod,_cant:parseInt(cant)
+    }]);
+    showM('✅ Agregado: '+prod.n);
+    setCant('');setCodIn('');setProd(null);setShowSug(false);
+  };
+
+  const reyEditar=(idx,nuevaCant)=>{
+    setReyPedidos(prev=>prev.map((p,i)=>{
+      if(i!==idx)return p;
+      const monto=parseFloat((nuevaCant*p._prod.p).toFixed(2));
+      return{...p,cantidad:parseInt(nuevaCant),monto_estimado:monto,_cant:parseInt(nuevaCant)};
+    }));
+    showM('✅ Cantidad actualizada');
+  };
+
+  const reyGuardarTodo=async()=>{
+    if(reyPedidos.length===0){alert('No hay productos en la lista');return;}
+    setSaving(true);
+    let ok=0;
+    for(const p of reyPedidos){
+      const {_prod,_cant,...datos}=p;
+      const r=await sb('POST','/reportes',datos);
+      if(r&&!r.error)ok++;
+    }
+    setSaving(false);
+    if(ok===reyPedidos.length){showM('✅ '+ok+' reportes guardados');setReyPedidos([]);cargar();}
+    else showM('⚠️ '+ok+'/'+reyPedidos.length+' guardados.',true);
+  };
+
+  const reyEliminar=(idx)=>setReyPedidos(prev=>prev.filter((_,i)=>i!==idx));
+  const reyTotalMonto=reyPedidos.reduce((a,p)=>a+(parseFloat(p.monto_estimado)||0),0);
 
   const limpiar=async()=>{
     if(!confirm('⚠️ ¿ELIMINAR TODOS LOS REPORTES?\nDescarga el CSV primero.'))return;
@@ -416,22 +617,55 @@ function App(){
     a.download=`mars_${new Date().toISOString().split('T')[0]}.csv`;a.click();
   };
 
-  const btn=(bg,extra={})=>({background:bg,color:'white',border:'none',borderRadius:'.5rem',padding:'.75rem 1rem',fontWeight:'700',cursor:'pointer',...extra});
-
+  // ──── Machetazo: agregar ──────────────────────────────────────────────────
   const mAgregar=()=>{
     if(!mTiendaSel||!mProdSel||!mCant||parseFloat(mCant)<=0){alert('Completa todos los campos');return;}
     const t=MACHETAZO_TIENDAS.find(x=>x.n===mTiendaSel);
     if(!t)return;
+    const cajas=parseInt(mCant);
+    const unidades=cajas*mProdSel.u;
+    const monto=(cajas*mProdSel.p).toFixed(2);
     setMPedidos(prev=>[...prev,{
-      tN:t.n, tStore:t.store, tCol:t.col, tColL:t.colLetter, tV:t.v,
-      pMat:mProdSel.material, pCod:mProdSel.codigo, pDesc:mProdSel.descripcion, pRow:mProdSel.row,
-      qty:parseInt(mCant)
+      tN:t.n,tStore:t.store,tCol:t.col,tColL:t.colLetter,tV:t.v,
+      pMat:mProdSel.material,pCod:mProdSel.codigo,pDesc:mProdSel.descripcion,pRow:mProdSel.row,
+      pTipo:mProdSel.t,pUnidadesPorCaja:mProdSel.u,pPrecio:mProdSel.p,
+      qtyCajas:cajas,qtyUnidades:unidades,monto:monto,_prod:mProdSel
     }]);
     showM('✅ Agregado: '+mProdSel.descripcion);
     setMCant('');setMCodIn('');setMProdSel(null);setMShowSug(false);
   };
 
+  const mEditar=(idx,nuevasCajas)=>{
+    setMPedidos(prev=>prev.map((p,i)=>{
+      if(i!==idx)return p;
+      const cajas=parseInt(nuevasCajas);
+      return{...p,qtyCajas:cajas,qtyUnidades:cajas*p.pUnidadesPorCaja,monto:(cajas*p.pPrecio).toFixed(2)};
+    }));
+    showM('✅ Cantidad actualizada');
+  };
+
+  const mGuardarTodo=async()=>{
+    if(mPedidos.length===0){alert('No hay productos en la lista');return;}
+    setSaving(true);
+    let ok=0;
+    for(const p of mPedidos){
+      const datos={
+        vendedor:`MACHETAZO: ${user.v}`,tienda:p.tStore,barcode:p.pCod,codigo:p.pMat,
+        producto:p.pDesc,marca:'MARS',tipo:p.pTipo,cantidad:p.qtyUnidades,
+        monto_estimado:parseFloat(p.monto),mes_vencimiento:null,
+        fecha_reporte:new Date().toLocaleDateString('es-ES')
+      };
+      const r=await sb('POST','/reportes',datos);
+      if(r&&!r.error)ok++;
+    }
+    setSaving(false);
+    if(ok===mPedidos.length){showM('✅ '+ok+' reportes guardados');setMPedidos([]);cargar();}
+    else showM('⚠️ '+ok+'/'+mPedidos.length+' guardados.',true);
+  };
+
   const mEliminar=(idx)=>setMPedidos(prev=>prev.filter((_,i)=>i!==idx));
+  const mTotalUnidades=mPedidos.reduce((a,p)=>a+p.qtyUnidades,0);
+  const mTotalMonto=mPedidos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0);
 
   /* ════════════ LOGIN ════════════ */
   if(!user)return(
@@ -444,8 +678,8 @@ function App(){
         </div>
 
         {!lMode&&<div style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
-          <button onClick={()=>setLMode('v')} style={btn('#4f46e5',{padding:'1rem',fontSize:'1rem'})}>👨‍💼 Acceder como Vendedor</button>
-          <button onClick={()=>setLMode('r')} style={btn('linear-gradient(90deg,#b91c1c,#ef4444)',{padding:'1rem',fontSize:'1rem',boxShadow:'0 4px 15px rgba(185,28,28,.4)'})}>🏪 SUGERIDO</button>
+          <button onClick={()=>setLMode('v')} style={btn('#4f46e5',{padding:'1rem',fontSize:'1rem'})}>👨‍💼 INVENTARIO</button>
+          <button onClick={()=>setLMode('r')} style={btn('linear-gradient(90deg,#b91c1c,#ef4444)',{padding:'1rem',fontSize:'1rem',boxShadow:'0 4px 15px rgba(185,28,28,.4)'})}>SUGERIDO</button>
           <button onClick={()=>setLMode('a')} style={btn('#1d4ed8',{padding:'1rem',fontSize:'1rem'})}>📊 Acceder como Admin</button>
         </div>}
 
@@ -482,15 +716,15 @@ function App(){
         </div>}
 
         {lMode==='r'&&<div>
-          <h2 style={{color:'white',fontWeight:'700',marginBottom:'1.25rem',textAlign:'center'}}>🏪 SUGERIDO — Selecciona cadena</h2>
+          <h2 style={{color:'white',fontWeight:'700',marginBottom:'1.25rem',textAlign:'center'}}>SUGERIDO — Selecciona cadena</h2>
           <div style={{display:'flex',flexDirection:'column',gap:'1rem',marginBottom:'1.25rem'}}>
             <button onClick={()=>setLMode('machetazo')}
-              style={btn('linear-gradient(135deg,#0ea5e9,#38bdf8)',{padding:'1.1rem',fontSize:'1.05rem',borderRadius:'.75rem',boxShadow:'0 4px 15px rgba(14,165,233,.4)',letterSpacing:'.03em'})}>
-              🔨 MACHETAZO
+              style={btn('linear-gradient(135deg,#0ea5e9,#38bdf8)',{padding:'1.1rem',fontSize:'1.05rem',borderRadius:'.75rem',boxShadow:'0 4px 15px rgba(14,165,233,.4)'})}>
+              MACHETAZO
             </button>
             <button onClick={()=>setLMode('rey')}
-              style={btn('linear-gradient(90deg,#b91c1c,#ef4444)',{padding:'1.1rem',fontSize:'1.05rem',borderRadius:'.75rem',boxShadow:'0 4px 15px rgba(185,28,28,.4)',letterSpacing:'.03em'})}>
-              👑 REY
+              style={btn('linear-gradient(90deg,#b91c1c,#ef4444)',{padding:'1.1rem',fontSize:'1.05rem',borderRadius:'.75rem',boxShadow:'0 4px 15px rgba(185,28,28,.4)'})}>
+              REY
             </button>
           </div>
           <button onClick={()=>setLMode(null)} style={btn('#475569',{width:'100%'})}>Volver</button>
@@ -498,7 +732,6 @@ function App(){
 
         {lMode==='rey'&&<div>
           <div style={{display:'flex',alignItems:'center',gap:'.75rem',marginBottom:'1rem'}}>
-            <span style={{fontSize:'1.5rem'}}>👑</span>
             <h2 style={{color:'white',fontWeight:'700',margin:0}}>Selecciona tu nombre — Auditor REY</h2>
           </div>
           <input type="text" placeholder="Buscar auditor..." value={srchA} onChange={e=>setSrchA(e.target.value)}
@@ -514,16 +747,13 @@ function App(){
           {selA&&<p style={{color:'#fca5a5',fontSize:'.85rem',textAlign:'center',marginBottom:'.75rem'}}>✓ <strong>{selA}</strong></p>}
           <div style={{display:'flex',gap:'.75rem'}}>
             <button onClick={()=>{if(selA)setUser({auditor:true,v:selA});}} disabled={!selA}
-              style={btn(selA?'linear-gradient(90deg,#b91c1c,#ef4444)':'#475569',{flex:1})}>
-              Entrar
-            </button>
+              style={btn(selA?'linear-gradient(90deg,#b91c1c,#ef4444)':'#475569',{flex:1})}>Entrar</button>
             <button onClick={()=>{setLMode('r');setSelA('');setSrchA('');}} style={btn('#475569',{flex:1})}>Volver</button>
           </div>
         </div>}
 
         {lMode==='machetazo'&&<div>
           <div style={{display:'flex',alignItems:'center',gap:'.75rem',marginBottom:'1rem'}}>
-            <span style={{fontSize:'1.5rem'}}>🔨</span>
             <h2 style={{color:'white',fontWeight:'700',margin:0}}>Selecciona tu nombre — Machetazo</h2>
           </div>
           <input type="text" placeholder="Buscar vendedor..." value={srchA} onChange={e=>setSrchA(e.target.value)}
@@ -539,9 +769,7 @@ function App(){
           {selA&&<p style={{color:'#7dd3fc',fontSize:'.85rem',textAlign:'center',marginBottom:'.75rem'}}>✓ <strong>{selA}</strong></p>}
           <div style={{display:'flex',gap:'.75rem'}}>
             <button onClick={()=>{if(selA)setUser({machetazo:true,v:selA});}} disabled={!selA}
-              style={btn(selA?'linear-gradient(135deg,#0ea5e9,#38bdf8)':'#475569',{flex:1})}>
-              Entrar
-            </button>
+              style={btn(selA?'linear-gradient(135deg,#0ea5e9,#38bdf8)':'#475569',{flex:1})}>Entrar</button>
             <button onClick={()=>{setLMode('r');setSelA('');setSrchA('');}} style={btn('#475569',{flex:1})}>Volver</button>
           </div>
         </div>}
@@ -576,6 +804,13 @@ function App(){
               </div>
             ))}
           </div>
+
+          {/* Machetazo Excel — solo en Admin */}
+          <div style={{background:'rgba(3,105,161,.25)',border:'1px solid #0369a1',borderRadius:'.75rem',padding:'1.25rem',marginBottom:'1.5rem'}}>
+            <h2 style={{color:'#7dd3fc',fontWeight:'700',margin:'0 0 .75rem',fontSize:'.95rem'}}>🔨 Herramienta Machetazo — Generar Plantilla Excel</h2>
+            <MachetazoAdminTool />
+          </div>
+
           <div style={{background:'rgba(51,65,85,.5)',border:'1px solid #475569',borderRadius:'.75rem',padding:'1.25rem',marginBottom:'1.5rem'}}>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr auto auto',gap:'.75rem',alignItems:'center'}}>
               <select value={fV} onChange={e=>setFV(e.target.value)} style={{background:'#475569',color:'white',border:'none',padding:'.6rem',borderRadius:'.5rem',fontSize:'.8rem'}}>
@@ -604,8 +839,13 @@ function App(){
               <tbody>
                 {fil.map(r=>{
                   const isAudit=r.vendedor&&r.vendedor.startsWith('AUDITOR:');
+                  const isMach=r.vendedor&&r.vendedor.startsWith('MACHETAZO:');
                   return<tr key={r.id} style={{borderBottom:'1px solid rgba(71,85,105,.3)'}}>
-                    <td style={{color:isAudit?'#fca5a5':'white',padding:'.5rem .4rem',fontWeight:'500'}}>{r.vendedor}{isAudit&&<span style={{background:'rgba(185,28,28,.3)',fontSize:'.65rem',padding:'1px 4px',borderRadius:'3px',marginLeft:'4px'}}>REY</span>}</td>
+                    <td style={{color:isAudit?'#fca5a5':isMach?'#7dd3fc':'white',padding:'.5rem .4rem',fontWeight:'500'}}>
+                      {r.vendedor}
+                      {isAudit&&<span style={{background:'rgba(185,28,28,.3)',fontSize:'.65rem',padding:'1px 4px',borderRadius:'3px',marginLeft:'4px'}}>REY</span>}
+                      {isMach&&<span style={{background:'rgba(3,105,161,.3)',fontSize:'.65rem',padding:'1px 4px',borderRadius:'3px',marginLeft:'4px'}}>MACH</span>}
+                    </td>
                     <td style={{color:'#cbd5e1',padding:'.5rem .4rem',maxWidth:'140px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</td>
                     <td style={{color:'#93c5fd',padding:'.5rem .4rem',fontFamily:'monospace'}}>{r.barcode}</td>
                     <td style={{color:'white',padding:'.5rem .4rem',maxWidth:'160px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.producto}</td>
@@ -629,13 +869,17 @@ function App(){
   /* ════════════ MACHETAZO ════════════ */
   if(user.machetazo){
     const misTiendas=MACHETAZO_TIENDAS.filter(t=>t.v===user.v);
+    const mCantActual=mProdSel&&mCant&&parseFloat(mCant)>0?parseInt(mCant):0;
+    const mUnidadesActual=mCantActual&&mProdSel?mCantActual*mProdSel.u:0;
+    const mMontoActual=mCantActual&&mProdSel?(mCantActual*mProdSel.p).toFixed(2):null;
+
     return(
       <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#0c2a3f,#0d3a5e)'}}>
         <div style={{background:'linear-gradient(90deg,#0369a1,#0ea5e9)',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',boxShadow:'0 4px 20px rgba(0,0,0,.4)'}}>
           <div style={{display:'flex',alignItems:'center',gap:'1rem'}}>
             <Logo/>
             <div>
-              <h1 style={{color:'white',fontWeight:'700',fontSize:'1rem',margin:0}}>🔨 MACHETAZO</h1>
+              <h1 style={{color:'white',fontWeight:'700',fontSize:'1rem',margin:0}}>MACHETAZO</h1>
               <p style={{color:'#bae6fd',fontSize:'.75rem',margin:0}}>{user.v}</p>
             </div>
           </div>
@@ -645,10 +889,11 @@ function App(){
         {msg&&<div style={{background:'rgba(34,197,94,.15)',borderBottom:'1px solid #22c55e',color:'#86efac',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{msg}</div>}
 
         <div style={{maxWidth:'700px',margin:'0 auto',padding:'1.5rem'}}>
-          <div style={{background:'rgba(3,105,161,.4)',border:'1px solid #0369a1',borderRadius:'.75rem',padding:'1rem 1.25rem',marginBottom:'1.5rem',display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'1rem'}}>
-            <div><p style={{color:'#bae6fd',fontSize:'.75rem',margin:0}}>Vendedor</p><p style={{color:'white',fontWeight:'700',margin:'.2rem 0 0',fontSize:'.85rem'}}>{user.v}</p></div>
+          <div style={{background:'rgba(3,105,161,.4)',border:'1px solid #0369a1',borderRadius:'.75rem',padding:'1rem 1.25rem',marginBottom:'1.5rem',display:'grid',gridTemplateColumns:'1fr 1fr 1fr 1fr',gap:'1rem'}}>
+            <div><p style={{color:'#bae6fd',fontSize:'.75rem',margin:0}}>Vendedor</p><p style={{color:'white',fontWeight:'700',margin:'.2rem 0 0',fontSize:'.8rem'}}>{user.v}</p></div>
             <div><p style={{color:'#bae6fd',fontSize:'.75rem',margin:0}}>Pedidos</p><p style={{color:'#4ade80',fontWeight:'700',fontSize:'1.5rem',margin:'.2rem 0 0'}}>{mPedidos.length}</p></div>
-            <div><p style={{color:'#bae6fd',fontSize:'.75rem',margin:0}}>Tiendas</p><p style={{color:'#fcd34d',fontWeight:'700',fontSize:'1rem',margin:'.2rem 0 0'}}>{misTiendas.length}</p></div>
+            <div><p style={{color:'#bae6fd',fontSize:'.75rem',margin:0}}>Total Unidades</p><p style={{color:'#7dd3fc',fontWeight:'700',fontSize:'1.1rem',margin:'.2rem 0 0'}}>{mTotalUnidades}</p></div>
+            <div><p style={{color:'#bae6fd',fontSize:'.75rem',margin:0}}>Monto Total</p><p style={{color:'#fcd34d',fontWeight:'700',fontSize:'1.1rem',margin:'.2rem 0 0'}}>${mTotalMonto.toFixed(2)}</p></div>
           </div>
 
           {!mShowForm&&<button onClick={()=>setMShowForm(true)} style={btn('linear-gradient(90deg,#0369a1,#0ea5e9)',{width:'100%',padding:'1rem',fontSize:'1rem',marginBottom:'1.5rem',borderRadius:'.75rem',boxShadow:'0 4px 15px rgba(14,165,233,.3)'})}>
@@ -668,7 +913,7 @@ function App(){
             </div>
 
             <div style={{marginBottom:'1rem',position:'relative'}}>
-              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>🔍 Buscar Producto (Catálogo Machetazo)</label>
+              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>🔍 Buscar Producto</label>
               <input type="text" placeholder="Material, código o descripción..." value={mCodIn}
                 onChange={e=>{setMCodIn(e.target.value);setMShowSug(true);if(mProdSel)setMProdSel(null);}}
                 onFocus={()=>mCodIn&&setMShowSug(true)}
@@ -678,7 +923,10 @@ function App(){
                   {mSugs.map(p=>(
                     <button key={p.material} onMouseDown={e=>{e.preventDefault();setMProdSel(p);setMCodIn(p.material+' - '+p.descripcion);setMShowSug(false);}}
                       style={{display:'block',width:'100%',textAlign:'left',padding:'.75rem 1rem',border:'none',borderBottom:'1px solid rgba(3,105,161,.5)',background:'transparent',cursor:'pointer',color:'white'}}>
-                      <div style={{color:'#7dd3fc',fontFamily:'monospace',fontSize:'.75rem'}}>{p.material} · {p.codigo}</div>
+                      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                        <div style={{color:'#7dd3fc',fontFamily:'monospace',fontSize:'.75rem'}}>{p.material} · {p.codigo}</div>
+                        <div style={{color:'#4ade80',fontSize:'.75rem',fontWeight:'700'}}>{p.t} ×{p.u} · ${p.p}</div>
+                      </div>
                       <div style={{fontWeight:'600',fontSize:'.85rem',marginTop:'2px'}}>{p.descripcion}</div>
                     </button>
                   ))}
@@ -689,6 +937,7 @@ function App(){
                   <div>
                     <div style={{color:'#7dd3fc',fontFamily:'monospace',fontSize:'.75rem'}}>{mProdSel.material} · {mProdSel.codigo}</div>
                     <div style={{color:'white',fontWeight:'700',fontSize:'.9rem',marginTop:'2px'}}>{mProdSel.descripcion}</div>
+                    <div style={{color:'#4ade80',fontSize:'.75rem',marginTop:'2px'}}>{mProdSel.t} · {mProdSel.u} un/caja · ${mProdSel.p}/caja</div>
                   </div>
                   <button onClick={()=>{setMProdSel(null);setMCodIn('');}} style={{background:'none',border:'none',color:'#f87171',cursor:'pointer',fontSize:'1.2rem'}}>✕</button>
                 </div>
@@ -696,50 +945,70 @@ function App(){
             </div>
 
             <div style={{marginBottom:'1rem'}}>
-              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📦 Cantidad (unidades)</label>
-              <input type="number" min="1" placeholder="Ej: 50" value={mCant} onChange={e=>setMCant(e.target.value)}
+              <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>
+                📦 Cantidad ({mProdSel?mProdSel.t+'s':'Cajas/Exhibidores'})
+              </label>
+              <input type="number" min="1" placeholder="Ej: 2" value={mCant} onChange={e=>setMCant(e.target.value)}
                 style={{width:'100%',background:'#0c4a6e',color:'white',border:'1px solid #0ea5e9',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box',outline:'none'}}/>
+              {mProdSel&&mCant&&parseFloat(mCant)>0&&(
+                <p style={{color:'#7dd3fc',fontSize:'.78rem',margin:'.4rem 0 0'}}>
+                  → {mCantActual} {mProdSel.t} × {mProdSel.u} un = <strong style={{color:'#4ade80'}}>{mUnidadesActual} unidades</strong>
+                </p>
+              )}
             </div>
+
+            {mProdSel&&mCant&&parseFloat(mCant)>0&&(
+              <div style={{marginBottom:'1rem',background:'rgba(16,185,129,.15)',border:'1px solid #10b981',borderRadius:'.5rem',padding:'1rem'}}>
+                <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO</p>
+                <p style={{color:'white',fontSize:'1.4rem',fontWeight:'700',margin:0}}>${mMontoActual}</p>
+                <p style={{color:'#a7f3d0',fontSize:'.7rem',margin:'4px 0 0'}}>{mCantActual} {mProdSel.t} × ${mProdSel.p} = ${mMontoActual}</p>
+                <p style={{color:'#6ee7b7',fontSize:'.7rem',margin:'2px 0 0'}}>{mUnidadesActual} unidades en total</p>
+              </div>
+            )}
 
             <div style={{display:'flex',gap:'.75rem'}}>
               <button onClick={mAgregar} style={btn('#16a34a',{flex:1})}>✓ Agregar a Lista</button>
-              <button onClick={mReset} style={btn('#0c4a6e',{flex:1,border:'1px solid #0ea5e9'})}>Cancelar</button>
+              <button onClick={()=>{mReset();setMShowForm(false);}} style={btn('#0c4a6e',{flex:1,border:'1px solid #0ea5e9'})}>Cerrar</button>
             </div>
           </div>}
 
           {mPedidos.length>0&&<div style={{background:'rgba(3,105,161,.3)',border:'1px solid #0369a1',borderRadius:'.75rem',padding:'1.25rem',marginBottom:'1.5rem'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1rem'}}>
               <h2 style={{color:'white',fontWeight:'700',margin:0,fontSize:'1rem'}}>📋 Lista de Pedidos ({mPedidos.length})</h2>
-              <button onClick={()=>descargarMachetazoExcel(mPedidos)}
-                style={btn('linear-gradient(90deg,#16a34a,#22c55e)',{fontSize:'.85rem',padding:'.5rem 1rem',boxShadow:'0 2px 8px rgba(22,163,74,.3)'})}>
-                📥 Descargar Excel
-              </button>
             </div>
-            <div style={{display:'flex',flexDirection:'column',gap:'.5rem'}}>
+            <div>
               {mPedidos.map((p,idx)=>(
-                <div key={idx} style={{background:'rgba(3,105,161,.4)',border:'1px solid #0369a1',borderRadius:'.5rem',padding:'.75rem 1rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                  <div style={{flex:1,minWidth:0}}>
-                    <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.85rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.pDesc}</p>
-                    <p style={{color:'#7dd3fc',fontFamily:'monospace',fontSize:'.7rem',margin:'0 0 2px'}}>{p.pMat}</p>
-                    <p style={{color:'#bae6fd',fontSize:'.75rem',margin:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.tN}</p>
-                  </div>
-                  <div style={{display:'flex',alignItems:'center',gap:'.75rem',flexShrink:0,marginLeft:'.75rem'}}>
-                    <span style={{color:'#4ade80',fontWeight:'700',fontSize:'.9rem'}}>{p.qty} un.</span>
-                    <button onClick={()=>mEliminar(idx)} style={{background:'rgba(220,38,38,.3)',border:'1px solid #dc2626',color:'#fca5a5',borderRadius:'.4rem',padding:'3px 8px',cursor:'pointer',fontSize:'.75rem',fontWeight:'700'}}>✕</button>
-                  </div>
-                </div>
+                <ItemEditable
+                  key={idx} item={p} idx={idx}
+                  onEliminar={mEliminar} onEditar={mEditar}
+                  accentColor='#0ea5e9' borderColor='#0369a1' bgColor='rgba(3,105,161,.4)'
+                  labelCant={`Cajas/${p.pTipo}`}
+                  renderDetalle={item=>(
+                    <div>
+                      <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.85rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.pDesc}</p>
+                      <p style={{color:'#7dd3fc',fontFamily:'monospace',fontSize:'.7rem',margin:'0 0 2px'}}>{item.pMat}</p>
+                      <p style={{color:'#bae6fd',fontSize:'.75rem',margin:'0 0 2px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.tN}</p>
+                      <p style={{color:'#a7f3d0',fontSize:'.72rem',margin:0}}>
+                        {item.qtyCajas} {item.pTipo} → <strong>{item.qtyUnidades} un.</strong>
+                        <span style={{color:'#fcd34d',marginLeft:'8px',fontWeight:'700'}}>${item.monto}</span>
+                      </p>
+                    </div>
+                  )}
+                />
               ))}
             </div>
             <div style={{marginTop:'1rem',paddingTop:'1rem',borderTop:'1px solid rgba(3,105,161,.5)'}}>
-              <button onClick={()=>descargarMachetazoExcel(mPedidos)}
-                style={btn('linear-gradient(90deg,#16a34a,#22c55e)',{width:'100%',padding:'.85rem',fontSize:'1rem',borderRadius:'.75rem',boxShadow:'0 4px 15px rgba(22,163,74,.3)'})}>
-                📥 Descargar Plantilla Excel con Pedidos
+              <p style={{color:'#bae6fd',fontSize:'.8rem',margin:'0 0 4px'}}>Total unidades: <strong style={{color:'#7dd3fc'}}>{mTotalUnidades}</strong></p>
+              <p style={{color:'#bae6fd',fontSize:'.8rem',margin:'0 0 1rem'}}>Monto total: <strong style={{color:'#fcd34d',fontSize:'1.1rem'}}>${mTotalMonto.toFixed(2)}</strong></p>
+              <button onClick={mGuardarTodo} disabled={saving}
+                style={btn(saving?'#475569':'linear-gradient(90deg,#16a34a,#22c55e)',{width:'100%',fontSize:'.95rem',padding:'.75rem',borderRadius:'.75rem'})}>
+                {saving?'⏳ Guardando...':'☁️ Guardar Todo'}
               </button>
             </div>
           </div>}
 
           {mPedidos.length===0&&!mShowForm&&<div style={{background:'rgba(3,105,161,.2)',border:'1px solid rgba(3,105,161,.4)',borderRadius:'.75rem',padding:'2rem',textAlign:'center'}}>
-            <p style={{color:'#7dd3fc',fontSize:'.95rem',margin:0}}>Agrega productos para generar la plantilla Excel</p>
+            <p style={{color:'#7dd3fc',fontSize:'.95rem',margin:0}}>Agrega productos para generar tu reporte</p>
           </div>}
         </div>
       </div>
@@ -748,16 +1017,16 @@ function App(){
 
   /* ════════════ AUDITOR REY ════════════ */
   if(user.auditor){
-    const misR=reps.filter(r=>r.vendedor===`AUDITOR: ${user.v}`);
-    const montoMio=misR.reduce((a,r)=>a+(parseFloat(r.monto_estimado)||0),0);
-    const montoActual=calcMontoAuditor(prod,cant);
+    const montoActual=prod&&cant&&parseFloat(cant)>0?(parseFloat(cant)*prod.p).toFixed(2):null;
+    const precioUnitario=prod?(prod.p/prod.u).toFixed(4):null;
+
     return(
       <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#450a0a,#7f1d1d)'}}>
         <div style={{background:'linear-gradient(90deg,#991b1b,#ef4444)',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',boxShadow:'0 4px 20px rgba(0,0,0,.4)'}}>
           <div style={{display:'flex',alignItems:'center',gap:'1rem'}}>
             <Logo/>
             <div>
-              <h1 style={{color:'white',fontWeight:'700',fontSize:'1rem',margin:0}}>👑 SUGERIDO REY</h1>
+              <h1 style={{color:'white',fontWeight:'700',fontSize:'1rem',margin:0}}>SUGERIDO REY</h1>
               <p style={{color:'#fecaca',fontSize:'.75rem',margin:0}}>{user.v}</p>
             </div>
           </div>
@@ -770,8 +1039,8 @@ function App(){
         <div style={{maxWidth:'600px',margin:'0 auto',padding:'1.5rem'}}>
           <div style={{background:'rgba(153,27,27,.4)',border:'1px solid #b91c1c',borderRadius:'.75rem',padding:'1rem 1.25rem',marginBottom:'1.5rem',display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'1rem'}}>
             <div><p style={{color:'#fecaca',fontSize:'.75rem',margin:0}}>Nombre Auditor</p><p style={{color:'white',fontWeight:'700',margin:'.2rem 0 0',fontSize:'.85rem'}}>{user.v}</p></div>
-            <div><p style={{color:'#fecaca',fontSize:'.75rem',margin:0}}>Mis Reportes</p><p style={{color:'#4ade80',fontWeight:'700',fontSize:'1.5rem',margin:'.2rem 0 0'}}>{misR.length}</p></div>
-            <div><p style={{color:'#fecaca',fontSize:'.75rem',margin:0}}>Monto Total</p><p style={{color:'#fcd34d',fontWeight:'700',fontSize:'1.1rem',margin:'.2rem 0 0'}}>${montoMio.toFixed(2)}</p></div>
+            <div><p style={{color:'#fecaca',fontSize:'.75rem',margin:0}}>En Lista</p><p style={{color:'#4ade80',fontWeight:'700',fontSize:'1.5rem',margin:'.2rem 0 0'}}>{reyPedidos.length}</p></div>
+            <div><p style={{color:'#fecaca',fontSize:'.75rem',margin:0}}>Monto Total</p><p style={{color:'#fcd34d',fontWeight:'700',fontSize:'1.1rem',margin:'.2rem 0 0'}}>${reyTotalMonto.toFixed(2)}</p></div>
           </div>
 
           {!showForm&&<button onClick={()=>setShowForm(true)} style={btn('linear-gradient(90deg,#16a34a,#22c55e)',{width:'100%',padding:'1rem',fontSize:'1rem',marginBottom:'1.5rem',borderRadius:'.75rem',boxShadow:'0 4px 15px rgba(22,163,74,.4)'})}>
@@ -828,53 +1097,60 @@ function App(){
 
             {prod&&cant&&parseFloat(cant)>0&&(
               <div style={{marginBottom:'1rem',background:'rgba(16,185,129,.15)',border:'1px solid #10b981',borderRadius:'.5rem',padding:'1rem'}}>
-                <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO (por {prod.t})</p>
+                <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO</p>
                 <p style={{color:'white',fontSize:'1.4rem',fontWeight:'700',margin:0}}>${montoActual}</p>
                 <p style={{color:'#a7f3d0',fontSize:'.7rem',margin:'4px 0 0'}}>{cant} {prod.t} × ${prod.p} = ${montoActual}</p>
               </div>
             )}
 
             <div style={{display:'flex',gap:'.75rem'}}>
-              <button onClick={guardar} disabled={saving} style={btn(saving?'#475569':'#16a34a',{flex:1})}>{saving?'⏳ Guardando...':'✓ Guardar Reporte'}</button>
-              <button onClick={reset} style={btn('#991b1b',{flex:1,border:'1px solid #ef4444'})}>Cancelar</button>
+              <button onClick={reyAgregar} style={btn('#16a34a',{flex:1})}>✓ Agregar a Lista</button>
+              <button onClick={()=>{resetProd();setShowForm(false);}} style={btn('#991b1b',{flex:1,border:'1px solid #ef4444'})}>Cerrar</button>
             </div>
           </div>}
 
-          <div style={{background:'rgba(153,27,27,.4)',border:'1px solid #b91c1c',borderRadius:'.75rem',padding:'1.25rem'}}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1rem'}}>
-              <h2 style={{color:'white',fontWeight:'700',margin:0,fontSize:'1rem'}}>Mis Reportes ({misR.length})</h2>
-              <button onClick={cargar} style={{background:'none',border:'none',color:'#fca5a5',cursor:'pointer',fontSize:'.8rem'}}>🔄 Actualizar</button>
-            </div>
-            {load?<p style={{color:'#fca5a5',textAlign:'center',padding:'1.5rem'}}>⏳ Cargando...</p>
-            :misR.length===0?<p style={{color:'#fca5a5',textAlign:'center',padding:'1.5rem',fontSize:'.9rem'}}>Aún no has enviado reportes</p>
-            :<div style={{display:'flex',flexDirection:'column',gap:'.75rem'}}>
-              {misR.map(r=>(
-                <div key={r.id} style={{background:'rgba(153,27,27,.5)',border:'1px solid #b91c1c',borderRadius:'.5rem',padding:'1rem'}}>
-                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
-                    <div style={{flex:1,minWidth:0}}>
-                      <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.9rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.producto}</p>
-                      <p style={{color:'#fca5a5',fontFamily:'monospace',fontSize:'.75rem',margin:'0 0 2px'}}>{r.barcode}</p>
-                      <p style={{color:'#fecaca',fontSize:'.75rem',margin:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.tienda}</p>
+          {reyPedidos.length>0&&<div style={{background:'rgba(153,27,27,.4)',border:'1px solid #b91c1c',borderRadius:'.75rem',padding:'1.25rem',marginBottom:'1.5rem'}}>
+            <h2 style={{color:'white',fontWeight:'700',margin:'0 0 1rem',fontSize:'1rem'}}>📋 Lista de Pedidos ({reyPedidos.length})</h2>
+            <div>
+              {reyPedidos.map((p,idx)=>(
+                <ItemEditable
+                  key={idx} item={p} idx={idx}
+                  onEliminar={reyEliminar} onEditar={reyEditar}
+                  accentColor='#ef4444' borderColor='#b91c1c' bgColor='rgba(153,27,27,.5)'
+                  labelCant={`Cajas/${p.tipo}`}
+                  renderDetalle={item=>(
+                    <div>
+                      <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.85rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.producto}</p>
+                      <p style={{color:'#fca5a5',fontFamily:'monospace',fontSize:'.7rem',margin:'0 0 2px'}}>{item.barcode}</p>
+                      <p style={{color:'#fecaca',fontSize:'.75rem',margin:'0 0 2px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.tienda}</p>
+                      <p style={{color:'#fca5a5',fontSize:'.72rem',margin:0}}>
+                        {item.cantidad} {item.tipo}
+                        <span style={{color:'#fcd34d',marginLeft:'8px',fontWeight:'700'}}>${item.monto_estimado?.toFixed(2)}</span>
+                      </p>
                     </div>
-                    <div style={{textAlign:'right',marginLeft:'.75rem',flexShrink:0}}>
-                      <span style={{background:'rgba(255,255,255,.1)',color:'#fcd34d',fontSize:'.7rem',fontWeight:'700',padding:'2px 6px',borderRadius:'4px',display:'inline-block',marginBottom:'4px'}}>{r.tipo||'—'}</span>
-                      <p style={{color:'#4ade80',fontWeight:'700',margin:'.25rem 0 0',fontSize:'.85rem'}}>{r.cantidad} un.</p>
-                      <p style={{color:'#fcd34d',fontWeight:'700',margin:'2px 0 0',fontSize:'.85rem'}}>${(parseFloat(r.monto_estimado)||0).toFixed(2)}</p>
-                    </div>
-                  </div>
-                  <p style={{color:'#f87171',fontSize:'.7rem',margin:'.5rem 0 0'}}>{r.fecha_reporte}</p>
-                </div>
+                  )}
+                />
               ))}
-            </div>}
-          </div>
+            </div>
+            <div style={{marginTop:'1rem',paddingTop:'1rem',borderTop:'1px solid rgba(153,27,27,.5)'}}>
+              <p style={{color:'#fecaca',fontSize:'.8rem',margin:'0 0 1rem'}}>Monto total: <strong style={{color:'#fcd34d',fontSize:'1.1rem'}}>${reyTotalMonto.toFixed(2)}</strong></p>
+              <button onClick={reyGuardarTodo} disabled={saving}
+                style={btn(saving?'#475569':'linear-gradient(90deg,#16a34a,#22c55e)',{width:'100%',fontSize:'.95rem',padding:'.75rem',borderRadius:'.75rem'})}>
+                {saving?'⏳ Guardando...':'☁️ Guardar Todo'}
+              </button>
+            </div>
+          </div>}
+
+          {reyPedidos.length===0&&!showForm&&<div style={{background:'rgba(153,27,27,.3)',border:'1px solid rgba(153,27,27,.5)',borderRadius:'.75rem',padding:'2rem',textAlign:'center'}}>
+            <p style={{color:'#fca5a5',fontSize:'.95rem',margin:0}}>Agrega productos para generar tu reporte</p>
+          </div>}
         </div>
       </div>
     );
   }
 
-  /* ════════════ VENDEDOR ════════════ */
+  /* ════════════ VENDEDOR / INVENTARIO ════════════ */
   const misR=reps.filter(r=>r.vendedor===user.v);
-  const montoMio=misR.reduce((a,r)=>a+(parseFloat(r.monto_estimado)||0),0);
   const montoActual=calcMontoVendedor(prod,cant);
   const precioUnitario=prod?(prod.p/prod.u).toFixed(4):null;
 
@@ -882,7 +1158,7 @@ function App(){
     <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#312e81,#3730a3)'}}>
       <div style={{background:'linear-gradient(90deg,#4338ca,#6366f1)',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
         <div style={{display:'flex',alignItems:'center',gap:'1rem'}}><Logo/>
-          <div><h1 style={{color:'white',fontWeight:'700',fontSize:'1rem',margin:0}}>MARS - REPORTE</h1>
+          <div><h1 style={{color:'white',fontWeight:'700',fontSize:'1rem',margin:0}}>INVENTARIO</h1>
             <p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0}}>{user.v}</p></div>
         </div>
         <button onClick={logout} style={btn('#dc2626',{fontSize:'.8rem',padding:'.5rem .75rem'})}>Salir</button>
@@ -890,16 +1166,19 @@ function App(){
       {msg&&<div style={{background:'rgba(34,197,94,.15)',borderBottom:'1px solid #22c55e',color:'#86efac',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{msg}</div>}
       {err&&<div style={{background:'rgba(239,68,68,.15)',borderBottom:'1px solid #ef4444',color:'#fca5a5',padding:'.5rem',textAlign:'center',fontSize:'.85rem'}}>{err}</div>}
       <div style={{maxWidth:'600px',margin:'0 auto',padding:'1.5rem'}}>
-        <div style={{background:'rgba(67,56,202,.4)',border:'1px solid #4338ca',borderRadius:'.75rem',padding:'1rem 1.25rem',marginBottom:'1.5rem',display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'1rem'}}>
-          <div><p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0}}>Vendedor</p><p style={{color:'white',fontWeight:'700',margin:'.2rem 0 0',fontSize:'.85rem'}}>{user.v}</p></div>
-          <div><p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0}}>Mis Reportes</p><p style={{color:'#4ade80',fontWeight:'700',fontSize:'1.5rem',margin:'.2rem 0 0'}}>{misR.length}</p></div>
-          <div><p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0}}>Monto Total</p><p style={{color:'#fcd34d',fontWeight:'700',fontSize:'1.1rem',margin:'.2rem 0 0'}}>${montoMio.toFixed(2)}</p></div>
+        <div style={{background:'rgba(67,56,202,.4)',border:'1px solid #4338ca',borderRadius:'.75rem',padding:'1rem 1.25rem',marginBottom:'1.5rem',display:'grid',gridTemplateColumns:'1fr 1fr 1fr 1fr',gap:'1rem'}}>
+          <div><p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0}}>Vendedor</p><p style={{color:'white',fontWeight:'700',margin:'.2rem 0 0',fontSize:'.8rem'}}>{user.v}</p></div>
+          <div><p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0}}>En Lista</p><p style={{color:'#4ade80',fontWeight:'700',fontSize:'1.5rem',margin:'.2rem 0 0'}}>{vPedidos.length}</p></div>
+          <div><p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0}}>Monto Lista</p><p style={{color:'#fcd34d',fontWeight:'700',fontSize:'1rem',margin:'.2rem 0 0'}}>${vTotalMonto.toFixed(2)}</p></div>
+          <div><p style={{color:'#c7d2fe',fontSize:'.75rem',margin:0}}>Guardados</p><p style={{color:'#a5b4fc',fontWeight:'700',fontSize:'1.1rem',margin:'.2rem 0 0'}}>{misR.length}</p></div>
         </div>
+
         {!showForm&&<button onClick={()=>setShowForm(true)} style={btn('linear-gradient(90deg,#16a34a,#22c55e)',{width:'100%',padding:'1rem',fontSize:'1rem',marginBottom:'1.5rem',borderRadius:'.75rem'})}>
           + Agregar Producto con Próximo Vencimiento
         </button>}
+
         {showForm&&<div style={{background:'rgba(67,56,202,.4)',border:'1px solid rgba(34,197,94,.3)',borderRadius:'.75rem',padding:'1.5rem',marginBottom:'1.5rem'}}>
-          <h2 style={{color:'white',fontWeight:'700',marginTop:0}}>Nuevo Reporte</h2>
+          <h2 style={{color:'white',fontWeight:'700',marginTop:0}}>Agregar a la Lista</h2>
           <div style={{marginBottom:'1rem'}}>
             <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>📍 Tienda</label>
             <select value={tId} onChange={e=>setTId(e.target.value)} style={{width:'100%',background:'#4338ca',color:'white',border:'1px solid #6366f1',borderRadius:'.5rem',padding:'.75rem',boxSizing:'border-box'}}>
@@ -953,24 +1232,58 @@ function App(){
           </div>
           {prod&&cant&&parseFloat(cant)>0&&(
             <div style={{marginBottom:'1rem',background:'rgba(16,185,129,.15)',border:'1px solid #10b981',borderRadius:'.5rem',padding:'1rem'}}>
-              <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO (por unidades)</p>
+              <p style={{color:'#6ee7b7',fontSize:'.8rem',margin:'0 0 4px',fontWeight:'600'}}>💰 MONTO ESTIMADO</p>
               <p style={{color:'white',fontSize:'1.4rem',fontWeight:'700',margin:0}}>${montoActual}</p>
               <p style={{color:'#a7f3d0',fontSize:'.7rem',margin:'4px 0 0'}}>{cant} un. × ${precioUnitario}/un = ${montoActual}</p>
-              <p style={{color:'#6ee7b7',fontSize:'.7rem',margin:'2px 0 0'}}>(${prod.p} ÷ {prod.u} un. por {prod.t})</p>
             </div>
           )}
           <div style={{display:'flex',gap:'.75rem'}}>
-            <button onClick={guardar} disabled={saving} style={btn(saving?'#475569':'#16a34a',{flex:1})}>{saving?'⏳ Guardando...':'✓ Guardar Reporte'}</button>
-            <button onClick={reset} style={btn('#4338ca',{flex:1})}>Cancelar</button>
+            <button onClick={vAgregar} style={btn('#16a34a',{flex:1})}>✓ Agregar a Lista</button>
+            <button onClick={()=>{resetProd();setShowForm(false);}} style={btn('#4338ca',{flex:1})}>Cerrar</button>
           </div>
         </div>}
+
+        {/* Lista pendiente con editar/eliminar */}
+        {vPedidos.length>0&&<div style={{background:'rgba(67,56,202,.4)',border:'1px solid rgba(99,102,241,.5)',borderRadius:'.75rem',padding:'1.25rem',marginBottom:'1.5rem'}}>
+          <h2 style={{color:'white',fontWeight:'700',margin:'0 0 1rem',fontSize:'1rem'}}>📋 Lista Pendiente ({vPedidos.length})</h2>
+          <div>
+            {vPedidos.map((p,idx)=>(
+              <ItemEditable
+                key={idx} item={p} idx={idx}
+                onEliminar={vEliminar} onEditar={vEditar}
+                accentColor='#6366f1' borderColor='#4338ca' bgColor='rgba(67,56,202,.5)'
+                labelCant='Unidades'
+                renderDetalle={item=>(
+                  <div>
+                    <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.85rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.producto}</p>
+                    <p style={{color:'#c7d2fe',fontSize:'.75rem',margin:'0 0 2px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.tienda}</p>
+                    <p style={{color:'#a5b4fc',fontSize:'.72rem',margin:0}}>
+                      {item.cantidad} un. · {item.tipo}
+                      {item.mes_vencimiento&&<span style={{color:'#fcd34d',marginLeft:'6px'}}>📅 {item.mes_vencimiento}</span>}
+                      <span style={{color:'#4ade80',marginLeft:'8px',fontWeight:'700'}}>${item.monto_estimado?.toFixed(2)}</span>
+                    </p>
+                  </div>
+                )}
+              />
+            ))}
+          </div>
+          <div style={{marginTop:'1rem',paddingTop:'1rem',borderTop:'1px solid rgba(67,56,202,.5)'}}>
+            <p style={{color:'#c7d2fe',margin:'0 0 1rem',fontSize:'.85rem'}}>Total: <strong style={{color:'#fcd34d',fontSize:'1.1rem'}}>${vTotalMonto.toFixed(2)}</strong></p>
+            <button onClick={vGuardarTodo} disabled={saving}
+              style={btn(saving?'#475569':'linear-gradient(90deg,#16a34a,#22c55e)',{width:'100%',fontSize:'.95rem',padding:'.75rem',borderRadius:'.75rem'})}>
+              {saving?'⏳ Guardando...':'☁️ Guardar Todo'}
+            </button>
+          </div>
+        </div>}
+
+        {/* Reportes guardados */}
         <div style={{background:'rgba(67,56,202,.4)',border:'1px solid #4338ca',borderRadius:'.75rem',padding:'1.25rem'}}>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1rem'}}>
-            <h2 style={{color:'white',fontWeight:'700',margin:0,fontSize:'1rem'}}>Mis Reportes ({misR.length})</h2>
+            <h2 style={{color:'white',fontWeight:'700',margin:0,fontSize:'1rem'}}>☁️ Reportes Guardados ({misR.length})</h2>
             <button onClick={cargar} style={{background:'none',border:'none',color:'#a5b4fc',cursor:'pointer',fontSize:'.8rem'}}>🔄 Actualizar</button>
           </div>
           {load?<p style={{color:'#a5b4fc',textAlign:'center',padding:'1.5rem'}}>⏳ Cargando...</p>
-          :misR.length===0?<p style={{color:'#a5b4fc',textAlign:'center',padding:'1.5rem',fontSize:'.9rem'}}>Aún no has enviado reportes</p>
+          :misR.length===0?<p style={{color:'#a5b4fc',textAlign:'center',padding:'1.5rem',fontSize:'.9rem'}}>Aún no has guardado reportes</p>
           :<div style={{display:'flex',flexDirection:'column',gap:'.75rem'}}>
             {misR.map(r=>(
               <div key={r.id} style={{background:'rgba(67,56,202,.5)',border:'1px solid #4338ca',borderRadius:'.5rem',padding:'1rem'}}>
@@ -992,6 +1305,128 @@ function App(){
           </div>}
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ════════════ MACHETAZO ADMIN TOOL ════════════ */
+function MachetazoAdminTool(){
+  const [pedidos,setPedidos]=useState([]);
+  const [tiendaSel,setTiendaSel]=useState('');
+  const [prodSel,setProdSel]=useState(null);
+  const [codIn,setCodIn]=useState('');
+  const [cant,setCant]=useState('');
+  const [showSug,setShowSug]=useState(false);
+  const [showForm,setShowForm]=useState(false);
+  const [msg,setMsg]=useState('');
+
+  const showM=(m)=>{setMsg(m);setTimeout(()=>setMsg(''),3000);};
+
+  const sugs=useMemo(()=>{
+    if(!codIn.trim()||prodSel)return[];
+    const q=codIn.toUpperCase();
+    return MACHETAZO_PRODUCTOS.filter(p=>p.material.includes(q)||p.codigo.includes(q)||p.descripcion.toUpperCase().includes(q)).slice(0,8);
+  },[codIn,prodSel]);
+
+  const totalUnidades=pedidos.reduce((a,p)=>a+p.qtyUnidades,0);
+  const totalMonto=pedidos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0);
+
+  const agregar=()=>{
+    if(!tiendaSel||!prodSel||!cant||parseFloat(cant)<=0){alert('Completa todos los campos');return;}
+    const t=MACHETAZO_TIENDAS.find(x=>x.n===tiendaSel);
+    if(!t)return;
+    const cajas=parseInt(cant);
+    setPedidos(prev=>[...prev,{
+      tN:t.n,tStore:t.store,tCol:t.col,tColL:t.colLetter,tV:t.v,
+      pMat:prodSel.material,pCod:prodSel.codigo,pDesc:prodSel.descripcion,pRow:prodSel.row,
+      pTipo:prodSel.t,pUnidadesPorCaja:prodSel.u,pPrecio:prodSel.p,
+      qtyCajas:cajas,qtyUnidades:cajas*prodSel.u,monto:(cajas*prodSel.p).toFixed(2),_prod:prodSel
+    }]);
+    showM('✅ Agregado: '+prodSel.descripcion);
+    setCant('');setCodIn('');setProdSel(null);setShowSug(false);
+  };
+
+  const editarAdmin=(idx,nuevasCajas)=>{
+    setPedidos(prev=>prev.map((p,i)=>{
+      if(i!==idx)return p;
+      const cajas=parseInt(nuevasCajas);
+      return{...p,qtyCajas:cajas,qtyUnidades:cajas*p.pUnidadesPorCaja,monto:(cajas*p.pPrecio).toFixed(2)};
+    }));
+  };
+
+  return(
+    <div>
+      {msg&&<div style={{background:'rgba(34,197,94,.15)',border:'1px solid #22c55e',color:'#86efac',padding:'.4rem .75rem',borderRadius:'.4rem',marginBottom:'.75rem',fontSize:'.8rem'}}>{msg}</div>}
+      {!showForm&&<button onClick={()=>setShowForm(true)} style={{background:'#0369a1',color:'white',border:'none',borderRadius:'.5rem',padding:'.6rem 1rem',fontSize:'.85rem',fontWeight:'700',cursor:'pointer',marginBottom:'.75rem'}}>+ Agregar Producto Machetazo</button>}
+      {showForm&&<div style={{background:'rgba(3,105,161,.2)',border:'1px solid #0369a1',borderRadius:'.65rem',padding:'1rem',marginBottom:'1rem'}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'.75rem',marginBottom:'.75rem'}}>
+          <div>
+            <label style={{color:'#7dd3fc',fontSize:'.8rem',display:'block',marginBottom:'.25rem'}}>Tienda</label>
+            <select value={tiendaSel} onChange={e=>setTiendaSel(e.target.value)}
+              style={{width:'100%',background:'#0c4a6e',color:'white',border:'1px solid #0369a1',borderRadius:'.4rem',padding:'.5rem',boxSizing:'border-box',fontSize:'.85rem'}}>
+              <option value="">-- Tienda --</option>
+              {MACHETAZO_TIENDAS.map(t=><option key={t.n} value={t.n}>{t.store}</option>)}
+            </select>
+          </div>
+          <div>
+            <label style={{color:'#7dd3fc',fontSize:'.8rem',display:'block',marginBottom:'.25rem'}}>Cantidad ({prodSel?prodSel.t+'s':'CJ/EX'})</label>
+            <input type="number" min="1" value={cant} onChange={e=>setCant(e.target.value)} placeholder="Ej: 2"
+              style={{width:'100%',background:'#0c4a6e',color:'white',border:'1px solid #0369a1',borderRadius:'.4rem',padding:'.5rem',boxSizing:'border-box',outline:'none',fontSize:'.85rem'}}/>
+          </div>
+        </div>
+        <div style={{position:'relative',marginBottom:'.75rem'}}>
+          <label style={{color:'#7dd3fc',fontSize:'.8rem',display:'block',marginBottom:'.25rem'}}>Buscar Producto</label>
+          <input type="text" placeholder="Material, código o descripción..." value={codIn}
+            onChange={e=>{setCodIn(e.target.value);setShowSug(true);if(prodSel)setProdSel(null);}}
+            onFocus={()=>codIn&&setShowSug(true)}
+            style={{width:'100%',background:'#0c4a6e',color:'white',border:'1px solid #0369a1',borderRadius:'.4rem',padding:'.5rem',boxSizing:'border-box',outline:'none',fontSize:'.85rem'}}/>
+          {showSug&&sugs.length>0&&(
+            <div style={{position:'absolute',top:'100%',left:0,right:0,background:'#0c3d5c',border:'1px solid #0369a1',borderRadius:'.4rem',zIndex:200,maxHeight:'200px',overflowY:'auto',marginTop:'2px',boxShadow:'0 10px 25px rgba(0,0,0,.5)'}}>
+              {sugs.map(p=>(
+                <button key={p.material} onMouseDown={e=>{e.preventDefault();setProdSel(p);setCodIn(p.material+' - '+p.descripcion);setShowSug(false);}}
+                  style={{display:'block',width:'100%',textAlign:'left',padding:'.5rem .75rem',border:'none',borderBottom:'1px solid rgba(3,105,161,.5)',background:'transparent',cursor:'pointer',color:'white',fontSize:'.8rem'}}>
+                  <span style={{color:'#7dd3fc',fontFamily:'monospace'}}>{p.material}</span> — {p.descripcion}
+                  <span style={{color:'#4ade80',marginLeft:'6px'}}>{p.t} ×{p.u} ${p.p}</span>
+                </button>
+              ))}
+            </div>
+          )}
+          {prodSel&&<p style={{color:'#4ade80',fontSize:'.78rem',margin:'.3rem 0 0'}}>{prodSel.descripcion} · {prodSel.t}×{prodSel.u}un · ${prodSel.p}</p>}
+          {prodSel&&cant&&parseFloat(cant)>0&&<p style={{color:'#7dd3fc',fontSize:'.75rem',margin:'2px 0 0'}}>→ {parseInt(cant)*prodSel.u} unidades · <strong style={{color:'#fcd34d'}}>${(parseInt(cant)*prodSel.p).toFixed(2)}</strong></p>}
+        </div>
+        <div style={{display:'flex',gap:'.5rem'}}>
+          <button onClick={agregar} style={{background:'#16a34a',color:'white',border:'none',borderRadius:'.4rem',padding:'.5rem .9rem',fontSize:'.85rem',fontWeight:'700',cursor:'pointer'}}>✓ Agregar</button>
+          <button onClick={()=>{setShowForm(false);setCodIn('');setProdSel(null);setCant('');}} style={{background:'#475569',color:'white',border:'none',borderRadius:'.4rem',padding:'.5rem .9rem',fontSize:'.85rem',cursor:'pointer'}}>Cerrar</button>
+        </div>
+      </div>}
+
+      {pedidos.length>0&&<div>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'.5rem'}}>
+          <p style={{color:'#7dd3fc',fontSize:'.85rem',margin:0}}>{pedidos.length} productos · {totalUnidades} un. · <strong style={{color:'#fcd34d'}}>${totalMonto.toFixed(2)}</strong></p>
+          <div style={{display:'flex',gap:'.5rem'}}>
+            <button onClick={()=>descargarMachetazoExcel(pedidos)} style={{background:'#16a34a',color:'white',border:'none',borderRadius:'.4rem',padding:'.4rem .8rem',fontSize:'.8rem',fontWeight:'700',cursor:'pointer'}}>📥 Excel</button>
+            <button onClick={()=>setPedidos([])} style={{background:'#dc2626',color:'white',border:'none',borderRadius:'.4rem',padding:'.4rem .8rem',fontSize:'.8rem',cursor:'pointer'}}>🗑️ Limpiar</button>
+          </div>
+        </div>
+        <div style={{maxHeight:'220px',overflowY:'auto',display:'flex',flexDirection:'column',gap:'.35rem'}}>
+          {pedidos.map((p,idx)=>(
+            <ItemEditable
+              key={idx} item={p} idx={idx}
+              onEliminar={(i)=>setPedidos(prev=>prev.filter((_,j)=>j!==i))}
+              onEditar={editarAdmin}
+              accentColor='#0ea5e9' borderColor='#0369a1' bgColor='rgba(3,105,161,.3)'
+              labelCant={`Cajas/${p.pTipo}`}
+              renderDetalle={item=>(
+                <div style={{fontSize:'.8rem'}}>
+                  <span style={{color:'white',fontWeight:'600',display:'block',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.pDesc}</span>
+                  <span style={{color:'#7dd3fc',fontFamily:'monospace',fontSize:'.7rem'}}>{item.pMat} · {item.tStore} · {item.qtyUnidades}un</span>
+                  <span style={{color:'#fcd34d',fontWeight:'700',marginLeft:'6px'}}>${item.monto}</span>
+                </div>
+              )}
+            />
+          ))}
+        </div>
+      </div>}
     </div>
   );
 }

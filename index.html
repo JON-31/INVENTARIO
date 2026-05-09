@@ -351,18 +351,21 @@ const descargarMachetazoExcel=(pedidos)=>{
 
   // Usar Blob para mayor compatibilidad con navegadores
   try {
-    const wbout = XLSX.write(wb, {bookType:'xlsx', type:'array'});
-    const blob = new Blob([wbout], {type:'application/octet-stream'});
+    const wbout = XLSX.write(wb, {bookType:'xlsx', type:'binary'});
+    const buf = new ArrayBuffer(wbout.length);
+    const view = new Uint8Array(buf);
+    for(let i=0;i<wbout.length;i++) view[i]=wbout.charCodeAt(i)&0xFF;
+    const blob = new Blob([buf], {type:'application/octet-stream'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `machetazo_pedido_${new Date().toISOString().split('T')[0]}.xlsx`;
+    a.download = 'machetazo_pedido_'+new Date().toISOString().split('T')[0]+'.xlsx';
     document.body.appendChild(a);
     a.click();
-    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);}, 100);
+    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);}, 200);
   } catch(e) {
     console.error('Error al generar Excel:', e);
-    alert('Error al generar el Excel: ' + e.message);
+    alert('Error: ' + e.message);
   }
 };
 

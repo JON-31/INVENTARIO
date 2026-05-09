@@ -286,16 +286,15 @@ const descargarMachetazoExcel=(pedidos)=>{
   // Cabeceras de tabla
   wsData.push(['#','Material','Código de Barras','Descripción del Producto','Tienda / Store','Col. Plantilla','Cantidad']);
 
-  // Filas de productos
   pedidos.forEach((p,idx)=>{
     wsData.push([
       idx+1,
-      p.productoObj.material,
-      p.productoObj.codigo,
-      p.productoObj.descripcion,
-      p.tiendaObj.store,
-      p.tiendaObj.colLetter,
-      p.cantidad
+      p.pMat,
+      p.pCod,
+      p.pDesc,
+      p.tStore,
+      p.tColL,
+      p.qty
     ]);
   });
 
@@ -307,17 +306,17 @@ const descargarMachetazoExcel=(pedidos)=>{
   wsData.push(['Tienda','Productos','Total Unidades','','','','']);
   const porTienda={};
   pedidos.forEach(p=>{
-    const k=p.tiendaObj.store;
+    const k=p.tStore;
     if(!porTienda[k]){porTienda[k]={prods:0,units:0};}
     porTienda[k].prods++;
-    porTienda[k].units+=Number(p.cantidad);
+    porTienda[k].units+=Number(p.qty);
   });
   Object.entries(porTienda).forEach(([t,v])=>{
     wsData.push([t,v.prods,v.units,'','','','']);
   });
 
   // Total general
-  const totalUnidades=pedidos.reduce((a,p)=>a+Number(p.cantidad),0);
+  const totalUnidades=pedidos.reduce((a,p)=>a+Number(p.qty),0);
   wsData.push(['','','','','','','']);
   wsData.push(['TOTAL GENERAL','',totalUnidades,'','','','']);
 
@@ -326,25 +325,21 @@ const descargarMachetazoExcel=(pedidos)=>{
   XLSX.utils.book_append_sheet(wb,'PEDIDO',ws1);
 
   // ── Hoja 2: FORMATO PLANTILLA (columnas por tienda) ──
-  // Obtener tiendas únicas en el pedido
-  const tiendasEnPedido=[...new Map(pedidos.map(p=>[p.tiendaObj.store,p.tiendaObj])).values()];
-  const productosEnPedido=[...new Map(pedidos.map(p=>[p.productoObj.material,p.productoObj])).values()];
+  // Obtener tiendas únicas en el pedido (usando estructura plana)
+  const tiendasEnPedido=[...new Map(pedidos.map(p=>[p.tStore,{store:p.tStore,colLetter:p.tColL}])).values()];
+  const productosEnPedido=[...new Map(pedidos.map(p=>[p.pMat,{material:p.pMat,codigo:p.pCod,descripcion:p.pDesc}])).values()];
 
   const ws2Data=[];
-  // Fila 1: encabezado de tiendas
   const header1=['Material','Código','Descripción',...tiendasEnPedido.map(t=>t.store)];
   ws2Data.push(header1);
-  // Fila 2: letra de columna plantilla original
   const header2=['','','',...tiendasEnPedido.map(t=>'Col.'+t.colLetter)];
   ws2Data.push(header2);
 
-  // Filas de productos
   productosEnPedido.forEach(prod=>{
     const fila=[prod.material, prod.codigo, prod.descripcion];
     tiendasEnPedido.forEach(tienda=>{
-      // Buscar si hay cantidad para esta combinación
-      const match=pedidos.find(p=>p.productoObj.material===prod.material&&p.tiendaObj.store===tienda.store);
-      fila.push(match?match.cantidad:'');
+      const match=pedidos.find(p=>p.pMat===prod.material&&p.tStore===tienda.store);
+      fila.push(match?match.qty:'');
     });
     ws2Data.push(fila);
   });
@@ -475,9 +470,14 @@ function App(){
 
   const mAgregar=()=>{
     if(!mTiendaSel||!mProdSel||!mCant||parseFloat(mCant)<=0){alert('Completa todos los campos');return;}
-    const tiendaObj=MACHETAZO_TIENDAS.find(t=>t.n===mTiendaSel);
-    setMPedidos(prev=>[...prev,{tiendaObj,productoObj:mProdSel,cantidad:parseInt(mCant)}]);
-    showM(`✅ Agregado: ${mProdSel.descripcion}`);
+    const t=MACHETAZO_TIENDAS.find(x=>x.n===mTiendaSel);
+    if(!t)return;
+    setMPedidos(prev=>[...prev,{
+      tN:t.n, tStore:t.store, tCol:t.col, tColL:t.colLetter, tV:t.v,
+      pMat:mProdSel.material, pCod:mProdSel.codigo, pDesc:mProdSel.descripcion, pRow:mProdSel.row,
+      qty:parseInt(mCant)
+    }]);
+    showM('✅ Agregado: '+mProdSel.descripcion);
     setMCant('');setMCodIn('');setMProdSel(null);setMShowSug(false);
   };
 
@@ -769,12 +769,12 @@ function App(){
               {mPedidos.map((p,idx)=>(
                 <div key={idx} style={{background:'rgba(3,105,161,.4)',border:'1px solid #0369a1',borderRadius:'.5rem',padding:'.75rem 1rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                   <div style={{flex:1,minWidth:0}}>
-                    <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.85rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.productoObj.descripcion}</p>
-                    <p style={{color:'#7dd3fc',fontFamily:'monospace',fontSize:'.7rem',margin:'0 0 2px'}}>{p.productoObj.material}</p>
-                    <p style={{color:'#bae6fd',fontSize:'.75rem',margin:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.tiendaObj.n}</p>
+                    <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.85rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.pDesc}</p>
+                    <p style={{color:'#7dd3fc',fontFamily:'monospace',fontSize:'.7rem',margin:'0 0 2px'}}>{p.pMat}</p>
+                    <p style={{color:'#bae6fd',fontSize:'.75rem',margin:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.tN}</p>
                   </div>
                   <div style={{display:'flex',alignItems:'center',gap:'.75rem',flexShrink:0,marginLeft:'.75rem'}}>
-                    <span style={{color:'#4ade80',fontWeight:'700',fontSize:'.9rem'}}>{p.cantidad} un.</span>
+                    <span style={{color:'#4ade80',fontWeight:'700',fontSize:'.9rem'}}>{p.qty} un.</span>
                     <button onClick={()=>mEliminar(idx)} style={{background:'rgba(220,38,38,.3)',border:'1px solid #dc2626',color:'#fca5a5',borderRadius:'.4rem',padding:'3px 8px',cursor:'pointer',fontSize:'.75rem',fontWeight:'700'}}>✕</button>
                   </div>
                 </div>

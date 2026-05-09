@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
 <style>
 body{margin:0;background:#1e293b;font-family:Arial,sans-serif;}
 select option{background:#334155;color:white;}
@@ -269,105 +269,52 @@ const calcMontoAuditor=(prod,cant)=>{
   return(parseFloat(cant)*prod.p).toFixed(2);
 };
 
-// ✅ FUNCIÓN EXCEL MACHETAZO CORREGIDA - Genera desde cero sin depender de plantilla base64
 const descargarMachetazoExcel=(pedidos)=>{
-  if(pedidos.length===0){alert('Agrega al menos un producto');return;}
-
-  const wb=XLSX.utils.book_new();
-  const today=new Date().toLocaleDateString('es-PA');
-
-  // ── Hoja 1: PEDIDO DETALLADO ──
-  const wsData=[];
-
-  // Encabezado
-  wsData.push(['PLANTILLA DE PEDIDO MACHETAZO - MASCOTAS','','','','','','']);
-  wsData.push(['Vendedor:','','Fecha:',today,'','','']);
-  wsData.push(['','','','','','','']);
-  // Cabeceras de tabla
-  wsData.push(['#','Material','Código de Barras','Descripción del Producto','Tienda / Store','Col. Plantilla','Cantidad']);
-
-  pedidos.forEach((p,idx)=>{
-    wsData.push([
-      idx+1,
-      p.pMat,
-      p.pCod,
-      p.pDesc,
-      p.tStore,
-      p.tColL,
-      p.qty
-    ]);
-  });
-
-  wsData.push(['','','','','','','']);
-  wsData.push(['','','','','','','']);
-
-  // Resumen por tienda
-  wsData.push(['RESUMEN POR TIENDA','','','','','','']);
-  wsData.push(['Tienda','Productos','Total Unidades','','','','']);
-  const porTienda={};
-  pedidos.forEach(p=>{
-    const k=p.tStore;
-    if(!porTienda[k]){porTienda[k]={prods:0,units:0};}
-    porTienda[k].prods++;
-    porTienda[k].units+=Number(p.qty);
-  });
-  Object.entries(porTienda).forEach(([t,v])=>{
-    wsData.push([t,v.prods,v.units,'','','','']);
-  });
-
-  // Total general
-  const totalUnidades=pedidos.reduce((a,p)=>a+Number(p.qty),0);
-  wsData.push(['','','','','','','']);
-  wsData.push(['TOTAL GENERAL','',totalUnidades,'','','','']);
-
-  const ws1=XLSX.utils.aoa_to_sheet(wsData);
-  ws1['!cols']=[{wch:4},{wch:12},{wch:18},{wch:52},{wch:20},{wch:10},{wch:12}];
-  XLSX.utils.book_append_sheet(wb,'PEDIDO',ws1);
-
-  // ── Hoja 2: FORMATO PLANTILLA (columnas por tienda) ──
-  // Obtener tiendas únicas en el pedido (usando estructura plana)
-  const tiendasEnPedido=[...new Map(pedidos.map(p=>[p.tStore,{store:p.tStore,colLetter:p.tColL}])).values()];
-  const productosEnPedido=[...new Map(pedidos.map(p=>[p.pMat,{material:p.pMat,codigo:p.pCod,descripcion:p.pDesc}])).values()];
-
-  const ws2Data=[];
-  const header1=['Material','Código','Descripción',...tiendasEnPedido.map(t=>t.store)];
-  ws2Data.push(header1);
-  const header2=['','','',...tiendasEnPedido.map(t=>'Col.'+t.colLetter)];
-  ws2Data.push(header2);
-
-  productosEnPedido.forEach(prod=>{
-    const fila=[prod.material, prod.codigo, prod.descripcion];
-    tiendasEnPedido.forEach(tienda=>{
-      const match=pedidos.find(p=>p.pMat===prod.material&&p.tStore===tienda.store);
-      fila.push(match?match.qty:'');
+  if(!pedidos||pedidos.length===0){alert('Agrega al menos un producto');return;}
+  try{
+    // Hoja 1: Lista detallada
+    const rows1=[['#','Material','Codigo','Descripcion','Tienda','Columna','Cantidad']];
+    pedidos.forEach((p,i)=>{
+      rows1.push([i+1, p.pMat, p.pCod, p.pDesc, p.tStore, p.tColL, p.qty]);
     });
-    ws2Data.push(fila);
-  });
+    rows1.push([]);
 
-  const ws2=XLSX.utils.aoa_to_sheet(ws2Data);
-  const colWidths=[{wch:12},{wch:16},{wch:50},...tiendasEnPedido.map(()=>({wch:14}))];
-  ws2['!cols']=colWidths;
-  XLSX.utils.book_append_sheet(wb,'FORMATO PLANTILLA',ws2);
+    // Resumen por tienda
+    rows1.push(['RESUMEN POR TIENDA','','','','','','']);
+    rows1.push(['Tienda','Productos','Unidades','','','','']);
+    const rt={};
+    pedidos.forEach(p=>{
+      if(!rt[p.tStore])rt[p.tStore]={n:0,u:0};
+      rt[p.tStore].n++;rt[p.tStore].u+=p.qty;
+    });
+    Object.keys(rt).forEach(k=>rows1.push([k,rt[k].n,rt[k].u,'','','','']));
+    const total=pedidos.reduce((a,p)=>a+p.qty,0);
+    rows1.push(['TOTAL','',total,'','','','']);
 
-  // Usar Blob para mayor compatibilidad con navegadores
-  try {
-    const wbout = XLSX.write(wb, {bookType:'xlsx', type:'binary'});
-    const buf = new ArrayBuffer(wbout.length);
-    const view = new Uint8Array(buf);
-    for(let i=0;i<wbout.length;i++) view[i]=wbout.charCodeAt(i)&0xFF;
-    const blob = new Blob([buf], {type:'application/octet-stream'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'machetazo_pedido_'+new Date().toISOString().split('T')[0]+'.xlsx';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);}, 200);
-  } catch(e) {
-    console.error('Error al generar Excel:', e);
-    alert('Error: ' + e.message);
+    // Hoja 2: Formato cruzado
+    const tiendas=[...new Set(pedidos.map(p=>p.tStore))];
+    const prods=[...new Set(pedidos.map(p=>p.pMat))];
+    const rows2=[['Material','Descripcion',...tiendas]];
+    prods.forEach(mat=>{
+      const pd=pedidos.find(p=>p.pMat===mat);
+      const fila=[mat, pd.pDesc];
+      tiendas.forEach(ts=>{
+        const m=pedidos.find(p=>p.pMat===mat&&p.tStore===ts);
+        fila.push(m?m.qty:'');
+      });
+      rows2.push(fila);
+    });
+
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows1), 'PEDIDO');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows2), 'PLANTILLA');
+    XLSX.writeFile(wb,'machetazo_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  }catch(err){
+    console.error(err);
+    alert('Error generando Excel: '+err.message);
   }
 };
+
 
 function App(){
   const [user,setUser]=useState(null);

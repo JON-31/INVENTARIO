@@ -44,6 +44,14 @@ const REY_TIENDAS=[
   'SM REY VILLA LUCRE','SM REY MILLA 8','SM REY CALLE 13','SM REY CALLE 7A.',
 ];
 
+const TIPOS_PEDIDO=[
+  'Pedido adicional',
+  'Pedido para Tonga',
+  'Pedido para Isla',
+  'Pedido para botadero',
+  'Pedido para frente de caja',
+];
+
 const MACHETAZO_TIENDAS=[
   {n:'COMPANIA GOLY,S.A. CALIDONIA',          v:'CECILIA VALDES',          col:7,  colLetter:'G', store:'CALIDONIA'},
   {n:'COMPANIA GOLY S A ARRAIJAN',             v:'ALEXIS VAZQUEZ',          col:10, colLetter:'J', store:'ARRAIJAN'},
@@ -455,42 +463,90 @@ const calcMontoAuditor=(prod,cant)=>{
   if(!prod||!cant||isNaN(cant)||parseFloat(cant)<=0)return null;
   return(parseFloat(cant)*prod.p).toFixed(2);
 };
-const calcMachetazoUnidades=(prod,cantCajas)=>{
-  if(!prod||!cantCajas||isNaN(cantCajas)||parseFloat(cantCajas)<=0)return null;
-  return parseInt(cantCajas)*prod.u;
+
+const TIPO_PEDIDO_COLORS={
+  'Pedido adicional':    {bg:'rgba(99,102,241,.25)',border:'#6366f1',text:'#a5b4fc'},
+  'Pedido para Tonga':   {bg:'rgba(245,158,11,.25)',border:'#f59e0b',text:'#fcd34d'},
+  'Pedido para Isla':    {bg:'rgba(16,185,129,.25)',border:'#10b981',text:'#6ee7b7'},
+  'Pedido para botadero':{bg:'rgba(239,68,68,.25)', border:'#ef4444',text:'#fca5a5'},
+  'Pedido para frente de caja':{bg:'rgba(56,189,248,.25)',border:'#38bdf8',text:'#7dd3fc'},
 };
-const calcMachetazoMonto=(prod,cantCajas)=>{
-  if(!prod||!cantCajas||isNaN(cantCajas)||parseFloat(cantCajas)<=0)return null;
-  return(parseFloat(cantCajas)*prod.p).toFixed(2);
+
+const TipoPedidoBadge=({tipo})=>{
+  if(!tipo||tipo==='—')return <span style={{color:'#475569'}}>—</span>;
+  const c=TIPO_PEDIDO_COLORS[tipo]||{bg:'rgba(100,116,139,.25)',border:'#64748b',text:'#cbd5e1'};
+  return(
+    <span style={{background:c.bg,border:`1px solid ${c.border}`,color:c.text,fontSize:'.68rem',fontWeight:'700',padding:'2px 7px',borderRadius:'4px',whiteSpace:'nowrap'}}>
+      {tipo}
+    </span>
+  );
 };
+
+const TipoPedidoSelector=({value,onChange,accentColor='#38bdf8',bgActive='rgba(56,189,248,.25)',borderActive='#38bdf8',bgInactive='rgba(12,74,110,.6)',borderInactive='#0369a1'})=>(
+  <div style={{marginBottom:'1rem'}}>
+    <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>🏷️ Tipo de Pedido</label>
+    <div style={{display:'flex',flexWrap:'wrap',gap:'.45rem'}}>
+      {TIPOS_PEDIDO.map(tipo=>{
+        const sel=value===tipo;
+        const c=TIPO_PEDIDO_COLORS[tipo]||{bg:bgActive,border:borderActive,text:accentColor};
+        return(
+          <button key={tipo} type="button"
+            onClick={()=>onChange(sel?'':tipo)}
+            style={{
+              padding:'.45rem .85rem',borderRadius:'2rem',
+              border:sel?`2px solid ${c.border}`:`1px solid ${borderInactive}`,
+              background:sel?c.bg:bgInactive,
+              color:sel?c.text:'#93c5fd',
+              cursor:'pointer',fontSize:'.78rem',fontWeight:sel?'700':'400',
+              transition:'all .15s',
+            }}>
+            {sel?'✓ ':''}{tipo}
+          </button>
+        );
+      })}
+    </div>
+    {value&&<p style={{color:'#7dd3fc',fontSize:'.75rem',margin:'.4rem 0 0'}}>✓ Seleccionado: <strong>{value}</strong></p>}
+  </div>
+);
 
 const descargarMachetazoExcel=(pedidos)=>{
   if(!pedidos||pedidos.length===0){alert('Agrega al menos un producto');return;}
   try{
-    const rows1=[['#','Material','Codigo','Descripcion','Tienda','Columna','Cajas/Ex','Unidades','Monto ($)']];
+    const rows1=[['#','Material','Codigo','Descripcion','Tipo de Pedido','Tienda','Columna','Cajas/Ex','Unidades','Monto ($)']];
     pedidos.forEach((p,i)=>{
-      rows1.push([i+1,p.pMat,p.pCod,p.pDesc,p.tStore,p.tColL,p.qtyCajas,p.qtyUnidades,p.monto]);
+      rows1.push([i+1,p.pMat,p.pCod,p.pDesc,p.tipoPedido||'—',p.tStore,p.tColL,p.qtyCajas,p.qtyUnidades,p.monto]);
     });
     rows1.push([]);
     const totalUnidades=pedidos.reduce((a,p)=>a+p.qtyUnidades,0);
     const totalMonto=pedidos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0);
-    rows1.push(['','','','','','','TOTAL UNIDADES:',totalUnidades,'']);
-    rows1.push(['','','','','','','TOTAL MONTO:','','$'+totalMonto.toFixed(2)]);
+    rows1.push(['','','','','','','','TOTAL UNIDADES:',totalUnidades,'']);
+    rows1.push(['','','','','','','','TOTAL MONTO:','','$'+totalMonto.toFixed(2)]);
     rows1.push([]);
-    rows1.push(['RESUMEN POR TIENDA','','','','','','','','']);
-    rows1.push(['Tienda','Productos','Unidades','Monto ($)','','','','','']);
+    rows1.push(['RESUMEN POR TIPO DE PEDIDO','','','','','','','','','']);
+    rows1.push(['Tipo de Pedido','Productos','Unidades','Monto ($)','','','','','','']);
     const rt={};
     pedidos.forEach(p=>{
-      if(!rt[p.tStore])rt[p.tStore]={n:0,u:0,m:0};
-      rt[p.tStore].n++;rt[p.tStore].u+=p.qtyUnidades;rt[p.tStore].m+=parseFloat(p.monto)||0;
+      const tp=p.tipoPedido||'Sin tipo';
+      if(!rt[tp])rt[tp]={n:0,u:0,m:0};
+      rt[tp].n++;rt[tp].u+=p.qtyUnidades;rt[tp].m+=parseFloat(p.monto)||0;
     });
-    Object.keys(rt).forEach(k=>rows1.push([k,rt[k].n,rt[k].u,'$'+rt[k].m.toFixed(2),'','','','','']));
+    Object.keys(rt).forEach(k=>rows1.push([k,rt[k].n,rt[k].u,'$'+rt[k].m.toFixed(2),'','','','','','']));
+    rows1.push([]);
+    rows1.push(['RESUMEN POR TIENDA','','','','','','','','','']);
+    rows1.push(['Tienda','Productos','Unidades','Monto ($)','','','','','','']);
+    const rs={};
+    pedidos.forEach(p=>{
+      if(!rs[p.tStore])rs[p.tStore]={n:0,u:0,m:0};
+      rs[p.tStore].n++;rs[p.tStore].u+=p.qtyUnidades;rs[p.tStore].m+=parseFloat(p.monto)||0;
+    });
+    Object.keys(rs).forEach(k=>rows1.push([k,rs[k].n,rs[k].u,'$'+rs[k].m.toFixed(2),'','','','','','']));
+
     const tiendas=[...new Set(pedidos.map(p=>p.tStore))];
     const prods=[...new Set(pedidos.map(p=>p.pMat))];
-    const rows2=[['Material','Descripcion',...tiendas,'Total Unidades','Total Monto ($)']];
+    const rows2=[['Material','Descripcion','Tipo de Pedido',...tiendas,'Total Unidades','Total Monto ($)']];
     prods.forEach(mat=>{
       const pd=pedidos.find(p=>p.pMat===mat);
-      const fila=[mat,pd.pDesc];
+      const fila=[mat,pd.pDesc,pd.tipoPedido||'—'];
       let totU=0,totM=0;
       tiendas.forEach(ts=>{
         const m=pedidos.find(p=>p.pMat===mat&&p.tStore===ts);
@@ -575,6 +631,7 @@ function App(){
   const [err,setErr]=useState('');
 
   const [mPedidos,setMPedidos]=useState([]);
+  const [mTipoPedido,setMTipoPedido]=useState('');
   const [mTiendaSel,setMTiendaSel]=useState('');
   const [mProdSel,setMProdSel]=useState(null);
   const [mCodIn,setMCodIn]=useState('');
@@ -616,8 +673,8 @@ function App(){
   const aFilt=useMemo(()=>AUDITORES.filter(a=>a.toUpperCase().includes(srchA.toUpperCase())),[srchA]);
 
   const resetProd=()=>{setCant('');setCodIn('');setProd(null);setShowSug(false);setMesVenc('');setTId('');};
-  const mReset=()=>{setMCant('');setMCodIn('');setMProdSel(null);setMShowSug(false);};
-  const logout=()=>{setUser(null);setLMode(null);setSelV('');setSrchV('');setSelA('');setSrchA('');setAPass('');setAErr(false);setReps([]);setTId('');setMesVenc('');setMPedidos([]);setMTiendaSel('');setVPedidos([]);setReyPedidos([]);resetProd();mReset();setShowForm(false);setMShowForm(false);};
+  const mReset=()=>{setMCant('');setMCodIn('');setMProdSel(null);setMShowSug(false);setMTipoPedido('');};
+  const logout=()=>{setUser(null);setLMode(null);setSelV('');setSrchV('');setSelA('');setSrchA('');setAPass('');setAErr(false);setReps([]);setTId('');setMesVenc('');setMPedidos([]);setMTiendaSel('');setMTipoPedido('');setVPedidos([]);setReyPedidos([]);resetProd();mReset();setShowForm(false);setMShowForm(false);};
 
   const btn=(bg,extra={})=>({background:bg,color:'white',border:'none',borderRadius:'.5rem',padding:'.75rem 1rem',fontWeight:'700',cursor:'pointer',...extra});
 
@@ -708,8 +765,8 @@ function App(){
   };
 
   const csv=(datos)=>{
-    const c=['Vendedor,Tienda,Cod.Barra,Cod.FEDURO,Producto,Marca,Tipo,Cantidad,Monto Est.($),Mes Vencimiento,Fecha'].concat(
-      datos.map(r=>`"${r.vendedor}","${r.tienda}","${r.barcode}","${r.codigo}","${r.producto}","${r.marca}","${r.tipo||''}",${r.cantidad},${r.monto_estimado||''},"${r.mes_vencimiento||''}","${r.fecha_reporte}"`)
+    const c=['Vendedor,Tienda,Cod.Barra,Cod.FEDURO,Producto,Marca,Tipo,Tipo Pedido,Cantidad,Monto Est.($),Mes Vencimiento,Fecha'].concat(
+      datos.map(r=>`"${r.vendedor}","${r.tienda}","${r.barcode}","${r.codigo}","${r.producto}","${r.marca}","${r.tipo||''}","${r.tipo_pedido||''}",${r.cantidad},${r.monto_estimado||''},"${r.mes_vencimiento||''}","${r.fecha_reporte}"`)
     ).join('\n');
     const a=document.createElement('a');
     a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));
@@ -717,7 +774,7 @@ function App(){
   };
 
   const mAgregar=()=>{
-    if(!mTiendaSel||!mProdSel||!mCant||parseFloat(mCant)<=0){alert('Completa todos los campos');return;}
+    if(!mTiendaSel||!mProdSel||!mCant||parseFloat(mCant)<=0||!mTipoPedido){alert('Completa todos los campos, incluyendo el Tipo de Pedido');return;}
     const t=MACHETAZO_TIENDAS.find(x=>x.n===mTiendaSel);
     if(!t)return;
     const cajas=parseInt(mCant);
@@ -727,10 +784,10 @@ function App(){
       tN:t.n,tStore:t.store,tCol:t.col,tColL:t.colLetter,tV:t.v,
       pMat:mProdSel.material,pCod:mProdSel.codigo,pDesc:mProdSel.descripcion,pRow:mProdSel.row,
       pTipo:mProdSel.t,pUnidadesPorCaja:mProdSel.u,pPrecio:mProdSel.p,
-      qtyCajas:cajas,qtyUnidades:unidades,monto:monto,_prod:mProdSel
+      qtyCajas:cajas,qtyUnidades:unidades,monto:monto,tipoPedido:mTipoPedido,_prod:mProdSel
     }]);
     showM('✅ Agregado: '+mProdSel.descripcion);
-    setMCant('');setMCodIn('');setMProdSel(null);setMShowSug(false);
+    setMCant('');setMCodIn('');setMProdSel(null);setMShowSug(false);setMTipoPedido('');
   };
 
   const mEditar=(idx,nuevasCajas)=>{
@@ -749,7 +806,7 @@ function App(){
     for(const p of mPedidos){
       const datos={
         vendedor:`MACHETAZO: ${user.v}`,tienda:p.tStore,barcode:p.pCod,codigo:p.pMat,
-        producto:p.pDesc,marca:'MARS',tipo:p.pTipo,cantidad:p.qtyUnidades,
+        producto:p.pDesc,marca:'MARS',tipo:p.pTipo,tipo_pedido:p.tipoPedido||'—',cantidad:p.qtyUnidades,
         monto_estimado:parseFloat(p.monto),mes_vencimiento:null,
         fecha_reporte:new Date().toLocaleDateString('es-ES')
       };
@@ -924,7 +981,7 @@ function App(){
             :fil.length===0?<p style={{color:'#94a3b8',textAlign:'center',padding:'2rem'}}>No hay reportes</p>
             :<table style={{width:'100%',borderCollapse:'collapse',fontSize:'.78rem'}}>
               <thead><tr style={{borderBottom:'1px solid #475569'}}>
-                {['Vendedor/Auditor','Tienda','Cód.Barra','Producto','Tipo','Cant.','Monto $','Mes Venc.','Fecha'].map(h=>(
+                {['Vendedor/Auditor','Tienda','Cód.Barra','Producto','Tipo','Tipo Pedido','Cant.','Monto $','Mes Venc.','Fecha'].map(h=>(
                   <th key={h} style={{color:'#cbd5e1',fontWeight:'600',padding:'.6rem .4rem',textAlign:'left'}}>{h}</th>
                 ))}
               </tr></thead>
@@ -943,6 +1000,9 @@ function App(){
                     <td style={{color:'white',padding:'.5rem .4rem',maxWidth:'160px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{r.producto}</td>
                     <td style={{padding:'.5rem .4rem'}}>
                       <span style={{background:r.tipo==='EX'?'rgba(79,70,229,.4)':r.tipo==='CJ'?'rgba(5,150,105,.4)':'rgba(107,114,128,.4)',color:r.tipo==='EX'?'#a5b4fc':r.tipo==='CJ'?'#6ee7b7':'#d1d5db',fontSize:'.7rem',fontWeight:'700',padding:'2px 6px',borderRadius:'4px'}}>{r.tipo||'—'}</span>
+                    </td>
+                    <td style={{padding:'.5rem .4rem'}}>
+                      <TipoPedidoBadge tipo={r.tipo_pedido}/>
                     </td>
                     <td style={{color:'#cbd5e1',padding:'.5rem .4rem'}}>{r.cantidad}</td>
                     <td style={{color:'#4ade80',padding:'.5rem .4rem',fontWeight:'700'}}>${(parseFloat(r.monto_estimado)||0).toFixed(2)}</td>
@@ -1003,6 +1063,8 @@ function App(){
                 {misTiendas.map(t=><option key={t.n} value={t.n}>{t.n}</option>)}
               </select>
             </div>
+
+            <TipoPedidoSelector value={mTipoPedido} onChange={setMTipoPedido}/>
 
             <div style={{marginBottom:'1rem',position:'relative'}}>
               <label style={{color:'white',fontWeight:'700',fontSize:'.9rem',display:'block',marginBottom:'.5rem'}}>🔍 Buscar Producto</label>
@@ -1080,10 +1142,11 @@ function App(){
                       <p style={{color:'white',fontWeight:'700',margin:'0 0 2px',fontSize:'.85rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.pDesc}</p>
                       <p style={{color:'#7dd3fc',fontFamily:'monospace',fontSize:'.7rem',margin:'0 0 2px'}}>{item.pMat}</p>
                       <p style={{color:'#bae6fd',fontSize:'.75rem',margin:'0 0 2px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.tN}</p>
-                      <p style={{color:'#a7f3d0',fontSize:'.72rem',margin:0}}>
+                      <p style={{color:'#a7f3d0',fontSize:'.72rem',margin:'0 0 3px'}}>
                         {item.qtyCajas} {item.pTipo} → <strong>{item.qtyUnidades} un.</strong>
                         <span style={{color:'#fcd34d',marginLeft:'8px',fontWeight:'700'}}>${item.monto}</span>
                       </p>
+                      {item.tipoPedido&&<TipoPedidoBadge tipo={item.tipoPedido}/>}
                     </div>
                   )}
                 />
@@ -1406,6 +1469,7 @@ function MachetazoAdminTool(){
   const [prodSel,setProdSel]=useState(null);
   const [codIn,setCodIn]=useState('');
   const [cant,setCant]=useState('');
+  const [tipoPedidoAdmin,setTipoPedidoAdmin]=useState('');
   const [showSug,setShowSug]=useState(false);
   const [showForm,setShowForm]=useState(false);
   const [msg,setMsg]=useState('');
@@ -1422,7 +1486,7 @@ function MachetazoAdminTool(){
   const totalMonto=pedidos.reduce((a,p)=>a+(parseFloat(p.monto)||0),0);
 
   const agregar=()=>{
-    if(!tiendaSel||!prodSel||!cant||parseFloat(cant)<=0){alert('Completa todos los campos');return;}
+    if(!tiendaSel||!prodSel||!cant||parseFloat(cant)<=0||!tipoPedidoAdmin){alert('Completa todos los campos, incluyendo el Tipo de Pedido');return;}
     const t=MACHETAZO_TIENDAS.find(x=>x.n===tiendaSel);
     if(!t)return;
     const cajas=parseInt(cant);
@@ -1430,10 +1494,11 @@ function MachetazoAdminTool(){
       tN:t.n,tStore:t.store,tCol:t.col,tColL:t.colLetter,tV:t.v,
       pMat:prodSel.material,pCod:prodSel.codigo,pDesc:prodSel.descripcion,pRow:prodSel.row,
       pTipo:prodSel.t,pUnidadesPorCaja:prodSel.u,pPrecio:prodSel.p,
-      qtyCajas:cajas,qtyUnidades:cajas*prodSel.u,monto:(cajas*prodSel.p).toFixed(2),_prod:prodSel
+      qtyCajas:cajas,qtyUnidades:cajas*prodSel.u,monto:(cajas*prodSel.p).toFixed(2),
+      tipoPedido:tipoPedidoAdmin,_prod:prodSel
     }]);
     showM('✅ Agregado: '+prodSel.descripcion);
-    setCant('');setCodIn('');setProdSel(null);setShowSug(false);
+    setCant('');setCodIn('');setProdSel(null);setShowSug(false);setTipoPedidoAdmin('');
   };
 
   const editarAdmin=(idx,nuevasCajas)=>{
@@ -1464,6 +1529,28 @@ function MachetazoAdminTool(){
               style={{width:'100%',background:'#0c4a6e',color:'white',border:'1px solid #0369a1',borderRadius:'.4rem',padding:'.5rem',boxSizing:'border-box',outline:'none',fontSize:'.85rem'}}/>
           </div>
         </div>
+
+        <div style={{marginBottom:'.75rem'}}>
+          <label style={{color:'#7dd3fc',fontSize:'.8rem',display:'block',marginBottom:'.4rem'}}>🏷️ Tipo de Pedido</label>
+          <div style={{display:'flex',flexWrap:'wrap',gap:'.4rem'}}>
+            {TIPOS_PEDIDO.map(tipo=>{
+              const sel=tipoPedidoAdmin===tipo;
+              const c=TIPO_PEDIDO_COLORS[tipo]||{bg:'rgba(56,189,248,.25)',border:'#38bdf8',text:'#38bdf8'};
+              return(
+                <button key={tipo} type="button"
+                  onClick={()=>setTipoPedidoAdmin(sel?'':tipo)}
+                  style={{padding:'.35rem .65rem',borderRadius:'2rem',
+                    border:sel?`2px solid ${c.border}`:'1px solid #0369a1',
+                    background:sel?c.bg:'rgba(12,74,110,.6)',
+                    color:sel?c.text:'#93c5fd',cursor:'pointer',fontSize:'.72rem',fontWeight:sel?'700':'400'}}>
+                  {sel?'✓ ':''}{tipo}
+                </button>
+              );
+            })}
+          </div>
+          {tipoPedidoAdmin&&<p style={{color:'#7dd3fc',fontSize:'.72rem',margin:'.3rem 0 0'}}>✓ {tipoPedidoAdmin}</p>}
+        </div>
+
         <div style={{position:'relative',marginBottom:'.75rem'}}>
           <label style={{color:'#7dd3fc',fontSize:'.8rem',display:'block',marginBottom:'.25rem'}}>Buscar Producto</label>
           <input type="text" placeholder="Material, código o descripción..." value={codIn}
@@ -1486,7 +1573,7 @@ function MachetazoAdminTool(){
         </div>
         <div style={{display:'flex',gap:'.5rem'}}>
           <button onClick={agregar} style={{background:'#16a34a',color:'white',border:'none',borderRadius:'.4rem',padding:'.5rem .9rem',fontSize:'.85rem',fontWeight:'700',cursor:'pointer'}}>✓ Agregar</button>
-          <button onClick={()=>{setShowForm(false);setCodIn('');setProdSel(null);setCant('');}} style={{background:'#475569',color:'white',border:'none',borderRadius:'.4rem',padding:'.5rem .9rem',fontSize:'.85rem',cursor:'pointer'}}>Cerrar</button>
+          <button onClick={()=>{setShowForm(false);setCodIn('');setProdSel(null);setCant('');setTipoPedidoAdmin('');}} style={{background:'#475569',color:'white',border:'none',borderRadius:'.4rem',padding:'.5rem .9rem',fontSize:'.85rem',cursor:'pointer'}}>Cerrar</button>
         </div>
       </div>}
 
@@ -1511,6 +1598,7 @@ function MachetazoAdminTool(){
                   <span style={{color:'white',fontWeight:'600',display:'block',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.pDesc}</span>
                   <span style={{color:'#7dd3fc',fontFamily:'monospace',fontSize:'.7rem'}}>{item.pMat} · {item.tStore} · {item.qtyUnidades}un</span>
                   <span style={{color:'#fcd34d',fontWeight:'700',marginLeft:'6px'}}>${item.monto}</span>
+                  {item.tipoPedido&&<span style={{display:'inline-block',marginLeft:'6px'}}><TipoPedidoBadge tipo={item.tipoPedido}/></span>}
                 </div>
               )}
             />

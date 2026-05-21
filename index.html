@@ -22,7 +22,7 @@ select option{background:#334155;color:white;}
 const {useState,useEffect,useMemo,useCallback}=React;
 
 const SURL='https://umqoszrxeuuiwgwfpbya.supabase.co';
-const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wYXRjbWdqcXhwanhoYmNxc3F2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyOTEzNDUsImV4cCI6MjA5Mjg2NzM0NX0.awCFWuAUyuuayZyQ48Y_zExf1gQPVtEwzWTtdnvpLTo';
+const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtcW9zenJ4ZXV1aXdnd2ZwYnlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzI2MjQsImV4cCI6MjA5NDk0ODYyNH0.awCFWuAUyuuayZyQ48Y_zExf1gQPVtEwzWTtdnvpLTo';
 
 const sb=async(method,endpoint,data=null)=>{
   const h={'Content-Type':'application/json','Authorization':`Bearer ${SKEY}`,'apikey':SKEY,'Prefer':'return=representation'};

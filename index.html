@@ -922,8 +922,12 @@ function App(){
 
   const limpiar=async()=>{
     if(!confirm('⚠️ ¿ELIMINAR TODOS LOS REPORTES?\nDescarga el CSV primero.'))return;
-    await sb('DELETE','/reportes?id=gte.0');
-    showM('🗑️ Base de datos limpiada');cargar();
+    const h={'Content-Type':'application/json','Authorization':`Bearer ${SKEY}`,'apikey':SKEY,'Prefer':'return=minimal'};
+    try{
+      const r=await fetch(`${SURL}/rest/v1/reportes?id=gte.0`,{method:'DELETE',headers:h});
+      if(r.ok){showM('🗑️ Base de datos limpiada');cargar();}
+      else{const t=await r.text();showM('❌ Error: '+t,true);}
+    }catch(e){showM('❌ Error: '+e.message,true);}
   };
 
   const csv=(datos)=>{

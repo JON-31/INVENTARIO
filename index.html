@@ -32,7 +32,20 @@ const sb=async(method,endpoint,data=null)=>{
   catch(e){console.error(e);return null;}
 };
 
-const AUDITORES=['Carlos Gomez','Eliecer Hidalgo','Margarita Hernández','Faustina'];
+const AUDITORES=['CARLOS GOMEZ','ELIECER HIDALGO','MARGARITA HERNANDEZ','FAUSTINA LOZANO','ROVINSON MONTENEGRO','ALEXIS ARAUZ'];
+
+const AUDITORES_REY = {
+  'REY DAVID': 'ALEXIS ARAUZ',
+  'REY BOQUETE': 'ALEXIS ARAUZ',
+  'ROMERO BOQUETE': 'ALEXIS ARAUZ',
+  'ROMERO DOLEGUITA': 'ALEXIS ARAUZ',
+  'ROMERO LA RIVIERA': 'ALEXIS ARAUZ',
+  'ROMERO PARQUE': 'ALEXIS ARAUZ',
+  'ROMERO PLAZA BUGABA': 'ALEXIS ARAUZ',
+  'ROMERO SAN MATEO': 'ALEXIS ARAUZ',
+  'REY SANTIAGO': 'ROVINSON MONTENEGRO',
+  'REY PENONOME': 'ROVINSON MONTENEGRO',
+};
 
 const REY_TIENDAS=[
   'SM REY CHORRERA','SM REY CC COSTA VERDE','S M REY PASEO ALBROOK','SM REY CENTENIAL',
@@ -907,7 +920,7 @@ function App(){
     if(!tId||!prod||!cant){alert('Completa todos los campos');return;}
     const monto=calcMontoAuditor(prod,cant);
     setReyPedidos(prev=>[...prev,{
-      vendedor:`AUDITOR: ${user.v}`,tienda:tId,barcode:prod.b,codigo:prod.c,
+      vendedor:'REY: '+(AUDITORES_REY[tId.toUpperCase()]||user.v),tienda:tId,barcode:prod.b,codigo:prod.c,
       producto:prod.n,marca:prod.m,tipo:prod.t,cantidad:parseInt(cant),
       monto_estimado:parseFloat(monto),mes_vencimiento:null,
       fecha_reporte:new Date().toLocaleDateString('es-ES'),
@@ -1401,6 +1414,11 @@ function App(){
                 <option value="">-- Selecciona la tienda --</option>
                 {REY_TIENDAS.map(t=><option key={t} value={t}>{t}</option>)}
               </select>
+              {tId&&(()=>{const a=AUDITORES_REY[tId.toUpperCase()];return a?(
+                <div style={{marginTop:'.5rem',background:'rgba(239,68,68,.15)',border:'1px solid #ef4444',borderRadius:'.5rem',padding:'.5rem .75rem',fontSize:'.8rem',color:'#fecaca'}}>
+                  👤 Auditor asignado: <strong style={{color:'white'}}>{a}</strong>
+                </div>
+              ):null;})()}
             </div>
 
             <div style={{marginBottom:'1rem',position:'relative'}}>
